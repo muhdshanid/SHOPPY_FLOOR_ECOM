@@ -1,19 +1,11 @@
 import React from 'react'
 import {AiFillStar, AiOutlineHeart} from 'react-icons/ai'
-const ProductCard = ({caption,page}) => {
+
+const SingleProduct = () => {
     const productImage = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxjQ9RwiG9pVxYU4I_VJwivaEG2d6VWXF_kQ&usqp=CAU"
   return (
-    <div className='my-4 flex flex-col gap-4'>
-    <div className='flex  items-center justify-between'>
-        <div className='flex'>
-            <h6 className='font-bold text-lg text-gray-900'>{caption}</h6>
-        </div>
-        {page !== "category" && <div>
-            <button className='bg-green-900 px-4 py-2 hover:bg-gray-200 hover:text-black
-             rounded-full border border-black font-semibold text-white'>See All</button>
-        </div>}
-    </div>
-    <div className='my-2 w-full  grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-4'>
+    <div className='my-4'>
+          <div className='my-2 w-full  grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-4'>
     <div className='flex flex-col gap-2 '>
         <div className=' w-full pt-4 bg-white rounded-lg relative'>
             <img src={productImage} className="bg-gray-200 w-full rounded-lg" alt="product" />
@@ -160,4 +152,4 @@ const ProductCard = ({caption,page}) => {
   )
 }
 
-export default ProductCard
+export default SingleProduct
