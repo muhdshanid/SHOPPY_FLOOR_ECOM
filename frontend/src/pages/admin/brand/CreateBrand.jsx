@@ -1,8 +1,8 @@
 import React from 'react'
 import { BiArrowBack } from "react-icons/bi";
 import { Link } from "react-router-dom";
-import CreateBrandForm from '../../components/admin/CreateBrandForm';
-import Wrapper from "./Wrapper";
+import CreateBrandForm from '../../../components/admin/brand/CreateBrandForm';
+import Wrapper from "../Wrapper";
 const CreateBrand = () => {
   return (
     <Wrapper>
@@ -19,13 +19,7 @@ const CreateBrand = () => {
       <div className="mx-4 w-full">
           <CreateBrandForm/>
       </div> 
-      <div className="mx-4 my-4">
-        <div
-          className="bg-sidebar-item items-center w-[16%] flex gap-2 px-4 py-2 hover:bg-gray-200 hover:text-black
-           rounded-lg border border-black font-semibold text-black">
-          <p className="font-medium  text-lg text-gray-900">Create Brand</p>
-        </div>
-      </div>
+    
     </div>
   </Wrapper>
   )

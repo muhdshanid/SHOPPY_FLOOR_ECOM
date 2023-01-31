@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 var productSchema = new mongoose.Schema(
   {
-    title: {
+    name: {
       type: String,
       required: true,
       trim: true,
@@ -13,6 +13,7 @@ var productSchema = new mongoose.Schema(
       unique: true,
       lowercase: true,
     },
+    discount:Number,
     description: {
       type: String,
       required: true,
@@ -25,16 +26,12 @@ var productSchema = new mongoose.Schema(
       type: String,
       required:true
     },
-    quantity: {
+    stock: {
       type: Number,
       required: true,
     },
-    images:[
-      {
-        public_id:String,
-        url:String
-      }
-    ],
+    sizes:[],
+    images:[],
     tags:String,
     colors:[],
     brand: {

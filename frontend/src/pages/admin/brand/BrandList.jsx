@@ -1,14 +1,23 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { IoMdAdd } from 'react-icons/io'
 import { Link } from 'react-router-dom'
-import Wrapper from './Wrapper'
+import Wrapper from '../Wrapper'
 import { AiFillDelete } from "react-icons/ai";
 import { BiEdit } from 'react-icons/bi';
+import { useDeleteBrandMutation, useGetBrandsQuery } from '../../../store/services/adminServices/brandServices';
 
 const BrandList = () => {
-    const productImage =
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxjQ9RwiG9pVxYU4I_VJwivaEG2d6VWXF_kQ&usqp=CAU";
-
+  const [brands, setBrands] = useState([])
+  const {data,isFetching} = useGetBrandsQuery()
+  const [deleteCat,res] = useDeleteBrandMutation()
+  useEffect(()=>{
+    if(isFetching === false){
+      setBrands(data)
+    }
+  },[isFetching])
+  const deleteCategory = (id) => {
+    deleteCat(id)
+  }
   return (
     <Wrapper>
     <div className=' flex flex-col gap-8'>
@@ -19,7 +28,8 @@ const BrandList = () => {
             <IoMdAdd size={24}/>
             </Link>
     </div>
-    <table className="rounded-lg w-full mx-4">
+   {
+    brands.length > 0 &&  <table className="rounded-lg w-full mx-4">
     <thead className="w-full rounded-full bg-gray-800">
       <tr>
         <th className="py-4 px-20  uppercase text-xs font-bold text-white text-left">
@@ -37,36 +47,37 @@ const BrandList = () => {
       </tr>
     </thead>
     <tbody>
-    { [1,2,3,4].map(el => (
+    { brands.length > 0 && brands.map(brand => (
        <tr className="bg-gray-900  even:bg-gray-800">
         <td className="p-4 text-sm text-gray-700">
          <div className="flex items-center justify-center">
-           <h6 className="font-semibold text-lg text-white">Apple </h6>
+           <h6 className="font-semibold text-lg text-white">{brand.name} </h6>
          </div>
        </td>
        <td className="p-4   text-sm text-gray-700">
        <div className="flex  -ml-6 items-center justify-center">
        <img
            className="w-16  h-16 object-cover rounded-lg"
-           src={productImage}
+           src={brand.image.url}
            alt="item"
-         />
+         /> 
        </div>
        </td>
        <td>
-         <div className="flex -ml-6 items-center justify-center">
+         <Link to={`/admin/update-brand/${brand._id}`} className="flex -ml-6 items-center justify-center">
            <BiEdit size={20} color="white"/>
-         </div>
+         </Link>
        </td>
        <td>
          <div className="flex -ml-6 items-center justify-center">
-           <AiFillDelete size={20} color="red"/>
+           <AiFillDelete className=' cursor-pointer' onClick={()=>deleteCategory(brand._id)} size={20} color="red"/>
          </div>
        </td>
        </tr>
     )) }
     </tbody>
       </table>
+   }
     </div>
 </Wrapper>
   )

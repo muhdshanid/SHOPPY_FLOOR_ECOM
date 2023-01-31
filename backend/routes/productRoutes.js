@@ -9,7 +9,6 @@ import {
   updateProduct,
 } from "../controllers/productControllers.js";
 import { authMiddleware, isAdmin } from "../middlewares/authMiddleware.js";
-import uploadPhoto, { productImgResize } from "../middlewares/uploadImages.js";
 
 const productRouter = express.Router();
 

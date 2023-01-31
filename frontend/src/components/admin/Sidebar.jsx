@@ -6,6 +6,7 @@ import { ImBlog } from 'react-icons/im'
 import { SiBrandfolder } from 'react-icons/si'
 import { BsFillBagCheckFill } from 'react-icons/bs'
 import {Link} from 'react-router-dom'
+import { RiCouponLine } from 'react-icons/ri'
 const Sidebar = () => {
     const logo = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLDhYBltma0_qRGcKkgfpZZfne4dtTSTmfwA&usqp=CAU"
 
@@ -35,6 +36,10 @@ const Sidebar = () => {
                 <Link to={"/admin/category-list"} className='flex rounded-lg  p-4  bg-sidebar-item gap-4 items-center'>
                     <BiCategory size={27} color="black"/>
                     <h6 className='font-medium text-lg text-gray-900'>Categories</h6>
+                </Link>
+                <Link to={"/admin/coupons-list"} className='flex rounded-lg  p-4  bg-sidebar-item gap-4 items-center'>
+                    <RiCouponLine size={27} color="black"/>
+                    <h6 className='font-medium text-lg text-gray-900'>Coupons</h6>
                 </Link>
                 <div className='flex rounded-lg  p-4  bg-sidebar-item gap-4 items-center'>
                     <ImBlog size={27} color="black"/>

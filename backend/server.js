@@ -12,7 +12,6 @@ import productCategoryRouter from './routes/productCategoryRoutes.js'
 import blogCategoryRouter from './routes/blogCategoryRoutes.js'
 import brandRouter from './routes/brandRoutes.js'
 import couponRouter from './routes/couponRoutes.js'
-import colorRouter from './routes/colorRoutes.js'
 import enqRouter from './routes/endRoutes.js'
 import uploadRouter from './routes/uploadRoutes.js'
 dotenv.config()
@@ -32,7 +31,6 @@ app.use("/api/pro-category",productCategoryRouter)
 app.use("/api/blog-category",blogCategoryRouter)
 app.use("/api/brand",brandRouter)
 app.use("/api/coupon",couponRouter)
-app.use("/api/color",colorRouter)
 app.use("/api/enquiry",enqRouter)
 app.use("/api/upload",uploadRouter)
 

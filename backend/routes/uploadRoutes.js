@@ -4,11 +4,11 @@ import {
   uploadImages,
 } from "../controllers/uploadControllers.js";
 import { authMiddleware, isAdmin } from "../middlewares/authMiddleware.js";
-import uploadPhoto, { productImgResize } from "../middlewares/uploadImages.js";
+import uploadPhoto, { categoryImgResize, productImgResize } from "../middlewares/uploadImages.js";
 
 const uploadRouter = express.Router();
-
  
+  
 uploadRouter.delete( 
   "/delete-img/:id",
   [authMiddleware, isAdmin],
@@ -16,7 +16,12 @@ uploadRouter.delete(
 );
 
 uploadRouter.post(
-  "/upload-image",
+  "/upload-image/cat",
+  [authMiddleware, isAdmin, uploadPhoto.array("images", 10), categoryImgResize],
+  uploadImages
+);
+uploadRouter.post(
+  "/upload-image/product",
   [authMiddleware, isAdmin, uploadPhoto.array("images", 10), productImgResize],
   uploadImages
 );

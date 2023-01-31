@@ -33,7 +33,7 @@ const uploadPhoto = multer({
 });
 
 
-export const productImgResize = async (req, res, next) => {
+export const categoryImgResize = async (req, res, next) => {
   if (!req.files) return next();
   await Promise.all(
     req.files.map(async (file) => {
@@ -41,13 +41,13 @@ export const productImgResize = async (req, res, next) => {
         .resize(300, 300) 
         .toFormat("jpeg")
         .jpeg({ quality: 90 })
-        .toFile(`${__dirname}/public/images/products/${file.filename}`);
-        fs.unlinkSync(`${__dirname}/public/images/products/${file.filename}`)
+        .toFile(`${__dirname}/public/images/categories/${file.filename}`);
+        fs.unlinkSync(`${__dirname}/public/images/categories/${file.filename}`)
       })
       );
   next() 
 };
-export const blogsImgResize = async (req, res, next) => {
+export const productImgResize = async (req, res, next) => {
   if (!req.files) return next();
   await Promise.all(
     req.files.map(async (file) => { 
@@ -55,8 +55,8 @@ export const blogsImgResize = async (req, res, next) => {
         .resize(300, 300)
         .toFormat("jpeg")
         .jpeg({ quality: 90 })
-        .toFile(`${__dirname}/public/images/blogs/${file.filename}`);
-        fs.unlinkSync(`${__dirname}/public/images/blogs/${file.filename}`)
+        .toFile(`${__dirname}/public/images/products/${file.filename}`);
+        fs.unlinkSync(`${__dirname}/public/images/products/${file.filename}`)
       })
       );
   next()

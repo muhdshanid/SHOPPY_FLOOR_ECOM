@@ -176,7 +176,6 @@ export const logoutUser = asyncHandler(async (req,res) => {
     })
     return res.status(200).json("Logout successfully")
 })
-
 export const updatePassword = asyncHandler(async (req,res) => {
     try {
      const {_id} = req.user
@@ -194,7 +193,6 @@ export const updatePassword = asyncHandler(async (req,res) => {
      throw new Error(error)
     }
 })
-
 export const forgotPasswordToken = asyncHandler(async (req,res) => {
     try {
      const {email} = req.body
@@ -215,7 +213,6 @@ export const forgotPasswordToken = asyncHandler(async (req,res) => {
      throw new Error(error)
     }
 })
-
 export const resetPassword = asyncHandler(async (req,res) => {
     try {
       const {password} = req.body
@@ -235,7 +232,6 @@ export const resetPassword = asyncHandler(async (req,res) => {
      throw new Error(error)
     }
 })
-
 export const getWishList = asyncHandler(async(req,res) => {
     try {
         const {_id} = req.user
@@ -246,8 +242,6 @@ export const getWishList = asyncHandler(async(req,res) => {
         throw new Error(error)
     }
 })
-
-
 export const saveAddress = asyncHandler(async(req,res)=> {
     try {
         const {_id} = req.user

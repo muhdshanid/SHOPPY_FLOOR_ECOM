@@ -1,14 +1,24 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useEffect } from 'react';
 import { AiFillDelete } from "react-icons/ai";
 import { BiEdit } from 'react-icons/bi';
 import { IoMdAdd } from 'react-icons/io';
 import { Link } from 'react-router-dom';
-import Wrapper from './Wrapper';
+import { useDeleteProductMutation, useGetProductsQuery } from '../../../store/services/adminServices/productServices';
+import Wrapper from '../Wrapper';
 
 const ProductList = () => {
-    const productImage =
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxjQ9RwiG9pVxYU4I_VJwivaEG2d6VWXF_kQ&usqp=CAU";
-
+    const {data,isFetching} = useGetProductsQuery()
+    const [products, setProducts] = useState([])
+    const [deleteProd,res] = useDeleteProductMutation()
+    useEffect(()=>{
+      if(isFetching === false){
+        setProducts(data)
+      }
+    },[isFetching])
+    const deleteProduct = id => {
+      deleteProd(id)
+    }
   return (
     <Wrapper>
        <div className=' flex flex-col gap-8'>
@@ -19,7 +29,9 @@ const ProductList = () => {
                 <IoMdAdd size={24}/>
                 </Link>
         </div>
-       <table className="rounded-lg mx-4">
+      {
+        isFetching === false && 
+        <table className="rounded-lg mx-4">
         <thead className="w-full rounded-full bg-gray-800">
           <tr>
             <th className="py-4 px-14  uppercase text-xs font-bold text-white text-left">
@@ -43,46 +55,47 @@ const ProductList = () => {
           </tr>
         </thead>
         <tbody>
-        { [1,2,3,4].map(el => (
+        { products.map(product => (
            <tr className="bg-gray-900  even:bg-gray-800">
             <td className="p-4 text-sm text-gray-700">
              <div className="flex items-center justify-center">
-               <h6 className="font-semibold text-lg text-white">Apple Headphones</h6>
+               <h6 className="font-semibold text-lg text-white">{product.name}</h6>
              </div>
            </td>
            <td className="p-4 text-sm text-gray-700">
              <div className='flex   items-center  justify-center'>
-               <h6 className="font-semibold text-lg text-white">$99</h6>
+               <h6 className="font-semibold text-lg text-white">{product.price}</h6>
              </div>
            </td>
            <td className="p-4 text-sm text-gray-700">
            <div className='flex   items-center  justify-center'>
-               <h6 className="font-semibold text-lg text-white">19</h6>
+               <h6 className="font-semibold text-lg text-white">{product.stock}</h6>
              </div>
            </td>
            <td className="p-4  text-sm text-gray-700">
            <div className="flex items-center justify-center">
            <img
                className="w-16  h-16 object-cover rounded-lg"
-               src={productImage}
+               src={product.images[0]?.url}
                alt="item"
              />
            </div>
            </td>
            <td>
-             <div className="flex items-center justify-center">
+             <Link to={`/admin/update-product/${product._id}`} className="flex items-center justify-center">
                <BiEdit size={20} color="white"/>
-             </div>
+             </Link>
            </td>
            <td>
              <div className="flex items-center justify-center">
-               <AiFillDelete size={20} color="red"/>
+               <AiFillDelete className=' cursor-pointer' onClick={()=>deleteProduct(product._id)} size={20} color="red"/>
              </div>
            </td>
            </tr>
         )) }
         </tbody>
           </table>
+      }
        </div>
     </Wrapper>
   )

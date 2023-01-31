@@ -10,9 +10,9 @@ export const authMiddleware = asyncHandler(async(req,res,next)=>{
         try {
             if(token){
                 const decoded = jwt.verify(token,process.env.JWT_SECRET)
-                console.log(decoded);
-                // req.user = user
-                // next()
+                const user = await UserModel.findById(decoded.id)
+                req.user = user
+                next()
             }else{
                 throw new Error("Token is not available")
             }

@@ -9,14 +9,20 @@ import Cart from './pages/cart/Cart';
 import CategoryProducts from './pages/category/CategoryProducts';
 import Login from './pages/auth/Login';
 import Signup from './pages/auth/Signup';
-import ProductList from './pages/admin/ProductsList';
-import CreateProduct from './pages/admin/CreateProduct';
-import CategoryList from './pages/admin/CategoryList';
-import CreateCategory from './pages/admin/CreateCategory';
-import CreateBrand from './pages/admin/CreateBrand';
-import BrandList from './pages/admin/BrandList';
+import ProductList from './pages/admin/product/ProductsList';
+import CreateProduct from './pages/admin/product/CreateProduct';
+import CategoryList from './pages/admin/category/CategoryList';
+import CreateCategory from './pages/admin/category/CreateCategory';
+import CreateBrand from './pages/admin/brand/CreateBrand';
+import BrandList from './pages/admin/brand/BrandList';
 import OrdersList from './pages/admin/OrdersList';
 import OrderDetails from './pages/admin/OrderDetails';
+import UpdateCategory from './pages/admin/category/UpdateCategory';
+import UpdateBrand from './pages/admin/brand/UpdateBrand';
+import UpdateProduct from './pages/admin/product/UpdateProduct';
+import CouponList from './pages/admin/coupon/CouponList';
+import CreateCoupon from './pages/admin/coupon/CreateCoupon';
+import UpdateCoupon from './pages/admin/coupon/UpdateCoupon';
 function App() {
   return (
     <div className='App w-full'>
@@ -27,13 +33,19 @@ function App() {
         <Route path='/' element={<Home/>}/>
         <Route path='/admin/product-list' element={<ProductList/>}/>
         <Route path='/admin/create-product' element={<CreateProduct/>}/>
+        <Route path='/admin/update-product/:id' element={<UpdateProduct/>}/>
         <Route path='/admin/order-list' element={<OrdersList/>}/>
         <Route path='/admin/order-details' element={<OrderDetails/>}/>
         <Route path='/admin/category-list' element={<CategoryList/>}/>
         <Route path='/admin/create-category' element={<CreateCategory/>}/>
+        <Route path='/admin/update-category/:id' element={<UpdateCategory/>}/>
+        <Route path='/admin/coupons-list' element={<CouponList/>}/>
+        <Route path='/admin/create-coupon' element={<CreateCoupon/>}/>
+        <Route path='/admin/update-coupon/:id' element={<UpdateCoupon/>}/>
         <Route path='/admin/brand-list' element={<BrandList/>}/>
         <Route path='/admin/create-brand' element={<CreateBrand/>}/>
-        <Route path='/product' element={<ProductDetails/>}/>
+        <Route path='/admin/update-brand/:id' element={<UpdateBrand/>}/>
+        <Route path='/product' element={<ProductDetails/>}/> 
         <Route path='/checkout' element={<Checkout/>}/>
         <Route path='/cart' element={<Cart/>}/>
         <Route path='/category' element={<CategoryProducts/>}/>

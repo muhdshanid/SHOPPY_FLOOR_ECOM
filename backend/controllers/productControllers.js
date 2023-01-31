@@ -4,8 +4,8 @@ import slugify from "slugify";
 import UserModel from "../models/UserModel.js";
 export const createProduct = asyncHandler(async (req, res) => {
   try {
-    if (req.body.title) {
-      req.body.slug = slugify(req.body.title);
+    if (req.body.name) {
+      req.body.slug = slugify(req.body.name);
     }
     const newProduct = await ProductModel.create(req.body);
     return res.status(200).json(newProduct);
@@ -25,7 +25,6 @@ export const getAProduct = asyncHandler(async (req, res) => {
     throw new Error(error);
   }
 });
-
 export const updateProduct = asyncHandler(async (req, res) => {
   try {
     if (req.body.title) {
