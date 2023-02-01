@@ -4,12 +4,12 @@ import Dropzone from 'react-dropzone';
 import "react-quill/dist/quill.snow.css";
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from "uuid";
-import { useGetBrandsQuery } from '../../store/services/adminServices/brandServices';
-import { useGetCategoriesQuery } from '../../store/services/adminServices/categoryServices';
-import { useCreateProductMutation } from '../../store/services/adminServices/productServices';
-import {useUploadProductImagesMutation } from '../../store/services/adminServices/uploadServices';
-import Colors from './Colors';
-import SizeList from './SizeList';
+import { useGetBrandsQuery } from '../../../store/services/brandServices';
+import { useGetCategoriesQuery } from '../../../store/services/categoryServices';
+import { useCreateProductMutation } from '../../../store/services/productServices';
+import {useUploadProductImagesMutation } from '../../../store/services/uploadServices';
+import Colors from '../Colors';
+import SizeList from '../SizeList';
 const CreateProductForm = () => {
   const navigate = useNavigate()
   const [state, setState] = useState({
@@ -24,6 +24,7 @@ const CreateProductForm = () => {
     tags:""
   });
   const [categories, setCategories] = useState([])
+  const [imageUploading, setImageUploading] = useState(false);
   const [brands, setBrands] = useState([])
   const [uploadImages,res] = useUploadProductImagesMutation()
   const [productImages, setProductImages] = useState([])
@@ -31,26 +32,26 @@ const CreateProductForm = () => {
   useEffect(()=>{
     if(res.isSuccess){
       setProductImages(res.data)
+      setImageUploading(false)
     }
-  },[res.isSuccess])
-  console.log(state);
+  },[res?.data, res.isSuccess])
   useEffect(()=>{
     if(response.isSuccess){
       navigate("/admin/product-list")
     }
-  },[response.isSuccess])
+  },[navigate, response.isSuccess])
   const {data,isFetching} = useGetCategoriesQuery()
   const {data:result,isFetching:gettingData} = useGetBrandsQuery()
   useEffect(()=>{
     if(gettingData === false){
       setBrands(result)
     }
-  },[gettingData])
+  },[gettingData, result])
   useEffect(()=>{
     if(isFetching === false){
       setCategories(data)
     }
-  },[isFetching])
+  },[data, isFetching])
   const [sizeList, setSizeList] = useState([]);
     const [sizes] = useState([
         { name: "xsm" },
@@ -92,6 +93,7 @@ const CreateProductForm = () => {
       formData.append("images",acceptedFiles[i])
     }
     uploadImages(formData)
+    setImageUploading(true)
       }
       const createProduct = () => {
         const data = {...state,images:productImages,sizes:sizeList}
@@ -220,7 +222,7 @@ const CreateProductForm = () => {
         </div>
         <div className='flex w-full gap-8 items-center'>
         <div className='flex flex-col gap-2 w-[39%]'>
-        <Colors deleteColor={deleteColor} colors={state.colors}/>
+        <Colors page={"create"} deleteColor={deleteColor} colors={state.colors}/>
         </div>
         <div className="w-[50%]">
             <SizeList sizes={sizeList} deleteSize={deleteSize}/>
@@ -253,11 +255,23 @@ const CreateProductForm = () => {
         }
         </div> }
         <div className=" my-4">
-          <div onClick={createProduct}
-            className="bg-sidebar-item items-center w-[18%] flex gap-2 px-4 py-2 hover:bg-gray-200 hover:text-black
-             rounded-lg border border-black font-semibold text-black">
-            <p className="font-medium  text-lg text-gray-900">Create Product</p>
-          </div>
+          <button onClick={createProduct}
+          disabled={
+            state.name === "" ||
+            state.brand === "" ||
+            state.tags === "" ||
+            state.category === "" ||
+            state.description === "" ||
+            state.discount === 0 ||
+            state.stock === 0 ||
+            productImages === [] ||
+             imageUploading === true
+          } 
+            className="bg-sidebar-item
+            items-center flex gap-2 px-4 py-2 hover:bg-gray-200 hover:text-black
+           rounded-full border border-black font-semibold text-black">
+             {imageUploading ? "Uploading Image..." : "Create Product"}
+          </button>
         </div>
     </div>
   )

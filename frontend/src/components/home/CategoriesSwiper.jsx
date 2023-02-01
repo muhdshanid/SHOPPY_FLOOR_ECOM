@@ -1,20 +1,23 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import "swiper/css";
 import "swiper/css/virtual";
 import { Virtual } from "swiper";
 import {Link} from 'react-router-dom'
 import { SwiperSlide, Swiper } from "swiper/react";
+import { useGetCategoriesQuery } from '../../store/services/categoryServices';
 const CategoriesSwiper = () => {
-    const category = "https://images.unsplash.com/photo-1607936854279-55e8a4c64888?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aXBob25lJTIwMTJ8ZW58MHx8MHx8&w=1000&q=80"
+  const { data, isFetching } = useGetCategoriesQuery();
+  const [categories, setCategories] = useState([]);
+  useEffect(() => {
+    if (isFetching === false) {
+      setCategories(data);
+    }
+  }, [data, isFetching]);
   return (
     <div className='my-'>
            <div className='flex my-8 items-center justify-between'>
         <div className='flex'>
-            <h6 className='font-bold text-lg text-gray-900'>Shop by Categories</h6>
-        </div>
-        <div>
-            <button className='bg-green-900 px-4 py-2 hover:bg-gray-200 hover:text-black
-             rounded-full border border-black font-semibold text-white'>See All</button>
+            <h6 className='font-semibold text-2xl text-gray-900'>Shop by Categories</h6>
         </div>
     </div>
     <div className='my-4'>
@@ -41,15 +44,15 @@ const CategoriesSwiper = () => {
               slidesPerView: 6,
             },
           }}
-        >       {[1,2,3,4,5,6,7,8,9,1,2].map(el => (
+        >       { categories.length > 0 && categories.map(cat => (
             <SwiperSlide
             className="w-full h-[200px] overflow-hidden rounded-lg relative"
           >                
                 <div className="w-full h-[150px]  rounded-lg overflow-hidden">
-                    <img src={category} className='w-full h-[300px] object-cover' alt="category" />
+                    <img src={cat.image.url} className='w-full h-[300px] object-cover' alt="category" />
                 </div>
-                <div className="absolute inset-0 w-full h-full bg-black/50 flex items-center justify-center p-4">
-                    <p className="text-white text-base font-medium capitalize">Mobiles</p>
+                <div className="absolute inset-0 w-full h-full bg-black/30 flex items-center justify-center p-4">
+                    <Link to={`/cat-products/${cat.name}`} className="text-white text-base font-medium capitalize">{cat.name}</Link>
                 </div>               
           </SwiperSlide>
         ))}      

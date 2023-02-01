@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
-import { useGetCouponQuery, useUpdateCouponMutation } from '../../../store/services/adminServices/couponServices';
+import { useGetCouponQuery, useUpdateCouponMutation } from '../../../store/services/couponServices';
+import Spinner from '../Spinner';
 const UpdateCouponForm = ({id}) => {
   const navigate = useNavigate()
   const [name, setName] = useState("")
@@ -15,12 +16,12 @@ const UpdateCouponForm = ({id}) => {
             setExpiry(data.expiry)
             setDiscount(data.discount)
         }
-    },[isFetching])
+    },[data?.discount, data?.expiry, data?.name, isFetching])
   useEffect(()=>{
     if(result.isSuccess){
       navigate("/admin/coupons-list")
     }
-  },[result.isSuccess])
+  },[navigate, result.isSuccess])
   const updateCoupon = () =>{
     if(name !== "" && expiry !== "" && discount !== ""){
         const data = {name,expiry,discount}
@@ -35,20 +36,27 @@ const UpdateCouponForm = ({id}) => {
   isFetching === false ?   <div className='flex flex-col  gap-8'>
   <div className='flex gap-8 items-center'>
         <div className='w-[30%]'>
+        <label className="block mb-2 ml-2 text-base capitalize text-gray-400">
+            Name
+          </label>
         <input type="text" value={name} onChange={(e)=>setName(e.target.value)}
     className='bg-gray-800 text-white hover:border-gray-200 border
     border-gray-800
     outline-none w-full  p-4 rounded-lg' placeholder='Name' />
-        </div>    
-   
+        </div>      
         <div className='w-[30%]'>
+        <label className="block mb-2 ml-2 text-base capitalize text-gray-400">
+            Discount
+          </label>
         <input type="text" value={discount} onChange={(e)=>setDiscount(e.target.value)}
     className='bg-gray-800 text-white hover:border-gray-200 border
     border-gray-800
     outline-none w-full  p-4 rounded-lg' placeholder='Discount' />
         </div>    
-   
     <div className='w-[30%]'>
+    <label className="block mb-2 ml-2 text-base capitalize text-gray-400">
+            Expiry Date
+          </label>
         <input type="date"  onChange={onChangeDate}
     className='bg-gray-800 text-white hover:border-gray-200 border
     border-gray-800
@@ -56,14 +64,21 @@ const UpdateCouponForm = ({id}) => {
         </div> 
     </div>
   <div className='my-4 '>
-  <div onClick={updateCoupon}
+  <button onClick={updateCoupon}
+   disabled={
+    name === "" ||
+    expiry === "" ||
+    discount === 0 
+  } 
         className="bg-sidebar-item
-         cursor-pointer items-center w-[19%] flex gap-2 px-4 py-2 hover:bg-gray-200 hover:text-black
-         rounded-lg border border-black font-semibold text-black">
-        <p className="font-medium  cursor-pointer text-lg text-gray-900">Update Category</p>
-      </div>
+        items-center flex gap-2 px-4 py-2 hover:bg-gray-200 hover:text-black
+       rounded-full border border-black font-semibold text-black">
+        Update Category
+      </button>
   </div>
-</div> : ""
+</div> :<div className='w-full  h-[50vh] flex items-center justify-center'>
+    <Spinner />
+</div>
   )
 }
 

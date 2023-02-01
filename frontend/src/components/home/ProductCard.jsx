@@ -1,159 +1,59 @@
 import React from 'react'
-import {AiFillStar, AiOutlineHeart} from 'react-icons/ai'
-const ProductCard = ({caption,page}) => {
-    const productImage = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxjQ9RwiG9pVxYU4I_VJwivaEG2d6VWXF_kQ&usqp=CAU"
+import {AiOutlineHeart} from 'react-icons/ai'
+import { Link } from 'react-router-dom'
+import StarRating from '../product/StarRating'
+const ProductCard = ({caption,page,products,link}) => {
   return (
     <div className='my-4 flex flex-col gap-4'>
     <div className='flex  items-center justify-between'>
         <div className='flex'>
-            <h6 className='font-bold text-lg text-gray-900'>{caption}</h6>
+            <h6 className='font-semibold text-2xl text-gray-900'>{caption}</h6>
         </div>
         {page !== "category" && <div>
-            <button className='bg-green-900 px-4 py-2 hover:bg-gray-200 hover:text-black
-             rounded-full border border-black font-semibold text-white'>See All</button>
+            <Link to={`${link}`} className='bg-green-900 px-4 py-2 hover:bg-gray-200 hover:text-black
+             rounded-full border border-black font-semibold text-white'>See All</Link>
         </div>}
     </div>
     <div className='my-2 w-full  grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-4'>
-    <div className='flex flex-col gap-2 '>
-        <div className=' w-full pt-4 bg-white rounded-lg relative'>
-            <img src={productImage} className="bg-gray-200 w-full rounded-lg" alt="product" />
-            <div className='absolute hover:bg-gray-200 cursor-pointer p-2 top-2 right-2 rounded-full bg-gray-100'>
-                <AiOutlineHeart  size={20}/>
-            </div>
-        </div>
-        <div className='flex flex-col gap-4'>
-           <div className='flex flex-col'>
-           <div className='flex items-center justify-between'>
-                <h6 className='font-bold text-lg text-gray-900'>airPods Max</h6>
-                <h6 className='font-bold text-lg text-gray-900'>$200</h6>
-            </div>
-            <div>
-                <p className=' font-semibold text-sm text-gray-400'>Perfect balance of audio quality</p>
-            </div>
-            <div className='flex items-center gap-2'>
-                <div className='flex'>
-                <AiFillStar size={20} color='green'/>
-                <AiFillStar size={20} color='green'/>
-                <AiFillStar size={20} color='green'/>
-                <AiFillStar size={20} color='green'/>
-                <AiFillStar size={20} color='green'/>
+    {
+        products?.length > 0 ? products.map(product => {
+            let description = product.description.slice(0,30).concat("...")
+             return(
+            <div className='flex flex-col gap-2 '>
+            <Link to={`/product/${product._id}`} className=' w-full  bg-white rounded-lg relative'>
+                <img src={product.images[0].url} className="bg-gray-200 object-cover h-[20rem] w-full rounded-lg" alt="product" />
+                <div className='absolute hover:bg-gray-200 cursor-pointer p-2 top-2 right-2 rounded-full bg-gray-100'>
+                    <AiOutlineHeart  size={20}/>
+                </div>
+            </Link>
+            <div className='flex flex-col gap-4'>
+               <div className='flex flex-col'>
+               <div className='flex items-center justify-between'>
+                    <h6 className='font-bold text-lg text-gray-900'>{product.name}</h6>
+                    <h6 className='font-bold text-lg text-gray-900'>₹{product.price}</h6>
                 </div>
                 <div>
-                    <p className=' font-semibold text-lg text-gray-400'>(121)</p>
+                    <p className=' font-semibold text-sm text-gray-400'>{description}</p>
                 </div>
-            </div>
-           </div>
-            <div>
-            <button className='bg-green-900 px-4 py-2 hover:bg-gray-200 hover:text-black
-             rounded-full border border-black font-semibold text-white'>Add To Cart</button>
-            </div>
-        </div>
-    </div>
-    <div className='flex flex-col gap-2 '>
-        <div className=' w-full pt-4 bg-white rounded-lg relative'>
-            <img src={productImage} className="bg-gray-200 w-full rounded-lg" alt="product" />
-            <div className='absolute hover:bg-gray-200 cursor-pointer p-2 top-2 right-2 rounded-full bg-gray-100'>
-                <AiOutlineHeart  size={20}/>
-            </div>
-        </div>
-        <div className='flex flex-col gap-4'>
-           <div className='flex flex-col'>
-           <div className='flex items-center justify-between'>
-                <h6 className='font-bold text-lg text-gray-900'>airPods Max</h6>
-                <h6 className='font-bold text-lg text-gray-900'>$200</h6>
-            </div>
-            <div>
-                <p className=' font-semibold text-sm text-gray-400'>Perfect balance of audio quality</p>
-            </div>
-            <div className='flex items-center gap-2'>
-                <div className='flex'>
-                <AiFillStar size={20} color='green'/>
-                <AiFillStar size={20} color='green'/>
-                <AiFillStar size={20} color='green'/>
-                <AiFillStar size={20} color='green'/>
-                <AiFillStar size={20} color='green'/>
+                <div className='flex items-center gap-2'>
+                    <div className='flex'>
+                        <StarRating rating={product.totalRatings}/>
+                    </div>
+                    <div>
+                        <p className=' font-semibold text-lg text-gray-400'>{`(${product.ratings.length})`}</p>
+                    </div>
                 </div>
+               </div>
                 <div>
-                    <p className=' font-semibold text-lg text-gray-400'>(121)</p>
+                <button className='bg-green-900 px-4 py-2 hover:bg-gray-200 hover:text-black
+                 rounded-full border border-black font-semibold text-white'>Add To Cart</button>
                 </div>
             </div>
-           </div>
-            <div>
-            <button className='bg-green-900 px-4 py-2 hover:bg-gray-200 hover:text-black
-             rounded-full border border-black font-semibold text-white'>Add To Cart</button>
-            </div>
-        </div>
-    </div>
-    <div className='flex flex-col gap-2 '>
-        <div className=' w-full pt-4 bg-white rounded-lg relative'>
-            <img src={productImage} className="bg-gray-200 w-full rounded-lg" alt="product" />
-            <div className='absolute hover:bg-gray-200 cursor-pointer p-2 top-2 right-2 rounded-full bg-gray-100'>
-                <AiOutlineHeart  size={20}/>
-            </div>
-        </div>
-        <div className='flex flex-col gap-4'>
-           <div className='flex flex-col'>
-           <div className='flex items-center justify-between'>
-                <h6 className='font-bold text-lg text-gray-900'>airPods Max</h6>
-                <h6 className='font-bold text-lg text-gray-900'>$200</h6>
-            </div>
-            <div>
-                <p className=' font-semibold text-sm text-gray-400'>Perfect balance of audio quality</p>
-            </div>
-            <div className='flex items-center gap-2'>
-                <div className='flex'>
-                <AiFillStar size={20} color='green'/>
-                <AiFillStar size={20} color='green'/>
-                <AiFillStar size={20} color='green'/>
-                <AiFillStar size={20} color='green'/>
-                <AiFillStar size={20} color='green'/>
-                </div>
-                <div>
-                    <p className=' font-semibold text-lg text-gray-400'>(121)</p>
-                </div>
-            </div>
-           </div>
-            <div>
-            <button className='bg-green-900 px-4 py-2 hover:bg-gray-200 hover:text-black
-             rounded-full border border-black font-semibold text-white'>Add To Cart</button>
-            </div>
-        </div>
-    </div>
-    <div className='flex flex-col gap-2 '>
-        <div className=' w-full pt-4 bg-white rounded-lg relative'>
-            <img src={productImage} className="bg-gray-200 w-full rounded-lg" alt="product" />
-            <div className='absolute hover:bg-gray-200 cursor-pointer p-2 top-2 right-2 rounded-full bg-gray-100'>
-                <AiOutlineHeart  size={20}/>
-            </div>
-        </div>
-        <div className='flex flex-col gap-4'>
-           <div className='flex flex-col'>
-           <div className='flex items-center justify-between'>
-                <h6 className='font-bold text-lg text-gray-900'>airPods Max</h6>
-                <h6 className='font-bold text-lg text-gray-900'>$200</h6>
-            </div>
-            <div>
-                <p className=' font-semibold text-sm text-gray-400'>Perfect balance of audio quality</p>
-            </div>
-            <div className='flex items-center gap-2'>
-                <div className='flex'>
-                <AiFillStar size={20} color='green'/>
-                <AiFillStar size={20} color='green'/>
-                <AiFillStar size={20} color='green'/>
-                <AiFillStar size={20} color='green'/>
-                <AiFillStar size={20} color='green'/>
-                </div>
-                <div>
-                    <p className=' font-semibold text-lg text-gray-400'>(121)</p>
-                </div>
-            </div>
-           </div>
-            <div>
-            <button className='bg-green-900 px-4 py-2 hover:bg-gray-200 hover:text-black
-             rounded-full border border-black font-semibold text-white'>Add To Cart</button>
-            </div>
-        </div>
-    </div>
+        </div> 
+        )}) 
+      
+    : ""
+    }
  
     </div>
     </div>

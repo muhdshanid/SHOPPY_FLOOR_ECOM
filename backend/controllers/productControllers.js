@@ -25,6 +25,32 @@ export const getAProduct = asyncHandler(async (req, res) => {
     throw new Error(error);
   }
 });
+export const getCategoryProducts = asyncHandler(async (req, res) => {
+  const { name } = req.params;
+  try {
+    const catProducts = await ProductModel.find({category:name});
+    return res.status(200).json(catProducts);
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+export const getPopularProducts = asyncHandler(async (req, res) => {
+  try {
+    const popularProducts = await ProductModel.find({totalRatings:{$gte:4}});
+    return res.status(200).json(popularProducts);
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+export const getBrandsProducts = asyncHandler(async (req, res) => {
+  const { name } = req.params;
+  try {
+    const brandProducts = await ProductModel.find({brand:name});
+    return res.status(200).json(brandProducts);
+  } catch (error) {
+    throw new Error(error);
+  }
+});
 export const updateProduct = asyncHandler(async (req, res) => {
   try {
     if (req.body.title) {

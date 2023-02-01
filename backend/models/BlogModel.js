@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 var blogShema = new mongoose.Schema({
-    title:{
+    name:{
         type:String,
         required:true,
     },

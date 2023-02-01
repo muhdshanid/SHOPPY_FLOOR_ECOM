@@ -1,49 +1,56 @@
 import React, { useEffect, useState } from 'react'
-import { useUploadImagesMutation } from '../../../store/services/adminServices/uploadServices'
+import { useUploadImagesMutation } from '../../../store/services/uploadServices'
 import Dropzone from "react-dropzone";
-import {  useGetCategoryQuery, useUpdateCategoryMutation,  } from '../../../store/services/adminServices/categoryServices';
+import {  useGetCategoryQuery, useUpdateCategoryMutation,  } from '../../../store/services/categoryServices';
 import { useNavigate } from 'react-router-dom';
+import Spinner from '../Spinner';
 const UpdateCategoryForm = ({id}) => {
   const navigate = useNavigate()
-  const [imageData, setImageData] = useState(null)
-  const [name, setName] = useState(null)
+  const [imageData, setImageData] = useState("")
+  const [name, setName] = useState("")
   const {data,isFetching} = useGetCategoryQuery(id)
   const [uploadImage,res] = useUploadImagesMutation()
   const [updateCat,result] = useUpdateCategoryMutation()
+  const [imageUploading, setImageUploading] = useState(false);
   const uploadCategoryImage = (acceptedFiles) => {
     const formData = new FormData()
     for(let i = 0; i < 1; i++){
       formData.append("images",acceptedFiles[i])
     }
     uploadImage(formData)
+    setImageUploading(true)
     }
     useEffect(()=>{
         if(isFetching === false){
             setName(data.name)
             setImageData(data.image)
         }
-    },[isFetching])
+    },[data?.image, data?.name, isFetching])
   useEffect(()=>{
     if(res.isSuccess){
       setImageData(res?.data[0])
+      setImageUploading(false)
     }
-  },[res.isSuccess])
+  },[res?.data, res.isSuccess])
   useEffect(()=>{
     if(result.isSuccess){
       navigate("/admin/category-list")
     }
-  },[result.isSuccess])
+  },[navigate, result.isSuccess])
   const updateCategory = () =>{
-    if(name !== "" && imageData !== null){
+    if(name !== "" && imageData !== ""){
         const data = {name,image:imageData}
       updateCat({data,id})
     }
   }
   return (
-  isFetching === false && name !== null && imageData !== null  ?   <div className='flex flex-col  gap-8'>
+  isFetching === false   ?   <div className='flex flex-col  gap-8'>
   <div className='flex gap-8 items-center'>
       <div className='w-[30%]'>
-      <input type="text" value={name ? name : ""} onChange={(e)=>setName(e.target.value)}
+      <label className="block mb-2 ml-2 text-base capitalize text-gray-400">
+            Title
+          </label>
+      <input type="text" value={name} onChange={(e)=>setName(e.target.value)}
   className='bg-gray-800 text-white hover:border-gray-200 border
   border-gray-800
   outline-none w-full  p-4 rounded-lg' placeholder='Name' />
@@ -74,14 +81,20 @@ const UpdateCategoryForm = ({id}) => {
 }
   </div>
   <div className='my-4 '>
-  <div onClick={updateCategory}
+  <button onClick={updateCategory}
+  disabled={
+    name === "" ||
+     imageUploading === true
+  } 
         className="bg-sidebar-item
-         cursor-pointer items-center w-[19%] flex gap-2 px-4 py-2 hover:bg-gray-200 hover:text-black
-         rounded-lg border border-black font-semibold text-black">
-        <p className="font-medium  cursor-pointer text-lg text-gray-900">Update Category</p>
-      </div>
+        items-center flex gap-2 px-4 py-2 hover:bg-gray-200 hover:text-black
+       rounded-full border border-black font-semibold text-black">
+       {imageUploading ? "Uploading Image..." : "Update Category"}
+      </button>
   </div>
-</div> : ""
+</div> : <div className='w-full  h-[50vh] flex items-center justify-center'>
+    <Spinner />
+</div>
   )
 }
 

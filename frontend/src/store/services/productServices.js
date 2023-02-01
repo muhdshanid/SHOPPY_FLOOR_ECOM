@@ -6,7 +6,7 @@ const productServices = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:5000/api/product/",
     prepareHeaders: (headers, { getState }) => {
-      const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZDg4OWRmNzI1MDVhNWYxNTI4OWVlZiIsImlhdCI6MTY3NTEzNTQ1NywiZXhwIjoxNjc1MjIxODU3fQ.KW9OwqXBZM0us-FhxlPVcalqY8s6G35ILlPLYwYzkww"
+      const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZDg4OWRmNzI1MDVhNWYxNTI4OWVlZiIsImlhdCI6MTY3NTIyNTMzNSwiZXhwIjoxNjc1MzExNzM1fQ.2uV4AM8RUZXjLv9XfEv_HJudZ0VzMEGecekMm6E_DQ0"
 
       // const reducers = getState();
       // const token = reducers?.authReducer?.adminToken;
@@ -63,6 +63,33 @@ const productServices = createApi({
         },
         providesTags: ["products"],
       }),
+      getCatProducts: builder.query({
+        query: (name) => {
+          return {
+            url: `get-cat-product/${name}`,
+            method: "GET",
+          };
+        },
+        providesTags: ["products"],
+      }),
+      getBrandProducts: builder.query({
+        query: (name) => {
+          return {
+            url: `get-brand-product/${name}`,
+            method: "GET",
+          };
+        },
+        providesTags: ["products"],
+      }),
+      getPopularProducts: builder.query({
+        query: () => {
+          return {
+            url: `get-popular-product`,
+            method: "GET",
+          };
+        },
+        providesTags: ["products"],
+      }),
     };
   },
 });
@@ -73,6 +100,9 @@ export const {
   useDeleteProductMutation,
   useGetProductsQuery,
   useGetProductQuery,
+  useGetCatProductsQuery,
+  useGetBrandProductsQuery,
+  useGetPopularProductsQuery
 } = productServices;
 
 export default productServices;

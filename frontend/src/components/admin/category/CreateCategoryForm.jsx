@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import { useUploadImagesMutation } from '../../../store/services/adminServices/uploadServices'
+import { useUploadImagesMutation } from '../../../store/services/uploadServices'
 import Dropzone from "react-dropzone";
-import { useCreateCategoryMutation } from '../../../store/services/adminServices/categoryServices';
+import { useCreateCategoryMutation } from '../../../store/services/categoryServices';
 import { useNavigate } from 'react-router-dom';
 const CreateCategoryForm = () => {
   const navigate = useNavigate()
-  const [imageData, setImageData] = useState(null)
+  const [imageData, setImageData] = useState("")
   const [name, setName] = useState("")
   const [uploadImage,res] = useUploadImagesMutation()
+  const [imageUploading, setImageUploading] = useState(false);
   const [createCat,result] = useCreateCategoryMutation()
   const uploadCategoryImage = (acceptedFiles) => {
     const formData = new FormData()
@@ -15,19 +16,21 @@ const CreateCategoryForm = () => {
       formData.append("images",acceptedFiles[i])
     }
     uploadImage(formData)
+    setImageUploading(true)
     }
   useEffect(()=>{
     if(res.isSuccess){
       setImageData(res?.data[0])
+      setImageUploading(false)
     }
-  },[res.isSuccess])
+  },[res?.data, res.isSuccess])
   useEffect(()=>{
     if(result.isSuccess){
       navigate("/admin/category-list")
     }
-  },[result.isSuccess])
+  },[navigate, result.isSuccess])
   const createCategory = () =>{
-    if(name !== "" && imageData !== null){
+    if(name !== "" && imageData !== ""){
       createCat({name,image:imageData})
     }
   }
@@ -35,7 +38,10 @@ const CreateCategoryForm = () => {
     <div className='flex flex-col  gap-8'>
     <div className='flex gap-8 items-center'>
         <div className='w-[30%]'>
-        <input type="text" value={name ? name : ""} onChange={(e)=>setName(e.target.value)}
+        <label className="block mb-2 ml-2 text-base capitalize text-gray-400">
+            Name
+          </label>
+        <input type="text" value={name} onChange={(e)=>setName(e.target.value)}
     className='bg-gray-800 text-white hover:border-gray-200 border
     border-gray-800
     outline-none w-full  p-4 rounded-lg' placeholder='Name' />
@@ -66,12 +72,16 @@ const CreateCategoryForm = () => {
   }
     </div>
     <div className='my-4 '>
-    <div onClick={createCategory}
+    <button onClick={createCategory}
+    disabled={
+      name === "" ||
+       imageUploading === true
+    } 
           className="bg-sidebar-item
-           cursor-pointer items-center w-[19%] flex gap-2 px-4 py-2 hover:bg-gray-200 hover:text-black
-           rounded-lg border border-black font-semibold text-black">
-          <p className="font-medium  cursor-pointer text-lg text-gray-900">Create Category</p>
-        </div>
+          items-center flex gap-2 px-4 py-2 hover:bg-gray-200 hover:text-black
+         rounded-full border border-black font-semibold text-black">
+          {imageUploading ? "Uploading Image..." : "Create Category"}
+        </button>
     </div>
 </div>
   )

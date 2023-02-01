@@ -1,52 +1,55 @@
-import React from 'react'
-import { AiFillStar } from 'react-icons/ai'
+import React, { useEffect, useState } from 'react'
 import { MdOutlineAssignmentReturned, MdOutlineLocalShipping } from 'react-icons/md'
-const ProductOverView = () => {
-    const productImage = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxjQ9RwiG9pVxYU4I_VJwivaEG2d6VWXF_kQ&usqp=CAU"
-
+import { useGetProductQuery } from '../../store/services/productServices'
+import StarRating from './StarRating'
+const ProductOverView = ({id}) => {
+    const [product, setProduct] = useState({})
+    const {data,isFetching,isSuccess,isLoading,} = useGetProductQuery(id)
+  useEffect(() => {
+    if (isFetching === false && isSuccess && !isLoading) {
+      setProduct(data);
+    }
+  }, [data, isFetching, isLoading, isSuccess]);
   return (
-    <div className='w-12/12 flex gap-8'>
-   <div className='my-2 w-full  md:grid-cols-1 lg:grid-cols-2  grid grid-cols-1 sm:grid-cols-1   gap-8'>
-   <div className=''>
-     <div className='bg-gray-200 rounded-lg '>
-          <div className='p-4 w-full'>
-              <img className='w-full rounded-lg ' src={productImage} alt="product" />
-          </div>
+  isFetching === false && isSuccess && !isLoading && data && product !== {} ?  <div className='w-12/12 flex gap-8'> 
+  <div className='my-2 w-full  md:grid-cols-1 lg:grid-cols-2  grid grid-cols-1 sm:grid-cols-1   gap-8'>
+  <div className=''>
+     <div className='bg-gray-200  rounded-lg '>
+         { product?.images?.length > 0 ? product?.images?.map((img,index)=>
+            { 
+              return  index === 0 ? <div className='p-4  w-full'>
+                <img className='w-full object-cover h-[29pc] rounded-lg ' src={img.url} alt="product" />
+            </div> : ""
+            }
+         ) : "" }
           <div className='flex gap-4 w-12/12 bg-gray-200 rounded-lg'>
-         <div className='p-4  w-3/12'>
-         <img className='rounded-lg' src={productImage} alt="product" />
+         {
+          product?.images?.length > 0 &&  product.images.slice(1).map(img => (
+                <div className='p-4  w-3/12'>
+         <img className='rounded-lg object-cover h-[8rem]' src={img.url} alt="product" />
          </div>
-         <div className='p-4 w-3/12'>
-         <img className='rounded-lg' src={productImage} alt="product" />
-         </div>
-         <div className='p-4 w-3/12'>
-         <img className='rounded-lg' src={productImage} alt="product" />
-         </div>
-         <div className='p-4 w-3/12'>
-         <img className='rounded-lg' src={productImage} alt="product" />
-         </div>
+            ))
+         }
+        
           </div>
       </div>
      </div>
-      <div className=''>
+     <div className=''>
           <div className='px-4 flex flex-col gap-4'>
               <div className='flex border-b border-gray-200  pb-4 flex-col gap-4'>
                   <div className='flex items-center justify-start'>
-                      <h2 className='font-bold text-3xl text-gray-900'>Apple Headphone</h2>
+                      <h2 className='font-bold text-3xl text-gray-900'>{product?.name}</h2>
                   </div>
                   <div className='w-[80%]'>
-                      <p className='font-semibold text-sm text-gray-400'>product quanilit is awaont afaaogaohtnaoogaof fhaofofahtoaofho ahgoa</p>
+                      <p className='font-semibold text-sm text-gray-400'>
+                        {product?.description}</p>
                   </div>
                   <div className='flex items-center gap-2'>
           <div className='flex'>
-          <AiFillStar size={20} color='green'/>
-          <AiFillStar size={20} color='green'/>
-          <AiFillStar size={20} color='green'/>
-          <AiFillStar size={20} color='green'/>
-          <AiFillStar size={20} color='green'/>
+            <StarRating rating={product?.totalRatings}/>
           </div>
           <div>
-              <p className=' font-semibold text-lg text-gray-400'>(121)</p>
+              <p className=' font-semibold text-lg text-gray-400'>{(product?.ratings?.length)}</p>
           </div>
       </div>
               </div>
@@ -59,27 +62,19 @@ const ProductOverView = () => {
                   </div>
                   <div></div>
               </div>
-              <div className='flex flex-col gap-4 border-b border-gray-200 pb-4 pt-2'>
+             {product?.colors?.length > 0 && <div className='flex flex-col gap-4 border-b border-gray-200 pb-4 pt-2'>
                   <div>
                       <h4 className='font-bold text-lg text-gray-900'>Choose a color</h4>
                   </div>
                   <div className='flex gap-4 items-center w-[80%]'>
-                      <div className='bg-green-200 rounded-full w-8 h-8'>
-                      </div>
-                      <div className='bg-green-200 rounded-full w-8 h-8'>
-                      </div>
-                      <div className='bg-green-200 rounded-full w-8 h-8'>
-                      </div>
-                      <div className='bg-green-200 rounded-full w-8 h-8'>
-                      </div>
-                      <div className='bg-green-200 rounded-full w-8 h-8'>
-                      </div>
-                      <div className='bg-green-200 rounded-full w-8 h-8'>
-                      </div>
-                      <div className='bg-green-200 rounded-full w-8 h-8'>
-                      </div>
+                    {
+                        product?.colors?.map(clr => (
+                            <div style={{backgroundColor:clr.color}} className=' rounded-full w-8 h-8'>
+                            </div>
+                        ))
+                    }
                   </div>
-              </div>
+              </div>}
               <div className='flex flex-col gap-4 border-b border-gray-200 pb-4 pt-2'>
                   <div className='flex gap-8 items-center'>
                       <div className=' overflow-hidden flex items-center
@@ -128,9 +123,9 @@ const ProductOverView = () => {
                   </div>
               </div>
           </div>
-      </div>
+      </div> 
    </div>
-    </div>
+    </div> : ""
   )
 }
 

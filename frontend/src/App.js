@@ -23,12 +23,17 @@ import UpdateProduct from './pages/admin/product/UpdateProduct';
 import CouponList from './pages/admin/coupon/CouponList';
 import CreateCoupon from './pages/admin/coupon/CreateCoupon';
 import UpdateCoupon from './pages/admin/coupon/UpdateCoupon';
+import BlogList from './pages/admin/blog/BlogList';
+import CreateBlog from './pages/admin/blog/CreateBlog';
+import UpdateBlog from './pages/admin/blog/UpdateBlog';
+import BrandProducts from './pages/brand/BrandProducts';
+import PopularProducts from './pages/popular/PopularProducts';
 function App() {
   return (
     <div className='App w-full'>
       <BrowserRouter>
-      {/* <Navbar/>
-      <HomeNav/> */}
+      <Navbar/>
+      <HomeNav/>
       <Routes>
         <Route path='/' element={<Home/>}/>
         <Route path='/admin/product-list' element={<ProductList/>}/>
@@ -45,10 +50,15 @@ function App() {
         <Route path='/admin/brand-list' element={<BrandList/>}/>
         <Route path='/admin/create-brand' element={<CreateBrand/>}/>
         <Route path='/admin/update-brand/:id' element={<UpdateBrand/>}/>
-        <Route path='/product' element={<ProductDetails/>}/> 
+        <Route path='/admin/blogs-list' element={<BlogList/>}/>
+        <Route path='/admin/create-blog' element={<CreateBlog/>}/>
+        <Route path='/admin/update-blog/:id' element={<UpdateBlog/>}/>
+        <Route path='/product/:id' element={<ProductDetails/>}/> 
         <Route path='/checkout' element={<Checkout/>}/>
         <Route path='/cart' element={<Cart/>}/>
-        <Route path='/category' element={<CategoryProducts/>}/>
+        <Route path='/cat-products/:name' element={<CategoryProducts/>}/>
+        <Route path='/brand-products/:name' element={<BrandProducts/>}/>
+        <Route path='/popular-products' element={<PopularProducts/>}/>
         <Route path='/login' element={<Login/>}/>
         <Route path='/signup' element={<Signup/>}/>
       </Routes>

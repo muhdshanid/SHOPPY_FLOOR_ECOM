@@ -3,12 +3,11 @@ import React from 'react'
 const SizeList = ({sizes,deleteSize}) => {
   return (
     <div>
-         {
-            sizes.length > 0 &&  <label htmlFor="sizes" className="block mb-2 ml-2 text-base capitalize text-gray-400 ">
+         <label htmlFor="sizes" className="block mb-2 ml-2 text-base capitalize text-gray-400 ">
             sizes list
           </label>
-         }
-              {sizes.length > 0 && (
+         
+              
                 <div className="flex flex-wrap ">
                   {sizes.map((size) => (
                     <div
@@ -22,7 +21,7 @@ const SizeList = ({sizes,deleteSize}) => {
                     </div>
                   ))}
                 </div>
-              )}
+              
     </div>
   )
 }

@@ -5,6 +5,9 @@ import {
   deleteProduct,
   getAllProducts,
   getAProduct,
+  getBrandsProducts,
+  getCategoryProducts,
+  getPopularProducts,
   rating,
   updateProduct,
 } from "../controllers/productControllers.js";
@@ -25,6 +28,9 @@ productRouter.delete(
   deleteProduct
 );
 productRouter.get("/get-allproducts", getAllProducts);
+productRouter.get("/get-popular-product", getPopularProducts);
+productRouter.get("/get-cat-product/:name",getCategoryProducts)
+productRouter.get("/get-brand-product/:name",getBrandsProducts)
 productRouter.put("/add-to-wishlist", authMiddleware, addToWishlist);
 productRouter.put("/rating", authMiddleware, rating);
 

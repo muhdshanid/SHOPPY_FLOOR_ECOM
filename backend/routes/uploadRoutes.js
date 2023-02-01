@@ -4,7 +4,7 @@ import {
   uploadImages,
 } from "../controllers/uploadControllers.js";
 import { authMiddleware, isAdmin } from "../middlewares/authMiddleware.js";
-import uploadPhoto, { categoryImgResize, productImgResize } from "../middlewares/uploadImages.js";
+import uploadPhoto, { blogsImgResize, categoryImgResize, productImgResize } from "../middlewares/uploadImages.js";
 
 const uploadRouter = express.Router();
  
@@ -23,6 +23,11 @@ uploadRouter.post(
 uploadRouter.post(
   "/upload-image/product",
   [authMiddleware, isAdmin, uploadPhoto.array("images", 10), productImgResize],
+  uploadImages
+);
+uploadRouter.post(
+  "/upload-image/blog",
+  [authMiddleware, isAdmin, uploadPhoto.array("images", 10), blogsImgResize],
   uploadImages
 );
 

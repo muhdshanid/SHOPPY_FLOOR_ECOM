@@ -1,9 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import brandService from "./services/adminServices/brandServices";
-import categoryService from "./services/adminServices/categoryServices";
-import couponService from "./services/adminServices/couponServices";
-import productServices from "./services/adminServices/productServices";
-import uploadService from "./services/adminServices/uploadServices";
+import blogService from "./services/blogServices";
+import brandService from "./services/brandServices";
+import categoryService from "./services/categoryServices";
+import couponService from "./services/couponServices";
+import productServices from "./services/productServices";
+import uploadService from "./services/uploadServices";
 // import authReducer from "./reducers/authReducer";
 // import cartReducer from "./reducers/cartReducer";
 // import globalReducer from "./reducers/globalReducer";
@@ -22,7 +23,7 @@ const store = configureStore({
     [brandService.reducerPath]: brandService.reducer,
     [productServices.reducerPath]: productServices.reducer,
     [couponService.reducerPath]: couponService.reducer,
-    // [orderService.reducerPath]: orderService.reducer,
+    [blogService.reducerPath]: blogService.reducer,
     // [userOrdersService.reducerPath]: userOrdersService.reducer,
     // authReducer: authReducer,
     // globalReducer: globalReducer,
@@ -30,7 +31,7 @@ const store = configureStore({
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
-      .concat([couponService.middleware,categoryService.middleware,productServices.middleware
+      .concat([blogService.middleware,couponService.middleware,categoryService.middleware,productServices.middleware
         ,uploadService.middleware,brandService.middleware])
 });
 

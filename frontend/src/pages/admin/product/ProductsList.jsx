@@ -4,7 +4,8 @@ import { AiFillDelete } from "react-icons/ai";
 import { BiEdit } from 'react-icons/bi';
 import { IoMdAdd } from 'react-icons/io';
 import { Link } from 'react-router-dom';
-import { useDeleteProductMutation, useGetProductsQuery } from '../../../store/services/adminServices/productServices';
+import Spinner from '../../../components/admin/Spinner';
+import { useDeleteProductMutation, useGetProductsQuery } from '../../../store/services/productServices';
 import Wrapper from '../Wrapper';
 
 const ProductList = () => {
@@ -15,23 +16,24 @@ const ProductList = () => {
       if(isFetching === false){
         setProducts(data)
       }
-    },[isFetching])
+    },[data, isFetching])
     const deleteProduct = id => {
       deleteProd(id)
     }
   return (
     <Wrapper>
        <div className=' flex flex-col gap-8'>
-        <div className='mx-4 my-4'>
-        <Link to={"/admin/create-product"} className='bg-sidebar-item items-center w-[21%] flex gap-2 px-4 py-2 hover:bg-gray-200 hover:text-black
-             rounded-lg border border-black font-semibold text-black'>
+        <div className=' my-2'>
+        <Link to={"/admin/create-product"} className='bg-white
+          items-center flex w-[18%] gap-2 px-2 py-2 hover:bg-orange-300 hover:text-black
+           rounded-lg border border-black font-semibold text-black'>
                 <p className='font-medium  text-lg text-gray-900'>Create Product</p>
                 <IoMdAdd size={24}/>
                 </Link>
         </div>
       {
-        isFetching === false && 
-        <table className="rounded-lg mx-4">
+        isFetching === false ? 
+        <table className="rounded-lg overflow-hidden w-[100%] my-4 mr-4">
         <thead className="w-full rounded-full bg-gray-800">
           <tr>
             <th className="py-4 px-14  uppercase text-xs font-bold text-white text-left">
@@ -94,7 +96,10 @@ const ProductList = () => {
            </tr>
         )) }
         </tbody>
-          </table>
+          </table> : 
+          <div className="w-full  h-[50vh] flex items-center justify-center">
+          <Spinner />
+        </div>
       }
        </div>
     </Wrapper>

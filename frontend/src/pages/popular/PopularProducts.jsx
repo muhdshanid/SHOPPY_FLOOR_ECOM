@@ -2,15 +2,15 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import BreadCrumbs from '../../components/BreadCrumbs'
 import ProductCard from '../../components/home/ProductCard'
-import { useGetCatProductsQuery } from '../../store/services/productServices'
+import { useGetCatProductsQuery, useGetPopularProductsQuery } from '../../store/services/productServices'
 
-const CategoryProducts = () => {
-  const {name} = useParams()
-  const [catProducts, setCatProducts] = useState([])
-  const {data,isFetching} = useGetCatProductsQuery(name)
+const PopularProducts = () => {
+    const [popularProducts, setPopularProducts] = useState([])
+  const {data,isFetching} = useGetPopularProductsQuery()
+  const name = "Popular-Products"
   useEffect(() => {
     if (isFetching === false) {
-      setCatProducts(data);
+      setPopularProducts(data);
     }
   }, [data, isFetching]);
   return (
@@ -18,10 +18,10 @@ const CategoryProducts = () => {
         <BreadCrumbs title={name}/>
       { isFetching === false && <div className='w-12/12  flex flex-col px-4
      lg:px-16 md:px-14 sm:px-8  min-h-screen bg-gray-100'>
-        <ProductCard products={catProducts} page={"category"} caption={`${name}  (${catProducts.length} Products)`}/>
+        <ProductCard products={popularProducts} page={"category"} caption={`${name}  (${popularProducts.length} Products)`}/>
         </div>}
     </div>
   )
 }
 
-export default CategoryProducts
+export default PopularProducts

@@ -4,61 +4,54 @@ import Dropzone from 'react-dropzone';
 import "react-quill/dist/quill.snow.css";
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from "uuid";
-import { useGetBrandsQuery } from '../../store/services/adminServices/brandServices';
-import { useGetCategoriesQuery } from '../../store/services/adminServices/categoryServices';
-import {  useGetProductQuery, useUpdateProductMutation } from '../../store/services/adminServices/productServices';
-import {useUploadProductImagesMutation } from '../../store/services/adminServices/uploadServices';
-import Colors from './Colors';
-import SizeList from './SizeList';
+import { useGetBrandsQuery } from '../../../store/services/brandServices';
+import { useGetCategoriesQuery } from '../../../store/services/categoryServices';
+import {  useGetProductQuery, useUpdateProductMutation } from '../../../store/services/productServices';
+import {useUploadProductImagesMutation } from '../../../store/services/uploadServices';
+import Colors from '../Colors';
+import SizeList from '../SizeList';
+import Spinner from '../Spinner';
 const UpdateProductForm = ({id}) => {
   const navigate = useNavigate()
-  const [mounted, setMounted] = useState(false)
   const [categories, setCategories] = useState([])
   const [brands, setBrands] = useState([])
   const [uploadImages,res] = useUploadProductImagesMutation()
   const {data:product,isFetching:Loading} = useGetProductQuery(id)
-  const [productImages, setProductImages] = useState(product?.images)
+  const [productImages, setProductImages] = useState([])
   const [updateProd,response] = useUpdateProductMutation()
-  const [state, setState] = useState({
-    name: product?.name,
-    price: product?.price,
-    discount: product?.discount,
-    stock: product?.stock,
-    category: product?.category,
-    description:product?.description,
-    brand: product?.brand,
-    colors: product?.colors,
-    tags:product?.tags
-  });
+  const [imageUploading, setImageUploading] = useState(false);
+  const [state, setState] = useState({})
   useEffect(()=>{
     if(Loading === false){
-        setTimeout(() => { setMounted(true) }, 100) 
+      setState(product)
+      setProductImages(product.images)
+      setSizeList(product.sizes)
     }
-  },[Loading])
-
+  },[Loading, product])
   useEffect(()=>{
     if(res.isSuccess){
       setProductImages(res.data)
+      setImageUploading(false)
     }
-  },[res.isSuccess])
+  },[res.data, res.isSuccess])
   useEffect(()=>{
     if(response.isSuccess){
       navigate("/admin/product-list")
     }
-  },[response.isSuccess])
+  },[navigate, response.isSuccess])
   const {data,isFetching} = useGetCategoriesQuery()
   const {data:result,isFetching:gettingData} = useGetBrandsQuery()
   useEffect(()=>{
     if(gettingData === false){
       setBrands(result)
     }
-  },[gettingData])
+  },[gettingData, result])
   useEffect(()=>{
     if(isFetching === false){
       setCategories(data)
     }
-  },[isFetching])
-  const [sizeList, setSizeList] = useState(product?.sizes);
+  },[data, isFetching])
+  const [sizeList, setSizeList] = useState([]);
     const [sizes] = useState([
         { name: "xsm" },
         { name: "sm" },
@@ -99,13 +92,14 @@ const UpdateProductForm = ({id}) => {
       formData.append("images",acceptedFiles[i])
     }
     uploadImages(formData)
+    setImageUploading(true)
       }
       const updateProduct = () => {
         const data = {...state,images:productImages,sizes:sizeList}
         updateProd({data,id})
       }
   return (
-   mounted  ?  <div className='flex flex-col  gap-8'>
+  Loading === false  ?  <div className='flex flex-col  gap-8'>
    <div className='flex gap-8 items-center'>
        <div className='w-[30%]'>
        <label htmlFor="description" className="block mb-2 ml-2 text-base capitalize text-gray-400">
@@ -226,12 +220,12 @@ const UpdateProductForm = ({id}) => {
    </div>
    </div>
    <div className='flex w-full gap-8 items-center'>
-   { product.colors ? <div className='flex flex-col gap-2 w-[39%]'>
-   <Colors mounted={mounted} deleteColor={deleteColor} colors={state.colors}/>
-   </div> : ""}
-  { mounted &&  product.sizes ? <div className="w-[50%]">
+     <div className='flex flex-col gap-2 w-[39%]'>
+   <Colors deleteColor={deleteColor} colors={state.colors}/>
+   </div>
+    <div className="w-[50%]">
        <SizeList sizes={sizeList} deleteSize={deleteSize}/>
-   </div> : ""}
+   </div> 
    </div>
    <div className='flex flex-col w-[50%] justify-center'>
    <label htmlFor="sizes" className="block mb-2 ml-2 text-base capitalize text-gray-400 ">
@@ -260,13 +254,27 @@ const UpdateProductForm = ({id}) => {
    }
    </div> }
    <div className=" my-4">
-     <div onClick={updateProduct}
-       className="bg-sidebar-item items-center w-[18%] flex gap-2 px-4 py-2 hover:bg-gray-200 hover:text-black
-        rounded-lg border border-black font-semibold text-black">
-       <p className="font-medium  text-lg text-gray-900">Update Product</p>
-     </div>
+     <button onClick={updateProduct}
+     disabled={
+      state.name === "" ||
+            state.brand === "" ||
+            state.tags === "" ||
+            state.category === "" ||
+            state.description === "" ||
+            state.discount === 0 ||
+            state.stock === 0 ||
+            productImages === [] ||
+      imageUploading === true
+    } 
+       className="bg-sidebar-item
+       items-center flex gap-2 px-4 py-2 hover:bg-gray-200 hover:text-black
+      rounded-full border border-black font-semibold text-black">
+         {imageUploading ? "Uploading Image..." : "Update Product"}
+     </button>
    </div>
-</div> : ""
+</div> : <div className='w-full  h-[50vh] flex items-center justify-center'>
+    <Spinner />
+</div>
   )
 }
 

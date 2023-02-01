@@ -61,6 +61,21 @@ export const productImgResize = async (req, res, next) => {
       );
   next()
 };
+export const blogsImgResize = async (req, res, next) => {
+  if (!req.files) return next();
+  await Promise.all(
+    req.files.map(async (file) => { 
+      await sharp(file.path)
+        .resize(300, 300)
+        .toFormat("jpeg")
+        .jpeg({ quality: 90 })
+        .toFile(`${__dirname}/public/images/blogs/${file.filename}`);
+        fs.unlinkSync(`${__dirname}/public/images/blogs/${file.filename}`)
+      })
+      );
+  next()
+};
+
 
 
 export default uploadPhoto;

@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import Dropzone from 'react-dropzone';
 import { useNavigate } from 'react-router-dom';
-import { useCreateBrandMutation } from '../../../store/services/adminServices/brandServices';
-import { useUploadImagesMutation } from '../../../store/services/adminServices/uploadServices';
+import { useCreateBrandMutation } from '../../../store/services/brandServices';
+import { useUploadImagesMutation } from '../../../store/services/uploadServices';
 const CreateBrandForm = () => {
   const navigate = useNavigate()
-  const [imageData, setImageData] = useState(null)
+  const [imageData, setImageData] = useState("")
   const [name, setName] = useState("")
+  const [imageUploading, setImageUploading] = useState(false);
   const [uploadImage,res] = useUploadImagesMutation()
   const [createBrand,result] = useCreateBrandMutation()
   const uploadBrandImage = (acceptedFiles) => {
@@ -15,19 +16,21 @@ const CreateBrandForm = () => {
       formData.append("images",acceptedFiles[i])
     }
     uploadImage(formData)
+    setImageUploading(true)
     }
     useEffect(()=>{
       if(res.isSuccess){
         setImageData(res?.data[0])
+        setImageUploading(false)
       }
-    },[res.isSuccess])
+    },[res?.data, res?.isSuccess])
     useEffect(()=>{
       if(result.isSuccess){
         navigate("/admin/brand-list")
       }
-    },[result.isSuccess])
+    },[navigate, result.isSuccess])
     const createBrandHandler = () =>{
-      if(name !== "" && imageData !== null){
+      if(name !== "" && imageData !== ""){
         createBrand({name,image:imageData})
       }
     }
@@ -35,7 +38,10 @@ const CreateBrandForm = () => {
     <div className='flex flex-col  gap-8'>
     <div className='flex gap-8 items-center'>
         <div className='w-[30%]'>
-        <input value={name ? name : ""} onChange={(e)=>setName(e.target.value)}
+        <label className="block mb-2 ml-2 text-base capitalize text-gray-400">
+             Name
+          </label>
+        <input value={name } onChange={(e)=>setName(e.target.value)}
          type="text"
     className='bg-gray-800 text-white hover:border-gray-200 border
     border-gray-800
@@ -67,11 +73,17 @@ const CreateBrandForm = () => {
     }
     </div>
     <div className="my-4">
-        <div onClick={createBrandHandler}
-          className="bg-sidebar-item items-center w-[16%] flex gap-2 px-4 py-2 hover:bg-gray-200 hover:text-black
-           rounded-lg border border-black font-semibold text-black">
-          <p className="font-medium  text-lg text-gray-900">Create Brand</p>
-        </div>
+        <button onClick={createBrandHandler}
+         disabled={
+          name === "" ||
+          imageData === "" ||
+          imageUploading === true
+        }
+          className="bg-sidebar-item
+          items-center flex gap-2 px-4 py-2 hover:bg-gray-200 hover:text-black
+         rounded-full border border-black font-semibold text-black">
+         {imageUploading ? "Uploading Image..." : "Create Brand"}
+        </button>
       </div>
 </div>
   )

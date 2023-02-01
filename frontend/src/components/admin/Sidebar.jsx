@@ -41,10 +41,10 @@ const Sidebar = () => {
                     <RiCouponLine size={27} color="black"/>
                     <h6 className='font-medium text-lg text-gray-900'>Coupons</h6>
                 </Link>
-                <div className='flex rounded-lg  p-4  bg-sidebar-item gap-4 items-center'>
+                <Link to={"/admin/blogs-list"} className='flex rounded-lg  p-4  bg-sidebar-item gap-4 items-center'>
                     <ImBlog size={27} color="black"/>
                     <h6 className='font-medium text-lg text-gray-900'>Blogs</h6>
-                </div>
+                </Link>
                 <div className='flex rounded-lg  p-4  bg-sidebar-item gap-4 items-center'>
                     <TbMessage size={27} color="black"/>
                     <h6 className='font-medium text-lg text-gray-900'>Enquiries</h6>
