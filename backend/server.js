@@ -14,6 +14,7 @@ import brandRouter from './routes/brandRoutes.js'
 import couponRouter from './routes/couponRoutes.js'
 import enqRouter from './routes/endRoutes.js'
 import uploadRouter from './routes/uploadRoutes.js'
+import paymentRouter from './routes/paymentRoutes.js'
 dotenv.config()
 const app = express()
 const PORT = process.env.PORT || 5000
@@ -21,9 +22,18 @@ const PORT = process.env.PORT || 5000
 connectDB()
 app.use(morgan('dev'))
 app.use(cors())
-app.use(express.json())
+app.post(
+    "/api/webhook",
+    express.json({
+        verify: (req, res, buf) => {
+            req.rawBody = buf.toString();
+        },
+    }) 
+    );
 app.use(express.urlencoded({extended:false}))
 app.use(cookieParser())
+ app.use(express.json())
+ app.use("/api",paymentRouter)
 app.use("/api/user",userRouter)
 app.use("/api/product",productRouter)
 app.use("/api/blog",blogRouter)

@@ -6,7 +6,7 @@ const blogService = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:5000/api/blog/",
     prepareHeaders: (headers, { getState }) => {
-        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZDg4OWRmNzI1MDVhNWYxNTI4OWVlZiIsImlhdCI6MTY3NTIyNTMzNSwiZXhwIjoxNjc1MzExNzM1fQ.2uV4AM8RUZXjLv9XfEv_HJudZ0VzMEGecekMm6E_DQ0"
+        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZDg4OWRmNzI1MDVhNWYxNTI4OWVlZiIsImlhdCI6MTY3NTMxOTM0NiwiZXhwIjoxNjc1NDA1NzQ2fQ.tr0CQ6VA-tGbGN_ApISdbruIsbpqlJPAGolUK6NH1YU"
 
       // const reducers = getState();
       // const token = reducers?.authReducer?.adminToken;

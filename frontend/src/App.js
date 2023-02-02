@@ -55,6 +55,7 @@ function App() {
         <Route path='/admin/update-blog/:id' element={<UpdateBlog/>}/>
         <Route path='/product/:id' element={<ProductDetails/>}/> 
         <Route path='/checkout' element={<Checkout/>}/>
+        <Route path='/checkout/:id' element={<Checkout/>}/>
         <Route path='/cart' element={<Cart/>}/>
         <Route path='/cat-products/:name' element={<CategoryProducts/>}/>
         <Route path='/brand-products/:name' element={<BrandProducts/>}/>

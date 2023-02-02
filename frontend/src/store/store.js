@@ -1,20 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
+import cartReducer from "./reducers/cartReducer";
 import blogService from "./services/blogServices";
 import brandService from "./services/brandServices";
 import categoryService from "./services/categoryServices";
 import couponService from "./services/couponServices";
+import paymentService from "./services/paymentServices";
 import productServices from "./services/productServices";
 import uploadService from "./services/uploadServices";
-// import authReducer from "./reducers/authReducer";
-// import cartReducer from "./reducers/cartReducer";
-// import globalReducer from "./reducers/globalReducer";
-// import authService from "./services/authServices";
-// import categoryService from "./services/categoryService";
-// import homeProductsService from "./services/homeProductsServices";
-// import orderService from "./services/orderService";
-// import paymentService from "./services/paymentServices";
-// import productServices from "./services/productService";
-// import userOrdersService from "./services/userOrdersService";
 
 const store = configureStore({
   reducer: {
@@ -24,15 +16,19 @@ const store = configureStore({
     [productServices.reducerPath]: productServices.reducer,
     [couponService.reducerPath]: couponService.reducer,
     [blogService.reducerPath]: blogService.reducer,
-    // [userOrdersService.reducerPath]: userOrdersService.reducer,
-    // authReducer: authReducer,
-    // globalReducer: globalReducer,
-    // cartReducer: cartReducer,
+    [paymentService.reducerPath]: paymentService.reducer,
+    cartReducer: cartReducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware()
-      .concat([blogService.middleware,couponService.middleware,categoryService.middleware,productServices.middleware
-        ,uploadService.middleware,brandService.middleware])
+    getDefaultMiddleware().concat([
+      paymentService.middleware,
+      blogService.middleware,
+      couponService.middleware,
+      categoryService.middleware,
+      productServices.middleware,
+      uploadService.middleware,
+      brandService.middleware,
+    ]),
 });
 
 export default store;

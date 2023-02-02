@@ -46,11 +46,22 @@ var productSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    questions:[
+      {
+        question:String,
+        askedBy:{ type: mongoose.Schema.Types.ObjectId, ref: "User" },
+        answer:String,
+        likes:[],
+        dislikes:[]
+      }
+    ],
+    specifications:[],
     ratings: [
       {
         star: Number,
         comment:String,
         postedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+        images:[]
       },
     ],
   },

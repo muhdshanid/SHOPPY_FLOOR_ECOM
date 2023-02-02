@@ -12,6 +12,7 @@ import Colors from '../Colors';
 import SizeList from '../SizeList';
 const CreateProductForm = () => {
   const navigate = useNavigate()
+  const [specifications, setSpecifications] = useState("")
   const [state, setState] = useState({
     name: "",
     price: 0,
@@ -21,14 +22,29 @@ const CreateProductForm = () => {
     description:"",
     brand: "",
     colors: [],
-    tags:""
+    tags:"",
   });
+//   RAM:4GB,
+// ROM:32GB,
+// DISPLAY:AMOLED,
+// FASTCHARGE:FULL,
+// CHARGEWALT:33W
   const [categories, setCategories] = useState([])
   const [imageUploading, setImageUploading] = useState(false);
   const [brands, setBrands] = useState([])
   const [uploadImages,res] = useUploadProductImagesMutation()
   const [productImages, setProductImages] = useState([])
   const [createProd,response] = useCreateProductMutation()
+  const stringToObj = string => {
+    const resultObjects = string.split(",").map(item => {
+      const obj = {
+        key:item.split(":")[0],
+        value:item.split(":")[1]
+      }
+      return obj
+    })
+    return resultObjects
+}
   useEffect(()=>{
     if(res.isSuccess){
       setProductImages(res.data)
@@ -96,7 +112,8 @@ const CreateProductForm = () => {
     setImageUploading(true)
       }
       const createProduct = () => {
-        const data = {...state,images:productImages,sizes:sizeList}
+        const specificationsArray = stringToObj(specifications)
+        const data = {...state,images:productImages,sizes:sizeList,specifications:specificationsArray}
         createProd(data)
       }
   return (
@@ -174,7 +191,7 @@ const CreateProductForm = () => {
         </div>
         </div>
         <div className='flex gap-8 items-center'>
-            <div className='flex flex-col gap-2 w-[50%]'>
+            <div className='flex flex-col gap-2 w-[30%]'>
             <label htmlFor="description" className="block mb-2 ml-2 text-base capitalize text-gray-400">
             Description
             </label>
@@ -182,6 +199,16 @@ const CreateProductForm = () => {
         className='bg-gray-800 text-white hover:border-gray-200 border
         border-gray-800
         outline-none  w-full p-4 rounded-lg' placeholder='Description' />
+            </div>
+            <div className='flex flex-col gap-2 w-[30%]'>
+            <label htmlFor="description" className="block mb-2 ml-2 text-base capitalize text-gray-400">
+            Specifications (add as key value pairs)
+            </label>
+            <textarea type="text"  name='specifications' value={specifications}
+             onChange={(e)=>setSpecifications(e.target.value)}
+        className='bg-gray-800 text-white hover:border-gray-200 border
+        border-gray-800
+        outline-none  w-full p-4 rounded-lg' placeholder='Specifications' />
             </div>
             <div className=' flex flex-col gap-2 w-[30%]'>
             <label htmlFor="description" className="block -mt-4 text-base capitalize text-gray-400">

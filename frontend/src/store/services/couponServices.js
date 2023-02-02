@@ -6,7 +6,7 @@ const couponService = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:5000/api/coupon/",
     prepareHeaders: (headers, { getState }) => {
-      const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZDg4OWRmNzI1MDVhNWYxNTI4OWVlZiIsImlhdCI6MTY3NTIyNTMzNSwiZXhwIjoxNjc1MzExNzM1fQ.2uV4AM8RUZXjLv9XfEv_HJudZ0VzMEGecekMm6E_DQ0"
+      const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZDg4OWRmNzI1MDVhNWYxNTI4OWVlZiIsImlhdCI6MTY3NTMxOTM0NiwiZXhwIjoxNjc1NDA1NzQ2fQ.tr0CQ6VA-tGbGN_ApISdbruIsbpqlJPAGolUK6NH1YU"
       // const reducers = getState();
       // const token = reducers?.authReducer?.adminToken;
       headers.set("authorization", token ? `Bearer ${token}` : "");
@@ -45,7 +45,7 @@ const couponService = createApi({
         invalidatesTags: ["coupons"],
       }),
       getCoupons: builder.query({
-        query: (page) => {
+        query: () => {
           return {
             url: `all-coupon`,
             method: "GET",
@@ -62,13 +62,22 @@ const couponService = createApi({
         },
         providesTags: ["coupons"],
       }),
+      applyCoupon: builder.query({
+        query: (name) => {
+          return {
+            url: `apply-coupon/${name}`,
+            method: "GET",
+          };
+        },
+        providesTags: ["coupons"],
+      }),
     };
   },
 });
 
 export const {
   useCreateCouponMutation,useDeleteCouponMutation,useGetCouponsQuery,useGetCouponQuery,
-  useUpdateCouponMutation
+  useUpdateCouponMutation,useApplyCouponQuery
 } = couponService;
 
 export default couponService;

@@ -23,7 +23,7 @@ const ProductDetails = () => {
       <div className="w-12/12 py-4 flex flex-col px-4
      lg:px-16 md:px-14 sm:px-8  min-h-screen bg-gray-100">
         <ProductOverView id={id}/>
-        <ProductSpecifications/>
+        <ProductSpecifications id={id}/>
         <Reviews/>
         <ProductCard caption={"Products You May Like"}/>
       </div>

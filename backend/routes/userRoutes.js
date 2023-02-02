@@ -1,17 +1,14 @@
 import express from "express";
 import {
   adminLogin,
-  applyCoupon,
   blockUser,
   createOrder,
   deleteUser,
-  emptyCart,
   forgotPasswordToken,
   getAllOrders,
   getAllUsers,
 
   getSingleUser,
-  getUserCart,
   getUserOrders,
   getWishList,
   handleRefreshToken,
@@ -24,7 +21,6 @@ import {
   updateOrderStatus,
   updatePassword,
   updateUser,
-  userCart,
 } from "../controllers/userControllers.js";
 import { authMiddleware, isAdmin } from "../middlewares/authMiddleware.js";
 
@@ -34,13 +30,6 @@ userRouter.post("/register", registerUser);
 userRouter.post("/login", loginUser);
 userRouter.post("/admin-login", adminLogin);
 
-// Cart routes
-userRouter.post("/cart",authMiddleware, userCart);
-userRouter.get("/get-usercart",authMiddleware, getUserCart);
-userRouter.delete("/empty-cart",authMiddleware, emptyCart);
-
-//apply coupon
-userRouter.post("/cart/apply-coupon",authMiddleware,applyCoupon)
 
 //order routes
 userRouter.post("/create-order",authMiddleware,createOrder)
