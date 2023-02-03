@@ -1,7 +1,7 @@
 import React from 'react'
 import { discount } from '../../utils/discount'
 
-const OrderDetails = ({cart}) => {
+const OrderDetails = ({product,cart,color,quantity}) => {
 
   return (
     <div className='w-12/12 p-4 border flex flex-col gap-4'>
@@ -9,7 +9,7 @@ const OrderDetails = ({cart}) => {
             <h6 className='font-bold text-2xl text-gray-900 '>Review Item And Shipping</h6>
         </div>
         <div className='p-4 flex flex-col gap-4'>
-           {cart?.length > 0  && cart?.map(item => (
+           {cart  ? cart?.map(item => (
             <div className='flex gap-4 items-center'>
             <div className='bg-gray-200 rounded-lg p-2'>
                 <img src={item?.images[0]?.url} className="object-cover
@@ -29,7 +29,28 @@ const OrderDetails = ({cart}) => {
                 <p className='font-normal text-md text-gray-600'>Quantity:  {item.quantity}</p>
             </div>
         </div>
-           ))}
+           )) : 
+           <div className='flex gap-4 items-center'>
+           { product?.images?.length > 0 && <div className='bg-gray-200 rounded-lg p-2'>
+               <img src={product?.images[0]?.url} className="object-cover
+               rounded-lg w-[8rem] h-[6rem]" alt="product" />
+           </div>}
+           <div className='flex grow flex-col gap-6'>
+               <h6 className='font-bold text-xl text-gray-900'>{product?.name}</h6>
+               <div className='flex gap-4'>
+               <p className='font-normal text-md text-gray-600'>Color: 
+               </p>
+               <div style={{backgroundColor:color ? color : product?.colors ? product?.colors[0]?.color : "" }} className=' rounded-full w-8 h-8'>
+                      </div>
+               </div>
+           </div>
+           <div className='flex  flex-col gap-6'>
+               <h6 className='font-semibold text-xl text-gray-900'>{discount(product?.price,product?.discount)}</h6>
+               <p className='font-normal text-md text-gray-600'>Quantity: 
+                {quantity ? quantity :  product?.quantity}</p>
+           </div>
+       </div>
+           }
         </div>
     </div>
   )

@@ -6,7 +6,7 @@ const cartArray = cartData ? JSON.parse(cartData) : []
 const allItems = data => {
     let items = 0
     for(let i=0; i < data.length; i++){
-        items += data[i].quantity
+        items += parseInt(data[i].quantity)
     }
     return items
 }

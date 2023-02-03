@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import { MdOutlineAssignmentReturned, MdOutlineLocalShipping } from 'react-icons/md'
 import { useDispatch } from 'react-redux'
+import { Link, useNavigate } from 'react-router-dom'
 import { addToCart } from '../../store/reducers/cartReducer'
 import { useGetProductQuery } from '../../store/services/productServices'
 import { discount } from '../../utils/discount'
 import StarRating from './StarRating'
 const ProductOverView = ({id}) => {
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const [product, setProduct] = useState({})
     const [quantity, setQuantity] = useState(1)
     const [selectedColor, setSelectedColor] = useState()
     const [selectedSize, setSelectedSize] = useState()
     const {data,isFetching,isSuccess,isLoading,} = useGetProductQuery(id)
+  
   useEffect(() => {
     if (isFetching === false && isSuccess && !isLoading) {
       setProduct(data);
@@ -31,6 +34,11 @@ const ProductOverView = ({id}) => {
         colors,sizes,
          createdAt,
          updatedAt,
+         tags,
+             specifications,
+             questions,
+             ratings,
+             description,
         ...newProduct
       } = product;
       newProduct['size'] = selectedSize
@@ -170,8 +178,12 @@ const ProductOverView = ({id}) => {
                       </div>
                   </div>
                   <div className='flex gap-4 items-center px-1 py-4'>
-                      <button className='bg-green-900 px-12 py-2 hover:bg-gray-200 hover:text-black
-       rounded-full border border-black font-semibold text-white'>Buy Now</button>
+                      <Link  to={{
+          pathname: `/checkout/${product._id}`,
+          hash: "#hash",
+          search: `?color=${selectedColor?.color.split("#")[1]}&size=${selectedSize?.name}&qty=${quantity}`, 
+        }} className='bg-green-900 px-12 py-2 hover:bg-gray-200 hover:text-black
+       rounded-full border border-black font-semibold text-white'>Buy Now</Link>
                       <button onClick={addToCartFn} className='hover:bg-green-900 px-10 py-2 bg-gray-200 text-black
        rounded-full border border-black font-semibold hover:text-white'>Add to Cart</button>
                   </div>

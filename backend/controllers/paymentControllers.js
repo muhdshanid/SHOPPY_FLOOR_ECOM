@@ -7,7 +7,7 @@ import asyncHandler from "express-async-handler";
 import dotenv from 'dotenv'
 dotenv.config()
 export const paymentProcess = asyncHandler(async (req, res) => {
-  const { cart, id ,total} = req.body;
+  const { cart, id} = req.body;
   const user = await UserModel.findOne({ _id: id });
   if (!user) {
     return res.status(404).json({ error: "User not found" });
@@ -42,8 +42,9 @@ export const paymentProcess = asyncHandler(async (req, res) => {
         },
       },
     ],
-    line_items:cart.map((item) => {
-      let actualPrice = total
+    line_items: cart.map((item) => {
+      const percentage = item.discount / 100;
+      let actualPrice = item.price - item.price * percentage;
       actualPrice = parseFloat(actualPrice);
       actualPrice = actualPrice * 100;
       actualPrice = actualPrice.toFixed(1);
@@ -57,6 +58,7 @@ export const paymentProcess = asyncHandler(async (req, res) => {
         },
         quantity: item.quantity,
       };
+      
     }),
     customer: customer.id,
     mode: "payment",
@@ -106,13 +108,12 @@ export const checkoutSession = asyncHandler(async (request, response) => {
          const order = await OrderModel.create({
             productId: ctr._id,
             userId: ctr.userId,
-            size: ctr.size,
-            color: ctr.color,
+            size: ctr.size.name,
+            color: ctr.color.color,
             quantities: ctr.quantity,
             address: data.customer_details.address,
             review: reviewStatus,
           });
-          console.log(order);
           const product = await ProductModel.findOne({ _id: ctr._id });
           if (product) {
             let stock = product.stock - ctr.quantity;
@@ -127,7 +128,7 @@ export const checkoutSession = asyncHandler(async (request, response) => {
           }
         } catch (error) {
           console.log(error.message);
-          return res.status(500).json("Server internal error");
+          return response.status(500).json("Server internal error");
         }
       });
       break;

@@ -28,6 +28,9 @@ import CreateBlog from './pages/admin/blog/CreateBlog';
 import UpdateBlog from './pages/admin/blog/UpdateBlog';
 import BrandProducts from './pages/brand/BrandProducts';
 import PopularProducts from './pages/popular/PopularProducts';
+import CheckoutSingleProduct from './pages/order/CheckoutSingleProduct';
+import OrderList from './pages/order/OrderList';
+import OutStore from './pages/ourStore/OutStore';
 function App() {
   return (
     <div className='App w-full'>
@@ -55,8 +58,10 @@ function App() {
         <Route path='/admin/update-blog/:id' element={<UpdateBlog/>}/>
         <Route path='/product/:id' element={<ProductDetails/>}/> 
         <Route path='/checkout' element={<Checkout/>}/>
-        <Route path='/checkout/:id' element={<Checkout/>}/>
+        <Route path='/checkout/:id' element={<CheckoutSingleProduct/>}/>
         <Route path='/cart' element={<Cart/>}/>
+        <Route path='/orders' element={<OrderList/>}/>
+        <Route path='/our-store' element={<OutStore/>}/>
         <Route path='/cat-products/:name' element={<CategoryProducts/>}/>
         <Route path='/brand-products/:name' element={<BrandProducts/>}/>
         <Route path='/popular-products' element={<PopularProducts/>}/>

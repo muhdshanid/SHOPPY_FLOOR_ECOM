@@ -6,11 +6,13 @@ import { Link } from 'react-router-dom'
 import { useState } from 'react'
 import CategoryListShow from '../category/CategoryListShow'
 import { useSelector } from 'react-redux'
+import ProfileList from '../profile/ProfileList'
 const HomeNav = () => {
     const {items,total} = useSelector(state=>state.cartReducer)
 
     const logo = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLDhYBltma0_qRGcKkgfpZZfne4dtTSTmfwA&usqp=CAU"
     const [catListShow, setCatListShow] = useState(false)
+    const [profileListShow, setProfileListShow] = useState(false)
   return (
     <div className='w-12/12 relative flex flex-col px-4 lg:px-16 md:px-14 sm:px-8  bg-gray-100'>
     <div className='flex w-full items-center justify-between md:gap-12  gap-6 py-4 '>
@@ -30,7 +32,7 @@ const HomeNav = () => {
             <CategoryListShow/> 
         </div>}
         </div>
-        <p className='font-semibold capitalize text-md text-gray-700 cursor-pointer '>Our store</p>
+        <Link to={"/our-store"} className='font-semibold capitalize text-md text-gray-700 cursor-pointer '>Our store</Link>
         <p className='font-semibold capitalize text-md text-gray-700 cursor-pointer '></p>
         <p className='font-semibold capitalize text-md text-gray-700 cursor-pointer '>Contact us</p>
     </div>
@@ -41,17 +43,24 @@ const HomeNav = () => {
             <IoSearchOutline size={20}/>
         </div>
     </div>
-    <div className='flex gap-8 items-center'>
+    <div className='flex gap-8 items-center relative'>
         <div className='flex gap-2 cursor-pointer'>
-            <RiUser3Line size={24} />
-            <p className='font-bold md:flex  hidden text-md text-gray-700'>Account</p>
+
+            <p className='font-bold md:flex  hidden text-md text-gray-700'>Shanid</p>
+            {!profileListShow ? <MdKeyboardArrowDown onClick={()=>setProfileListShow(prev => !prev)} size={20} className="mt-2 
+         cursor-pointer"/> :
+        <MdKeyboardArrowUp onClick={()=>setProfileListShow(prev => !prev)} size={20} className="mt-2 
+         cursor-pointer"/>}
+       {profileListShow && <div className='absolute z-50 top-10 right-16 '>
+            <ProfileList/> 
+        </div>}
         </div>
         <div className='flex gap-2  cursor-pointer'>
        <Link to={"/cart"} className='relative'>
        <MdAddShoppingCart size={24} />
         <div className='absolute -top-4 -right-4
          rounded-lg w-6 h-5 flex items-center justify-center text-white bg-green-900'>
-            <p className='text-white font-semibold text-sm'>{items}</p>
+            <p className='text-white -mt-[3px] font-semibold text-sm'>{items}</p>
         </div>
        </Link>
             <Link to={"/cart"} className='font-bold md:flex  hidden text-md text-gray-700'>Cart</Link>

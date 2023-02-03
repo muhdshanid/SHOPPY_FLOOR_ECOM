@@ -6,7 +6,7 @@ const couponService = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:5000/api/coupon/",
     prepareHeaders: (headers, { getState }) => {
-      const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZDg4OWRmNzI1MDVhNWYxNTI4OWVlZiIsImlhdCI6MTY3NTMxOTM0NiwiZXhwIjoxNjc1NDA1NzQ2fQ.tr0CQ6VA-tGbGN_ApISdbruIsbpqlJPAGolUK6NH1YU"
+      const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZGI3M2MwYmZhMmU5ZTYyMDcxM2Q2MSIsImlhdCI6MTY3NTQxMzk5OSwiZXhwIjoxNjc2MDE4Nzk5fQ.I2zxAPsbB93Tz5nAcJgKC9s6kV5g3n5uEZ456eyZgVc"
       // const reducers = getState();
       // const token = reducers?.authReducer?.adminToken;
       headers.set("authorization", token ? `Bearer ${token}` : "");

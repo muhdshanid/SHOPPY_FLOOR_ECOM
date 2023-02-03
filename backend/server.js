@@ -22,6 +22,9 @@ const PORT = process.env.PORT || 5000
 connectDB()
 app.use(morgan('dev'))
 app.use(cors())
+app.get('/api/keys/paypal', (req, res) => {
+    res.send(process.env.PAYPAL_CLIENT_ID || 'sb');
+  });
 app.post(
     "/api/webhook",
     express.json({

@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import BreadCrumbs from "../../components/BreadCrumbs";
 import DeliveryInfo from "../../components/order/DeliveryInfo";
 import OrderDetails from "../../components/order/OrderDetails";
 import OrderSummary from "../../components/order/OrderSummary";
+import { useGetProductQuery } from "../../store/services/productServices";
 
 const Checkout = () => {
   const { cart, total } = useSelector((state) => state.cartReducer);
+  
   return (
     <div>
       <BreadCrumbs title={"Checkout"} />

@@ -5,7 +5,7 @@ const paymentService = createApi({
     baseQuery:fetchBaseQuery({
         baseUrl:"http://localhost:5000/api/",
         prepareHeaders: (headers, { getState }) => {
-            const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZGI3M2MwYmZhMmU5ZTYyMDcxM2Q2MSIsImlhdCI6MTY3NTM1MDcyNCwiZXhwIjoxNjc1NDM3MTI0fQ.0zEk24YW0146K6OO0cAzwp7sv-DN4WBHamcySifxcyY"
+            const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZGI3M2MwYmZhMmU5ZTYyMDcxM2Q2MSIsImlhdCI6MTY3NTQxMzk5OSwiZXhwIjoxNjc2MDE4Nzk5fQ.I2zxAPsbB93Tz5nAcJgKC9s6kV5g3n5uEZ456eyZgVc"
             // const reducers = getState();
             // const token = reducers?.authReducer?.userToken;
             headers.set("authorization", token ? `Bearer ${token}` : "");
