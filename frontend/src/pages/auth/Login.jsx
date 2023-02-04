@@ -10,7 +10,7 @@ const Login = () => {
       className="w-12/12 min-h-screen flex  px-4
     lg:px-16 md:px-14 sm:px-8 bg-gray-100"
     >
-      <div className="w-6/12   my-10 mx-auto bg-white rounded-lg">
+      <div className="md:w-8/12 lg:w-6/12 w-12/12 sm:w-10/12   my-10 mx-auto bg-white rounded-lg">
         <div className="p-8 flex-col w-full items-center flex gap-12 justify-center">
           <div className="flex flex-col gap-4">
             <div className="flex  cursor-pointer gap-4 lg:gap-2 items-center ">
@@ -20,7 +20,7 @@ const Login = () => {
         xl:flex w-10 h-10 sm:h-8  object-cover rounded-full"
                 alt="logo"
               />
-              <h2 className="text-3xl hidden sm:flex md:flex font-bold text-green-900 capitalize">
+              <h2 className="text-3xl  font-bold text-green-900 capitalize">
                 shoppy floor
               </h2>
             </div>

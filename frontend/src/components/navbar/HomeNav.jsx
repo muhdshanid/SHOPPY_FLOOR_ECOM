@@ -5,11 +5,11 @@ import {RiUser3Line} from 'react-icons/ri'
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
 import CategoryListShow from '../category/CategoryListShow'
-import { useSelector } from 'react-redux'
+import { useSelector } from 'react-redux' 
 import ProfileList from '../profile/ProfileList'
 const HomeNav = () => {
     const {items,total} = useSelector(state=>state.cartReducer)
-
+    const {user,userToken} = useSelector(state=>state.authReducer)
     const logo = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLDhYBltma0_qRGcKkgfpZZfne4dtTSTmfwA&usqp=CAU"
     const [catListShow, setCatListShow] = useState(false)
     const [profileListShow, setProfileListShow] = useState(false)
@@ -45,8 +45,12 @@ const HomeNav = () => {
     </div>
     <div className='flex gap-8 items-center relative'>
         <div className='flex gap-2 cursor-pointer'>
-
-            <p className='font-bold md:flex  hidden text-md text-gray-700'>Shanid</p>
+            {
+                userToken !== null ? 
+                <p className='font-bold md:flex  hidden text-md text-gray-700'>{user?.name}</p>
+                :
+            <Link to={"/login"} className='font-bold md:flex  hidden text-md text-gray-700'>Account</Link>
+            }
             {!profileListShow ? <MdKeyboardArrowDown onClick={()=>setProfileListShow(prev => !prev)} size={20} className="mt-2 
          cursor-pointer"/> :
         <MdKeyboardArrowUp onClick={()=>setProfileListShow(prev => !prev)} size={20} className="mt-2 

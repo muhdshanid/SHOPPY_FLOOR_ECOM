@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import { useGetCategoriesQuery } from '../../store/services/categoryServices';
+import CategoryPopupSkeleton from '../loading/CategoryPopupSkeleton';
 
 const CategoryListShow = () => {
     const [categories, setCategories] = useState([]);
@@ -12,13 +13,21 @@ const CategoryListShow = () => {
     }, [data, isFetching]);
 
   return (
-    <div className='flex  transition-all  flex-col gap-4 p-4 bg-white rounded-lg'>
+    <div className='flex  transition-all delay-200  flex-col gap-4 p-4 bg-white rounded-lg'>
         <div className='flex flex-col gap-4'>
         <div className='flex'>
             <h6 className='font-semibold text-xl text-gray-900'> Popular Categories</h6>
         </div>
             <div className='grid grid-cols-2 gap-4'>
                 {
+                    isFetching ? 
+                    <>
+                    <CategoryPopupSkeleton/>
+                    <CategoryPopupSkeleton/>
+                    <CategoryPopupSkeleton/>
+                    <CategoryPopupSkeleton/>
+                    </>
+                    :
                     categories?.length > 0 ? categories.slice(0,4).map(cat => (
                         <div className='bg-gray-200 rounded-lg p-4 flex gap-4'>
                             <div className=''>

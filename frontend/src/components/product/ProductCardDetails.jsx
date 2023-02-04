@@ -43,14 +43,21 @@ const ProductCardDetails = ({product,description}) => {
       const wishlistFn = (id) => {
         addToWishlist({proId:id})
       }
-      console.log(res);
   return (
-    <div className='flex flex-col gap-2 relative'>
+    <div className='flex flex-col my-4  gap-2 relative'>
     <Link to={`/product/${product._id}`} className=' w-full  bg-white rounded-lg '>
-        <img src={product.images[0].url} className="bg-gray-200 object-cover h-[20rem] w-full rounded-lg" alt="product" />
+        <img src={product.images[0].url} className="bg-gray-200
+         transition ease-in-out delay-150
+         hover:-translate-y-1 hover:scale-110
+         duration-500
+         object-cover h-[20rem] w-full rounded-lg" alt="product" />
     </Link>
         <div onClick={()=>wishlistFn(product._id)} 
-         className='absolute hover:bg-gray-200 cursor-pointer p-2 top-2 right-2 rounded-full bg-gray-100'>
+         className='absolute
+         transition ease-in-out delay-150
+         hover:-translate-y-1 hover:scale-110 
+         duration-300 
+          hover:bg-gray-200 cursor-pointer p-2 top-2 right-2 rounded-full bg-gray-100'>
             <AiOutlineHeart   size={20}/>
         </div>
     <div className='flex flex-col gap-4'>
@@ -72,10 +79,11 @@ const ProductCardDetails = ({product,description}) => {
         </div>
        </div>
         <div className='flex gap-4 items-center  justify-between'>
-        <Link to={`/checkout/${product._id}`} className='bg-green-900 px-8 py-2 hover:bg-gray-200 hover:text-black
-       rounded-full border border-black font-semibold text-white'>Buy Now</Link>
+        <Link to={`/checkout/${product._id}`} className='bg-green-900 sm:px-2
+         md:px-6 px-8 py-2 hover:bg-gray-200 hover:text-black
+       rounded-full w-[50%] flex items-center justify-center border border-black font-semibold text-white'>Buy Now</Link>
         <button onClick={addToCartFn} className='hover:bg-green-900 px-4 py-2 bg-gray-200 text-black
-         rounded-full border border-black font-semibold hover:text-white'>Add To Cart</button>
+         rounded-full border w-[50%] flex items-center justify-center border-black font-semibold hover:text-white'>Add To Cart</button>
         </div>
     </div>
 </div> 

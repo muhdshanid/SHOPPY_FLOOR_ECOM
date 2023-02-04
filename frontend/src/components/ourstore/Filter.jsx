@@ -1,23 +1,26 @@
-import React, { useState } from 'react'
-import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md'
-import ProductCard from '../../components/home/ProductCard'
+import React from 'react'
+import "react-filter-box/lib/react-filter-box.css"
 const Filter = () => {
-  const [categoryShow, setCategoryShow] = useState(false)
   return (
-    <div className='flex w-12/12 flex-col items-center justify-center '>
-        <div className='grid grid-cols-3 sm:grid-cols-5 gap-4 md:grid-cols-7  my-10'>
-         {  [1,22,2,22,2,22,2].map(el => (
-           <div className='px-4 py-2 flex rounded-full bg-gray-200'>
-           <p className='font-bold flex text-md text-gray-700'>Category</p>
-           {!categoryShow ? <MdKeyboardArrowDown onClick={()=>setCategoryShow(prev => !prev)} size={20} className="mt-2 
-    cursor-pointer"/> :
-   <MdKeyboardArrowUp onClick={()=>setCategoryShow(prev => !prev)} size={20} className="mt-2 
-    cursor-pointer"/>}
-       </div>
-         ))
-         }
+    <div className='w-3/12  p-6 flex flex-col gap-4 bg-white rounded-lg '>
+        <div className='flex gap-8 flex-col'>
+            <div className=''>
+            <h6 className="font-semibold text-lg capitalize text-gray-900">Filter by</h6>
+            </div>
+            <select id="brands"  name='brand'
+         className="bg-green-900 px-4 py-2 text-white hover:border-gray-200 border
+         border-gray-800
+         outline-none  w-full  rounded-lg">
+   <option selected>Choose a Brand</option>
+   </select>
+            <select id="brands"  name='brand'
+         className="bg-green-900 px-4 py-2 text-white hover:border-gray-200 border
+         border-gray-800
+         outline-none  w-full  rounded-lg">
+   <option selected>Choose a Category</option>
+   </select>
+   
         </div>
-        <ProductCard caption={"HI"}/>
     </div>
   )
 }

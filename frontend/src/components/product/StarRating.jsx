@@ -6,51 +6,51 @@ const StarRating = ({rating}) => {
     
    rating == 0 ?
     <>
-    <AiOutlineStar size={20} color='green'/>
-    <AiOutlineStar size={20} color='green'/>
-    <AiOutlineStar size={20} color='green'/>
-    <AiOutlineStar size={20} color='green'/>
-    <AiOutlineStar size={20} color='green'/>
+    <AiOutlineStar size={24} color='green'/>
+    <AiOutlineStar size={24} color='green'/>
+    <AiOutlineStar size={24} color='green'/>
+    <AiOutlineStar size={24} color='green'/>
+    <AiOutlineStar size={24} color='green'/>
     </>
     : rating == 1 ? 
     <>
-    <AiFillStar size={20} color='green'/>
-    <AiOutlineStar size={20} color='green'/>
-    <AiOutlineStar size={20} color='green'/>
-    <AiOutlineStar size={20} color='green'/>
-    <AiOutlineStar size={20} color='green'/>
+    <AiFillStar size={24} color='green'/>
+    <AiOutlineStar size={24} color='green'/>
+    <AiOutlineStar size={24} color='green'/>
+    <AiOutlineStar size={24} color='green'/>
+    <AiOutlineStar size={24} color='green'/>
     </>
     : rating == 2 ? 
     <>
-    <AiFillStar size={20} color='green'/>
-    <AiFillStar size={20} color='green'/>
-    <AiOutlineStar size={20} color='green'/>
-    <AiOutlineStar size={20} color='green'/>
-    <AiOutlineStar size={20} color='green'/>
+    <AiFillStar size={24} color='green'/>
+    <AiFillStar size={24} color='green'/>
+    <AiOutlineStar size={24} color='green'/>
+    <AiOutlineStar size={24} color='green'/>
+    <AiOutlineStar size={24} color='green'/>
     </>
     : rating == 3 ? 
     <>
-    <AiFillStar size={20} color='green'/>
-    <AiFillStar size={20} color='green'/>
-    <AiFillStar size={20} color='green'/>
-    <AiOutlineStar size={20} color='green'/>
-    <AiOutlineStar size={20} color='green'/>
+    <AiFillStar size={24} color='green'/>
+    <AiFillStar size={24} color='green'/>
+    <AiFillStar size={24} color='green'/>
+    <AiOutlineStar size={24} color='green'/>
+    <AiOutlineStar size={24} color='green'/>
     </>
     : rating == 4 ? 
     <>
-    <AiFillStar size={20} color='green'/>
-    <AiFillStar size={20} color='green'/>
-    <AiFillStar size={20} color='green'/>
-    <AiFillStar size={20} color='green'/>
-    <AiOutlineStar size={20} color='green'/>
+    <AiFillStar size={24} color='green'/>
+    <AiFillStar size={24} color='green'/>
+    <AiFillStar size={24} color='green'/>
+    <AiFillStar size={24} color='green'/>
+    <AiOutlineStar size={24} color='green'/>
     </>
     : rating == 5 ? 
     <>
-    <AiFillStar size={20} color='green'/>
-    <AiFillStar size={20} color='green'/>
-    <AiFillStar size={20} color='green'/>
-    <AiFillStar size={20} color='green'/>
-    <AiFillStar size={20} color='green'/>
+    <AiFillStar size={24} color='green'/>
+    <AiFillStar size={24} color='green'/>
+    <AiFillStar size={24} color='green'/>
+    <AiFillStar size={24} color='green'/>
+    <AiFillStar size={24} color='green'/>
     </>
     : ""
   )

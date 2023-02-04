@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react'
+import Blogs from '../../components/home/Blogs'
 import BrandList from '../../components/home/BrandList'
 import CategoriesSwiper from '../../components/home/CategoriesSwiper'
 import HomeSlider from '../../components/home/HomeSlider'
+import OurServices from '../../components/home/OurServices'
 import ProductCard from '../../components/home/ProductCard'
 import { useGetCatProductsQuery } from '../../store/services/productServices'
 
@@ -18,9 +20,11 @@ const Home = () => {
      lg:px-16 md:px-14 sm:px-8  min-h-screen bg-gray-100'>
       <HomeSlider/>
       <CategoriesSwiper/>
-      <ProductCard products={catProducts} link={`/cat-products/mobiles`} caption={"Mobiles For You"}/>
+      <ProductCard isFetching={isFetching} products={catProducts} link={`/cat-products/mobiles`} caption={"Mobiles For You"}/>
       <BrandList/>
-      <ProductCard products={catProducts} link={`/popular-products`} caption={"Popular Deals"}/>
+      <ProductCard isFetching={isFetching} products={catProducts} link={`/popular-products`} caption={"Popular Deals"}/>
+      <OurServices/>
+      <Blogs/>
     </div>
   )
 }

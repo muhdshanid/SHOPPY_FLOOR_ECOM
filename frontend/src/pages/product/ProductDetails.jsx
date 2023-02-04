@@ -24,8 +24,8 @@ const ProductDetails = () => {
      lg:px-16 md:px-14 sm:px-8  min-h-screen bg-gray-100">
         <ProductOverView id={id}/>
         <ProductSpecifications id={id}/>
-        <Reviews/>
-        <ProductCard caption={"Products You May Like"}/>
+        <Reviews product={product}/>
+        <ProductCard  caption={"Products You May Like"}/>
       </div>
     </div>
   );

@@ -29,7 +29,10 @@ export const registerUser = asyncHandler(async (req,res) => {
 export const loginUser = asyncHandler(async (req,res) => {
    const {email,password} = req.body
    const user = await UserModel.findOne({email})
-   if(user && (await user.isPasswordMatched(password))){
+   if(!user){
+    return res.status(400).json({msg:"User not found",field:"Email"})
+   }else{
+    if( (await user.isPasswordMatched(password))){
         const refreshToken =  generateRefreshToken(user._id)
         const updateUser = await UserModel.findByIdAndUpdate(user._id,{
             refreshToken:refreshToken
@@ -41,7 +44,8 @@ export const loginUser = asyncHandler(async (req,res) => {
         const token = generateToken(user._id)
         return res.status(200).json({user,token})
    }else{
-    throw new Error("Password not matched")
+    return res.status(400).json({msg:"Password not matched",field:"Password"})
+   }
    }
 })
 export const adminLogin = asyncHandler(async (req,res) => {

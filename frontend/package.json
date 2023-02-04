@@ -17,6 +17,7 @@
     "react-color": "^2.19.3",
     "react-dom": "^18.2.0",
     "react-dropzone": "^14.2.3",
+    "react-filter-box": "^3.4.3",
     "react-icons": "^4.7.1",
     "react-quill": "^2.0.0",
     "react-redux": "^8.0.5",

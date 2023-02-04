@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import { useGetBrandsQuery } from '../../store/services/brandServices';
+import BrandSkeleton from '../loading/BrandSkeleton';
 const BrandList = () => {
     const [brands, setBrands] = useState([]);
   const { data, isFetching } = useGetBrandsQuery();
@@ -18,6 +19,14 @@ const BrandList = () => {
     </div>
     <div className='my-2 grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4'>
        {
+        isFetching ? 
+        <>
+        <BrandSkeleton/>
+        <BrandSkeleton/>
+        <BrandSkeleton/>
+        <BrandSkeleton/>
+        </>
+        :
         brands.length > 0 && brands.map(brand => (
             <div  className='p-6 border border-gray-200
             cursor-pointer hover:border-green-900 flex gap-8 rounded-lg bg-gray-200'>

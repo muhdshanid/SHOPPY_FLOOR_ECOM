@@ -1,5 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
+import authReducer from "./reducers/authReducer";
 import cartReducer from "./reducers/cartReducer";
+import authService from "./services/authServices";
 import blogService from "./services/blogServices";
 import brandService from "./services/brandServices";
 import categoryService from "./services/categoryServices";
@@ -17,10 +19,13 @@ const store = configureStore({
     [couponService.reducerPath]: couponService.reducer,
     [blogService.reducerPath]: blogService.reducer,
     [paymentService.reducerPath]: paymentService.reducer,
+    [authService.reducerPath]: authService.reducer,
     cartReducer: cartReducer,
+    authReducer: authReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat([
+      authService.middleware,
       paymentService.middleware,
       blogService.middleware,
       couponService.middleware,

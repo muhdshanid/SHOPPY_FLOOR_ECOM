@@ -24,11 +24,6 @@ const CreateProductForm = () => {
     colors: [],
     tags:"",
   });
-//   RAM:4GB,
-// ROM:32GB,
-// DISPLAY:AMOLED,
-// FASTCHARGE:FULL,
-// CHARGEWALT:33W
   const [categories, setCategories] = useState([])
   const [imageUploading, setImageUploading] = useState(false);
   const [brands, setBrands] = useState([])

@@ -1,5 +1,4 @@
 import './App.css';
-import HomeNav from './components/home/HomeNav';
 import Navbar from './components/navbar/Navbar';
 import Home from './pages/home/Home';
 import { BrowserRouter, Route,Routes} from 'react-router-dom';
@@ -31,6 +30,9 @@ import PopularProducts from './pages/popular/PopularProducts';
 import CheckoutSingleProduct from './pages/order/CheckoutSingleProduct';
 import OrderList from './pages/order/OrderList';
 import OutStore from './pages/ourStore/OutStore';
+import HomeNav from './components/navbar/HomeNav';
+import Footer from './components/navbar/Footer';
+import BlogDetails from './pages/blog/BlogDetails';
 function App() {
   return (
     <div className='App w-full'>
@@ -63,11 +65,13 @@ function App() {
         <Route path='/orders' element={<OrderList/>}/>
         <Route path='/our-store' element={<OutStore/>}/>
         <Route path='/cat-products/:name' element={<CategoryProducts/>}/>
+        <Route path='/blog-details/:id' element={<BlogDetails/>}/>
         <Route path='/brand-products/:name' element={<BrandProducts/>}/>
         <Route path='/popular-products' element={<PopularProducts/>}/>
         <Route path='/login' element={<Login/>}/>
         <Route path='/signup' element={<Signup/>}/>
       </Routes>
+      <Footer/>
       </BrowserRouter>
     </div>
   );
