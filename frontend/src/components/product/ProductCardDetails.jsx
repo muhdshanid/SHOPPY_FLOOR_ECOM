@@ -1,13 +1,15 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import StarRating from '../product/StarRating'
-import {AiOutlineHeart} from 'react-icons/ai'
+import {AiFillHeart, AiOutlineHeart} from 'react-icons/ai'
 import { Link } from 'react-router-dom'
 import { addToCart } from '../../store/reducers/cartReducer'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { discount } from '../../utils/discount'
-import { useAddToWishlistMutation } from '../../store/services/productServices'
+import { updateUser } from '../../store/reducers/authReducer'
+import { useAddToWishlistMutation } from '../../store/services/authServices'
 
 const ProductCardDetails = ({product,description}) => {
+  const {user} = useSelector(state => state.authReducer)
     const dispatch = useDispatch()
     const [quantity, setQuantity] = useState(1)
     const finalPrice = discount(product?.price,product?.discount)
@@ -41,8 +43,18 @@ const ProductCardDetails = ({product,description}) => {
         }
       }
       const wishlistFn = (id) => {
-        addToWishlist({proId:id})
+        addToWishlist({proId:id,userId:user._id})
       }
+      console.log(user); 
+      useEffect(()=>{
+        if(res.isSuccess){
+          const dataFromLocalStorage = localStorage.getItem("user");
+      let  user = JSON.parse(dataFromLocalStorage);
+      user = res?.data;
+      localStorage.setItem("user",JSON.stringify(user))
+      dispatch(updateUser(res?.data)); 
+        }
+      },[dispatch, res?.data, res.isSuccess])
   return (
     <div className='flex flex-col my-4  gap-2 relative'>
     <Link to={`/product/${product._id}`} className=' w-full  bg-white rounded-lg '>
@@ -58,7 +70,11 @@ const ProductCardDetails = ({product,description}) => {
          hover:-translate-y-1 hover:scale-110 
          duration-300 
           hover:bg-gray-200 cursor-pointer p-2 top-2 right-2 rounded-full bg-gray-100'>
-            <AiOutlineHeart   size={20}/>
+            { user?.wishList?.includes(product._id) ?
+            <AiFillHeart size={20} color="red"/>
+            :
+              <AiOutlineHeart   size={20}/>
+          }
         </div>
     <div className='flex flex-col gap-4'>
        <div className='flex flex-col'>
@@ -74,7 +90,7 @@ const ProductCardDetails = ({product,description}) => {
                 <StarRating rating={product.totalRatings}/>
             </div>
             <div>
-                <p className=' font-semibold text-lg text-gray-400'>{`(${product.ratings.length})`}</p>
+                <p className=' font-semibold text-lg text-gray-400'>{`(${product.reviews.length})`}</p>
             </div>
         </div>
        </div>

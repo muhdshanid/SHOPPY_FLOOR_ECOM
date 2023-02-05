@@ -6,6 +6,7 @@ import blogService from "./services/blogServices";
 import brandService from "./services/brandServices";
 import categoryService from "./services/categoryServices";
 import couponService from "./services/couponServices";
+import orderService from "./services/orderServices";
 import paymentService from "./services/paymentServices";
 import productServices from "./services/productServices";
 import uploadService from "./services/uploadServices";
@@ -20,6 +21,7 @@ const store = configureStore({
     [blogService.reducerPath]: blogService.reducer,
     [paymentService.reducerPath]: paymentService.reducer,
     [authService.reducerPath]: authService.reducer,
+    [orderService.reducerPath]: orderService.reducer,
     cartReducer: cartReducer,
     authReducer: authReducer,
   },
@@ -33,6 +35,7 @@ const store = configureStore({
       productServices.middleware,
       uploadService.middleware,
       brandService.middleware,
+      orderService.middleware,
     ]),
 });
 

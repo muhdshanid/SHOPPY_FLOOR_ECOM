@@ -135,6 +135,34 @@ export const updateUser = asyncHandler(async (req,res) => {
     throw new Error(error)
    }
 })
+export const addToWishlist = asyncHandler(async (req, res) => {
+    try {
+      const { proId ,userId} = req.body;
+      const user = await UserModel.findById(userId);
+      const alreadyAdded = user.wishList.find((id) => id.toString() === proId);
+      if (alreadyAdded) {
+        const user = await UserModel.findByIdAndUpdate(
+            userId,
+          {
+            $pull: { wishList: proId },
+          },
+          { new: true }
+        );
+        return res.status(200).json(user);
+      } else {
+        const user = await UserModel.findByIdAndUpdate(
+            userId,
+          {
+            $push: { wishList: proId },
+          },
+          { new: true }
+        );
+        return res.status(200).json(user);
+      }
+    } catch (error) {
+      throw new Error(error);
+    }
+  });
 export const blockUser = asyncHandler(async (req,res) => {
     const {id} = req.params
     validateMongoDBID(id)

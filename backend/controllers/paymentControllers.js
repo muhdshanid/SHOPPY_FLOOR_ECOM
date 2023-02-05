@@ -7,8 +7,9 @@ import asyncHandler from "express-async-handler";
 import dotenv from 'dotenv'
 dotenv.config()
 export const paymentProcess = asyncHandler(async (req, res) => {
-  const { cart, id} = req.body;
-  const user = await UserModel.findOne({ _id: id });
+  const {_id} = req.user
+  const { cart,} = req.body;
+  const user = await UserModel.findOne({ _id });
   if (!user) {
     return res.status(404).json({ error: "User not found" });
   }
@@ -95,16 +96,7 @@ export const checkoutSession = asyncHandler(async (request, response) => {
       customer = JSON.parse(customer?.metadata?.cart);
       customer.forEach(async (ctr) => {
         try {
-          let reviewStatus = false;
-          const findOrder = await OrderModel.findOne({
-            productId: ctr._id,
-            userId: ctr.userId,
-          })
-            .where("review")
-            .equals(true);
-          if (findOrder) {
-            reviewStatus = true;
-          }
+         
          const order = await OrderModel.create({
             productId: ctr._id,
             userId: ctr.userId,
@@ -112,7 +104,6 @@ export const checkoutSession = asyncHandler(async (request, response) => {
             color: ctr.color.color,
             quantities: ctr.quantity,
             address: data.customer_details.address,
-            review: reviewStatus,
           });
           const product = await ProductModel.findOne({ _id: ctr._id });
           if (product) {

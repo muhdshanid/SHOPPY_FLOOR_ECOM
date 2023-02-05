@@ -21,7 +21,7 @@ const LoginForm = () => {
       dispatch(setUser(res?.data?.user))
       navigate("/")
     }
-  },[res?.isSuccess]) 
+  },[dispatch, navigate, res?.data?.token, res?.data?.user, res.isSuccess]) 
   console.log(res);
  
    const login = () => {

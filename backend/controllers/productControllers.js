@@ -1,7 +1,9 @@
 import asyncHandler from "express-async-handler";
 import ProductModel from "../models/ProductModel.js";
 import slugify from "slugify";
+import OrderModel from '../models/OrderModel.js'
 import UserModel from "../models/UserModel.js";
+import ReviewModel from "../models/ReviewModel.js";
 export const createProduct = asyncHandler(async (req, res) => {
   try {
     if (req.body.name) {
@@ -16,7 +18,7 @@ export const createProduct = asyncHandler(async (req, res) => {
 export const getAProduct = asyncHandler(async (req, res) => {
   const { id } = req.params;
   try {
-    const findProduct = await ProductModel.findById(id);
+    const findProduct = await ProductModel.findById(id).populate("reviews");
     if (!findProduct) {
       return res.status(400).json("Product not found");
     }
@@ -115,70 +117,183 @@ export const getAllProducts = asyncHandler(async (req, res) => {
     throw new Error(error);
   }
 });
-export const addToWishlist = asyncHandler(async (req, res) => {
+
+export const askQuestion = asyncHandler(async (req, res) => {
   try {
     const { _id } = req.user;
-    const { proId } = req.body;
+    const { proId,question } = req.body;
     const user = await UserModel.findById(_id);
-    const alreadyAdded = user.wishList.find((id) => id.toString() === proId);
-    if (alreadyAdded) {
-      const user = await UserModel.findByIdAndUpdate(
-        _id,
-        {
-          $pull: { wishList: proId },
-        },
-        { new: true }
-      );
-      return res.status(200).json(user);
-    } else {
-      const user = await UserModel.findByIdAndUpdate(
-        _id,
-        {
-          $push: { wishList: proId },
-        },
-        { new: true }
-      );
-      return res.status(200).json(user);
+    const isUserOrdered = await OrderModel.findOne({userId:_id,productId:proId})
+    if(isUserOrdered){
+      const product = await ProductModel.findByIdAndUpdate(
+        proId,
+          {
+            $push: {
+              questions: {
+                question,
+                askedUserName:user.name,
+                askedBy:user._id,
+                certifiedBuyer:true
+              },
+            },
+          },
+          { new: true }
+      )
+    }else{
+      const product = await ProductModel.findByIdAndUpdate(
+        proId,
+          {
+            $push: {
+              questions: {
+                question,
+                askedUserName:user.name,
+                askedBy:user._id,
+                certifiedBuyer:false
+              },
+            },
+          },
+          { new: true }
+      )
     }
+    return res.status(200).json(product)
   } catch (error) {
     throw new Error(error);
   }
 });
-export const rating = asyncHandler(async (req, res) => {
+
+export const likeQuestion = asyncHandler(async (req, res) => {
   try {
     const { _id } = req.user;
-    const { star, proId ,comment} = req.body;
-    const product = await ProductModel.findById(proId);
-    let alreadyRated = product.ratings.find(
-      (userId) => userId.postedBy.toString() === _id.toString()
-    );
-    if (alreadyRated) {
-      const updateRating = await ProductModel.updateOne(
-        {
-          ratings: { $elemMatch: alreadyRated },
-        },
-        { $set: { "ratings.$.star": star,"ratings.$.comment": comment } },{
-            new:true
-        }
-        );
-    } else {
-      const rateProduct = await ProductModel.findByIdAndUpdate(
-        proId,
-        {
-          $push: {
-            ratings: {
-              star,
-              comment,
-              postedBy: _id,
-            },
-          },
-        },
-        { new: true }
-      );
+    const {button,proId,qId} = req.body
+    const product = await ProductModel.findById(proId)
+    const question = product.questions.find(item => item._id.toString() === qId)
+    if (question.likes.includes(_id)) {
+      if(button === "dislike"){
+        const dislike = await ProductModel.findOneAndUpdate({
+          _id: proId,
+          "questions._id": qId
+        }, { $push: { "questions.$.dislikes": _id } }, { new: true });
+        const liked = await ProductModel.findOneAndUpdate({
+          _id: proId,
+          "questions._id": qId
+        }, { $pull: { "questions.$.likes": _id } }, { new: true });
+        return res.status(200).json(liked);
+      }else{
+        const liked = await ProductModel.findOneAndUpdate({
+          _id: proId,
+          "questions._id": qId
+        }, { $pull: { "questions.$.likes": _id } }, { new: true });
+        return res.status(200).json(liked);
+      }
+    } else if(question.dislikes.includes(_id)){
+      if(button === "like"){
+        const dislike = await ProductModel.findOneAndUpdate({
+          _id: proId,
+          "questions._id": qId
+        }, { $pull: { "questions.$.dislikes": _id } }, { new: true });
+        const liked = await ProductModel.findOneAndUpdate({
+          _id: proId,
+          "questions._id": qId
+        }, { $push: { "questions.$.likes": _id } }, { new: true });
+        return res.status(200).json(liked);
+      }else{
+        const dislike = await ProductModel.findOneAndUpdate({
+          _id: proId,
+          "questions._id": qId
+        }, { $pull: { "questions.$.dislikes": _id } }, { new: true });
+        return res.status(200).json(dislike);
+
+      }
     }
-    const getAllRatings = await ProductModel.findById(proId)
-    let totalRating = getAllRatings.ratings.length
-    let ratingSum = getAllRatings.ratings.map(item => item.star).reduce((prev,curr)=> prev+curr,0)
+      else if(!question.likes.includes(_id)){
+        if(button === "like"){
+          const liked = await ProductModel.findOneAndUpdate({
+            _id: proId,
+            "questions._id": qId
+          }, { $push: { "questions.$.likes": _id } }, { new: true });
+          return res.status(200).json(liked);
+        }else{
+          const disliked = await ProductModel.findOneAndUpdate({
+            _id: proId,
+            "questions._id": qId
+          }, { $push: { "questions.$.dislikes": _id } }, { new: true });
+          return res.status(200).json(disliked);
+        }
+      }
+  } catch (error) {
+    throw new Error(error.stack);
+  }
+});
+export const likeReview = asyncHandler(async (req, res) => {
+  try {
+    const { _id } = req.user;
+    const { id } = req.params;
+    const {button} = req.body
+    const review = await ReviewModel.findById(id)
+    if (review.likes.includes(_id)) {
+      if(button === "dislike"){
+        const dislike = await ReviewModel.findByIdAndUpdate(id,{ $push: { dislikes: _id } },{new:true});
+        const liked = await ReviewModel.findByIdAndUpdate(id,{ $pull: { likes: _id } },{new:true});
+        return res.status(200).json(liked);
+      }else{
+        const liked = await ReviewModel.findByIdAndUpdate(id,{ $pull: { likes: _id } },{new:true});
+        return res.status(200).json(liked);
+      }
+    } else if(review.dislikes.includes(_id)){
+      if(button === "like"){
+        const dislike = await ReviewModel.findByIdAndUpdate(id,{ $pull: { dislikes: _id } },{new:true});
+        const liked = await ReviewModel.findByIdAndUpdate(id,{ $push: { likes: _id } },{new:true});
+        return res.status(200).json(liked);
+      }else{
+        const dislike = await ReviewModel.findByIdAndUpdate(id,{ $pull: { dislikes: _id } },{new:true});
+        return res.status(200).json(dislike);
+
+      }
+    }
+      else if(!review.likes.includes(_id)){
+        if(button === "like"){
+          const liked = await ReviewModel.findByIdAndUpdate(id,{ $push: { likes: _id } },{new:true});
+          return res.status(200).json(liked);
+        }else{
+          const disliked = await ReviewModel.findByIdAndUpdate(id,{ $push: { dislikes: _id } },{new:true});
+          return res.status(200).json(disliked);
+        }
+      }
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+export const reviewProduct = asyncHandler(async (req, res) => {
+  try {
+    const { _id } = req.user;
+    const { star, proId ,comment,images} = req.body;
+    const user = await UserModel.findById(_id)
+    const isUserOrdered = await OrderModel.findOne({userId:_id,productId:proId})
+    if(!isUserOrdered){
+      return res.status(400).json({msg:"Only ordered user can review product"})
+    }
+    const alreadyReviewed = await ReviewModel.findOne({postedBy:user._id,productId:proId})
+    if (alreadyReviewed) {
+      const updateReview = await ReviewModel.findByIdAndUpdate(alreadyReviewed._id,
+        {
+          $set:{star,comment,images,}
+        },{new:true});
+    } else {
+      const reviewProduct = await ReviewModel.create(
+        {
+          star,
+          images,
+          postedBy:user._id,
+          postedUserName:user.name,
+          productId:proId,
+          comment
+        }
+      );
+      await ProductModel.findByIdAndUpdate(proId,{$push:{reviews:reviewProduct._id}}) 
+    }
+    const getAllRatings = await ProductModel.findById(proId).populate("reviews")
+    let totalRating = getAllRatings.reviews.length
+    let ratingSum = getAllRatings.reviews.map(item => item.star).reduce((prev,curr)=> prev+curr,0)
     let actualRating = Math.round(ratingSum / totalRating)
     let finalProduct = await ProductModel.findByIdAndUpdate(proId,{
        totalRatings:actualRating
@@ -188,4 +303,5 @@ export const rating = asyncHandler(async (req, res) => {
     throw new Error(error);
   }
 });
+
 

@@ -10,12 +10,7 @@ const ProductCard = ({caption,page,products,link,isFetching}) => {
             <h6 className='font-semibold text-2xl text-gray-900'>{caption}</h6>
         </div>
         {page !== "category" && <div>
-            <Link to={`${link}`} className='
-            transition ease-in-out delay-150
-             hover:-translate-y-1 hover:scale-110 
-             duration-500 
-            bg-green-900 px-4 py-2 hover:bg-gray-200 hover:text-black
-             rounded-full border border-black font-semibold text-white'>See All</Link>
+            <Link to={`${link}`} className='button-green !w-[90px]'>See All</Link>
         </div>}
     </div>
     <div className='my-2 w-full  grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-4'>

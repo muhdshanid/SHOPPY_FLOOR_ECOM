@@ -1,23 +1,33 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useApplyCouponQuery } from "../../store/services/couponServices";
+import { useCreateOrderMutation } from "../../store/services/orderServices";
 import { useSendPaymentMutation } from "../../store/services/paymentServices";
-import { discount } from "../../utils/discount";
-
-const OrderSummarySingleProduct = ({product,color,size,quantity}) => {
+const OrderSummarySingleProduct = ({product,color,size,totalPrice,quantity,setStripeSelected,address}) => {
     const navigate = useNavigate();
     const [qty, setQty] = useState(quantity ? quantity : 1)
     const [coupon, setCoupon] = useState("")
+    const [couponError, setCouponError] = useState(false)
     const taxRate = 10
-    const total = discount(product.price,product.discount) * qty
-    // const stripePrice = discount(product.price,product.discount)
-    const [skip, setSkip] = useState(true)
+    const total = totalPrice * qty
     const taxPrice = total *  (taxRate / 100)
+    const  taxPriceWithoutFloat = taxPrice.toFixed()
+    const [selectedPayment, setSelectedPayment] = useState("Cash on Delivery");
+    const [skip, setSkip] = useState(true)
     const [couponDiscount, setCouponDiscount] = useState(0)
     const [doPayment, res] = useSendPaymentMutation();
-    let finalPrice = parseInt(total) + parseInt(taxPrice)
+    let finalPriceWithFloat = total * (1 + (taxRate / 100))
+    let finalPriceWithoutFloat = Number(finalPriceWithFloat).toFixed()
+     const [finalPrice, setFinalPrice] = useState()
+     useEffect(() => {
+      setFinalPrice(finalPriceWithoutFloat);
+    }, [finalPriceWithoutFloat, totalPrice]);
+    const [doCOD,resp] = useCreateOrderMutation()
     const {data,isFetching,isSuccess} = useApplyCouponQuery(coupon,{skip})
     const applyCouponFn = () => {
+      if(selectedPayment === "stripe"){
+        setCouponError(true)
+      }
       if(coupon !== ""){ 
         setSkip(prev => !prev)
       }
@@ -30,7 +40,7 @@ const OrderSummarySingleProduct = ({product,color,size,quantity}) => {
              tags,
              specifications,
              questions,
-             ratings,
+             reviews,
              description,
             ...newProduct
           } = product;
@@ -40,27 +50,45 @@ const OrderSummarySingleProduct = ({product,color,size,quantity}) => {
         console.log(newProduct);
         const cart = []
         cart.push(newProduct)
-      doPayment({cart,id:"63db73c0bfa2e9e620713d61",total:finalPrice})
+        if(selectedPayment === 'stripe'){
+          doPayment({cart})
+        }else{
+          doCOD({cart,address})
+        }
     }
     useEffect(() => {
       if (res?.isSuccess) {
         window.location.href = res?.data?.url;
       }
     }, [res]);
+    useEffect(() => {
+      if (resp.isSuccess) {
+       navigate("/")
+      }
+    }, [navigate, resp.isSuccess]);
     useEffect(()=>{
-      if(isSuccess){
+      if(isSuccess && couponDiscount === 0){
         let couponDiscount = data?.discount
         let amountAfterDiscount = total *  (couponDiscount / 100)
-        let last = parseInt(total) + parseInt(taxPrice) - amountAfterDiscount
+        setFinalPrice(prev => prev - amountAfterDiscount)
         setCouponDiscount(amountAfterDiscount)
       }
-    },[, isSuccess])
+    },[ isSuccess])
+    const handlePaymentChange = (event) => {
+      if(event.target.value === "stripe"){
+        setStripeSelected(true)
+      }else{
+        setStripeSelected(false)
+      }
+      setSelectedPayment(event.target.value);
+    };
   return (
     <div className="w-12/12  p-4 border flex flex-col gap-4">
     <div className="flex px-4 items-center justify-between ">
-      <h6 className="font-bold text-2xl text-gray-900 ">Order Summary</h6>
+      <h6 className="font-semibold text-2xl text-gray-900 ">Order Summary</h6>
     </div>
     <div className=" w-full flex flex-col gap-2">
+      <div>
       <div className="flex  p-4">
         <div>
           <input
@@ -72,7 +100,7 @@ const OrderSummarySingleProduct = ({product,color,size,quantity}) => {
           />
         </div>
         <div>
-          <button onClick={applyCouponFn}
+          <button disabled={couponDiscount > 0} onClick={applyCouponFn}
             className="bg-green-900 px-4 py-2 hover:bg-gray-200 hover:text-black
            rounded-full border border-black font-semibold text-white"
           >
@@ -80,28 +108,34 @@ const OrderSummarySingleProduct = ({product,color,size,quantity}) => {
           </button>
         </div>
       </div>
+      { couponError && <div className="ml-6 -mt-4">
+        <p   className={`font-semibold capitalize  text-rose-600  text-sm`}
+              >coupon available for COD only </p>
+        </div>}
+      </div>
       <div className="flex p-4 flex-col gap-10">
        <div className="flex flex-col gap-6">
        <div>
-          <h6 className="font-bold text-lg text-gray-900 ">
+          <h6 className="font-semibold text-lg text-gray-900 ">
             Payment Details
           </h6>
         </div>
         <div className="flex flex-col gap-2">
           <div className="flex gap-4 items-center">
-          <input
+          <input className="w-6 h-6
+              bg-green-900 text-green-900 rounded-full flex items-center justify-center" 
+            checked={selectedPayment === "Cash on Delivery"}
+            onChange={handlePaymentChange}
            type="radio" name="payment" value="Cash on Delivery" /> 
-          <span className="text-md font-normal  text-gray-900"> Cash on Delivery</span>
-          </div>
-          <div className="flex gap-4 items-center">   
-          <input  
-           type="radio" name="payment" value="paypal" />
-            <span className="text-md font-normal  text-gray-900"> Paypal</span>
+          <span className="text-md font-semibold  text-gray-900"> Cash on Delivery</span>
           </div>
           <div className="flex gap-4 items-center">
-          <input 
+          <input className="w-6 h-6
+              bg-green-900 text-green-900 rounded-full flex items-center justify-center"
+           checked={selectedPayment === "stripe"}
+           onChange={handlePaymentChange}
            type="radio" name="payment" value="stripe" />  
-           <span className="text-md font-normal  text-gray-900"> Stripe</span>
+           <span className="text-md font-semibold  capitalize text-gray-900"> Stripe (no tax)</span>
           </div>
         </div>
        </div>
@@ -112,12 +146,19 @@ const OrderSummarySingleProduct = ({product,color,size,quantity}) => {
                   <h6 className="font-semibold text-lg text-gray-900">₹{total}</h6>
               </div>
               <div className="flex items-center justify-between ">
-                  <h6 className="font-semibold text-lg text-gray-900">Tax(10%)</h6>
-                  <h6 className="font-semibold text-lg text-gray-900">₹{taxPrice}</h6>
+                  <h6 className="font-semibold text-lg text-gray-900">Tax
+                  {  
+                   selectedPayment === "stripe" ? "(0%)" :"(10%)"
+}</h6>
+                  <h6 className="font-semibold text-lg text-gray-900">₹{
+                      selectedPayment === "stripe" ? 0 :
+                    taxPriceWithoutFloat}</h6>
               </div>
               <div className="flex items-center justify-between ">
                   <h6 className="font-semibold text-lg text-gray-900">Coupon Discount </h6>
-                  <h6 className="font-semibold text-lg text-gray-900">-₹{couponDiscount}</h6>
+                  <h6 className="font-semibold text-lg text-gray-900">-₹{
+                      selectedPayment === "stripe" ? 0 : couponDiscount
+                    }</h6>
               </div>
               <div className="flex items-center justify-between ">
                   <h6 className="font-semibold text-lg text-gray-900">Delivery Charge</h6>
@@ -128,13 +169,11 @@ const OrderSummarySingleProduct = ({product,color,size,quantity}) => {
           <div className="flex items-center justify-between ">
                   <h6 className="font-bold text-lg text-gray-900"> Total</h6>
                   <h6 className="font-bold text-lg text-gray-900">₹{
-                    finalPrice }</h6>
+                   selectedPayment === "stripe" ? total : finalPrice}</h6>
               </div>
               <div className="w-full">
-              <button onClick={pay} className='bg-green-900 px-4 py-2 hover:bg-gray-200 hover:text-black
-           rounded-full border w-full border-black font-semibold text-white'>Pay ₹{
-             finalPrice 
-         }</button>
+              <button onClick={pay} className='button-green !w-full'>Pay ₹{
+                   selectedPayment === "stripe" ? total : finalPrice}</button>
               </div>
           </div>
         </div>

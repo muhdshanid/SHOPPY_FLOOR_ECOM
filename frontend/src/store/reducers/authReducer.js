@@ -19,19 +19,20 @@ const authReducer = createSlice({
         setUser:(state,action) => {
             state.user = action.payload
         },
-        logout:(state,{payload}) => {
-            // localStorage.removeItem(payload)
-            // if(payload === 'token'){
-            //     state.adminToken = null
-            // }else if(payload === 'userToken'){
-            //     state.user = null;
-            //     state.userToken = null
-            // }
+        updateUser:(state,action) => {
+            state.user = action.payload
+        },
+        logout:(state,action) => {
+            localStorage.removeItem("user")
+            localStorage.removeItem('token')
+            state.user = null;
+            state.userToken = null
+            
            
         }
     }
 })
 
-export const {setAdminToken,logout,setUserToken,setUser} = authReducer.actions;
+export const {setAdminToken,logout,setUserToken,setUser,updateUser} = authReducer.actions;
 
 export default authReducer.reducer 

@@ -1,6 +1,6 @@
 import express from "express";
 import {
-  addToWishlist,
+  askQuestion,
   createProduct,
   deleteProduct,
   getAllProducts,
@@ -8,7 +8,9 @@ import {
   getBrandsProducts,
   getCategoryProducts,
   getPopularProducts,
-  rating,
+  likeQuestion,
+  likeReview,
+  reviewProduct,
   updateProduct,
 } from "../controllers/productControllers.js";
 import { authMiddleware, isAdmin } from "../middlewares/authMiddleware.js";
@@ -31,9 +33,11 @@ productRouter.get("/get-allproducts", getAllProducts);
 productRouter.get("/get-popular-product", getPopularProducts);
 productRouter.get("/get-cat-product/:name",getCategoryProducts)
 productRouter.get("/get-brand-product/:name",getBrandsProducts)
-productRouter.put("/add-to-wishlist", authMiddleware, addToWishlist);
-productRouter.put("/rating", authMiddleware, rating);
+productRouter.put("/review", authMiddleware, reviewProduct);
+productRouter.put("/question", authMiddleware, askQuestion);
+productRouter.put("/like-review/:id", authMiddleware, likeReview);
+productRouter.put("/like-question/", authMiddleware, likeQuestion);
 
-
+ 
 
 export default productRouter;

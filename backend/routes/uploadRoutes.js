@@ -26,6 +26,11 @@ uploadRouter.post(
   uploadImages
 );
 uploadRouter.post(
+  "/upload-image/review",
+  [authMiddleware, uploadPhoto.array("images", 10), productImgResize],
+  uploadImages
+);
+uploadRouter.post(
   "/upload-image/blog",
   [authMiddleware, isAdmin, uploadPhoto.array("images", 10), blogsImgResize],
   uploadImages

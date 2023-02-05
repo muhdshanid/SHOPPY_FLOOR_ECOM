@@ -15,6 +15,7 @@ import couponRouter from './routes/couponRoutes.js'
 import enqRouter from './routes/endRoutes.js'
 import uploadRouter from './routes/uploadRoutes.js'
 import paymentRouter from './routes/paymentRoutes.js'
+import orderRouter from './routes/orderRoutes.js'
 dotenv.config()
 const app = express()
 const PORT = process.env.PORT || 5000
@@ -46,6 +47,7 @@ app.use("/api/brand",brandRouter)
 app.use("/api/coupon",couponRouter)
 app.use("/api/enquiry",enqRouter)
 app.use("/api/upload",uploadRouter)
+app.use("/api/order",orderRouter)
 
 app.use(notFound)
 app.use(errorHandler)

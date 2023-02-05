@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useGetProductQuery } from "../../store/services/productServices";
+import { discount } from "../../utils/discount";
 const ProductSpecifications = ({ id }) => {
   const [product, setProduct] = useState({});
   const { data, isFetching, isSuccess, isLoading } = useGetProductQuery(id);
@@ -56,7 +57,7 @@ const ProductSpecifications = ({ id }) => {
                   Price
                 </h6>
                 <h6 className=" font-semibold uppercase text-md text-gray-500">
-                  {product.price}
+                  {discount(product.price,product.discount)}
                 </h6>
               </div>
               <div className="flex gap-8 bg-white rounded-lg px-4 py-2">

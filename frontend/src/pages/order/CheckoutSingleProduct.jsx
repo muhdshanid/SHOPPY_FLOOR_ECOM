@@ -8,13 +8,21 @@ import { useGetProductQuery } from "../../store/services/productServices";
 import { discount } from "../../utils/discount";
 import queryString from 'query-string'
 const CheckoutSingleProduct = () => {
+  const [stripeSelected, setStripeSelected] = useState(false)
+  const [state, setState] = useState({
+    fullname:"",
+    addressLineOne:"",
+    addressLineTwo:"",
+    country:"",
+    city:"",
+    state:"",
+    zipCode:""
+  })
   const location = useLocation()
-  console.log(location);
   const value=queryString.parse(location.search);
-const color=  "#" + value.color
+const color=   value.color
 const size =value.size;
 const quantity = value.qty
-
     const  {id} = useParams()
   const [product, setProduct] = useState({})
   const {data,isFetching,isSuccess,isLoading} = useGetProductQuery(id)
@@ -30,12 +38,18 @@ const quantity = value.qty
     <div
       className="w-12/12  flex  px-4
    lg:px-16 md:px-14 sm:px-8  min-h-screen bg-gray-100">
-    <div className="flex w-7/12 flex-col mr-8">
+    <div className="grid grid-cols-1 mb-2 sm:grid-cols-2">
+    <div className="flex flex-col mr-8">
     <OrderDetails color={color} quantity={quantity} size={size} product={product}/>
-    <DeliveryInfo/>
+    {
+      !stripeSelected && <DeliveryInfo setState={setState}state={state} />
+    }
     </div>
-    <div className=" w-5/12">
-      <OrderSummarySingleProduct color={color} quantity={quantity} size={size} total={total}  product={product}/>
+    <div className=" ">
+      <OrderSummarySingleProduct address={state}
+       setStripeSelected={setStripeSelected} color={color}
+        quantity={quantity} size={size} totalPrice={total}  product={product}/>
+    </div>
     </div>
     </div>
   </div>

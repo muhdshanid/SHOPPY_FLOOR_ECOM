@@ -51,17 +51,16 @@ var productSchema = new mongoose.Schema(
         question:String,
         askedBy:{ type: mongoose.Schema.Types.ObjectId, ref: "User" },
         answer:String,
+        askedUserName:String,
         likes:[],
-        dislikes:[]
+        dislikes:[],
+        certifiedBuyer:Boolean
       }
     ],
     specifications:[],
-    ratings: [
+    reviews: [
       {
-        star: Number,
-        comment:String,
-        postedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-        images:[]
+        type: mongoose.Schema.Types.ObjectId, ref: "Review" 
       },
     ],
   },

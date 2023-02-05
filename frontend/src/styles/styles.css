@@ -1,9 +1,14 @@
 .button-green{
     @apply bg-green-900 flex w-[50%] items-center  justify-center hover:bg-gray-200 hover:text-black
-    rounded-full border border-black font-semibold text-white px-4 py-2
+    rounded-full border border-black font-semibold text-white px-4 py-2 
+    transition ease-in-out delay-150 cursor-pointer
+    hover:-translate-y-1 hover:scale-110 
+    duration-500
 }
 
 .button-gray{
-    @apply hover:bg-green-900 bg-gray-200 text-black px-4 py-2
-    rounded-full border border-black font-semibold hover:text-white flex w-[50%] items-center  justify-center
+    @apply hover:bg-green-900 bg-gray-200 text-black px-4 py-2  transition ease-in-out delay-150
+    hover:-translate-y-1 hover:scale-110 
+    duration-500 cursor-pointer
+    rounded-full border border-black font-semibold hover:text-white flex w-[50%] items-center  justify-center 
 }

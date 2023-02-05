@@ -19,18 +19,12 @@ const orderSchema = new Schema({
     type:Map,
     require:true
   },
-  status:{
-    type:Boolean,
-    default:false
-  },
-  received:{
-    type:Boolean,
-    default:false
-  },
-  review:{
-    type:Boolean,
-    default:false
-  },
+  orderStatus:{
+    type:String,
+    default:"Not Processed",
+    enum:["Not Processed","Cash on Delivery","Processing","Dispatched","Cancelled","Delivered"]
+},
+
 },{
     timestamps:true
 });

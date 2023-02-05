@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  addToWishlist,
   adminLogin,
   blockUser,
   createOrder,
@@ -38,6 +39,7 @@ userRouter.get("/get-all-orders",[authMiddleware,isAdmin],getAllOrders)
 userRouter.put("/update-order/:id",[authMiddleware,isAdmin],updateOrderStatus)
  
 //others
+userRouter.put("/add-to-wishlist", addToWishlist);
 userRouter.post("/forgot-pass-token", forgotPasswordToken);
 userRouter.put("/reset-password/:token", resetPassword);
 userRouter.get("/logout", logoutUser);

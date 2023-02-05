@@ -34,16 +34,48 @@ const productServices = createApi({
         },
         invalidatesTags: ["products"],
       }),
-      addToWishlist: builder.mutation({
+      reviewProduct: builder.mutation({
         query: (data) => {
           return {
-            url: `add-to-wishlist`,
+            url: `review`,
             method: "PUT",
             body: data,
           };
         },
         invalidatesTags: ["products"],
       }),
+      askQuestion: builder.mutation({
+        query: (data) => {
+          console.log(data);
+          return {
+            url: `question`,
+            method: "PUT",
+            body: data,
+          };
+        },
+        invalidatesTags: ["products"],
+      }),
+      likeReview: builder.mutation({
+        query: (data) => {
+          return {
+            url: `like-review/${data.id}`,
+            method: "PUT",
+            body:data
+          };
+        },
+        invalidatesTags: ["products"],
+      }),
+      likeQuestion: builder.mutation({
+        query: (data) => {
+          return {
+            url: `like-question`,
+            method: "PUT",
+            body:data
+          };
+        },
+        invalidatesTags: ["products"],
+      }),
+    
       deleteProduct: builder.mutation({
         query: (id) => {
           return {
@@ -103,14 +135,17 @@ const productServices = createApi({
 });
 
 export const {
-  useAddToWishlistMutation,
   useCreateProductMutation,
   useUpdateProductMutation,
   useDeleteProductMutation,
   useGetProductsQuery,
   useGetProductQuery,
   useGetCatProductsQuery,
+  useLikeReviewMutation,
+  useAskQuestionMutation,
+  useLikeQuestionMutation,
   useGetBrandProductsQuery,
+  useReviewProductMutation,
   useGetPopularProductsQuery
 } = productServices;
 

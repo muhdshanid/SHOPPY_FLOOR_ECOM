@@ -44,21 +44,24 @@ const uploadService = createApi({
         },
         invalidatesTags: ["uploads"],
       }),
-      deleteProduct: builder.mutation({
-        query: (id) => {
+      uploadReviewImage: builder.mutation({
+        query: (data) => {
           return {
-            url: `delete-product/${id}`,
-            method: "DELETE",
+            url: "upload-image/review",
+            method: "POST",
+            body: data,
           };
         },
-        invalidatesTags: ["products"],
+        invalidatesTags: ["uploads"],
       }),
+      
     };
   },
 });
 
 export const {
-  useUploadImagesMutation,useUploadProductImagesMutation,useUploadBlogImageMutation
+  useUploadImagesMutation,useUploadProductImagesMutation,useUploadBlogImageMutation,
+  useUploadReviewImageMutation
 } = uploadService;
 
 export default uploadService;

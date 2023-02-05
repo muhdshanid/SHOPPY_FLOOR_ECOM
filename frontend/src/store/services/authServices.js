@@ -16,6 +16,15 @@ const authService = createApi({
                     }
                 }
             }),
+            addToWishlist: builder.mutation({
+                query: (data) => {
+                  return {
+                    url: `add-to-wishlist`,
+                    method: "PUT",
+                    body: data,
+                  };
+                },
+              }),
             userRegister: builder.mutation({
                 query:(data) => {
                     return {
@@ -37,6 +46,7 @@ const authService = createApi({
         }
     }
 })
-export const {useAdminLoginMutation,useUserRegisterMutation,useUserLoginMutation} = authService
+export const {useAdminLoginMutation,useUserRegisterMutation,useUserLoginMutation,
+useAddToWishlistMutation} = authService
 
 export default authService

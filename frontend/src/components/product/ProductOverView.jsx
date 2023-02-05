@@ -125,7 +125,7 @@ const ProductOverView = ({ id }) => {
                     </div>
                     <div>
                       <p className=" font-semibold text-lg text-gray-400">
-                        ({product?.ratings?.length})
+                        ({product?.reviews?.length})
                       </p>
                     </div>
                   </div>
@@ -262,7 +262,7 @@ const ProductOverView = ({ id }) => {
                           items available
                         </p>
                         <p className="font-semibold text-sm text-gray-600">
-                          Don't miss it
+                          order now!
                         </p>
                       </div>
                     )}
