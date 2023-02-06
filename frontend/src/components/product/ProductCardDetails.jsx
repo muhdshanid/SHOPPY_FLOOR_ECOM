@@ -6,7 +6,7 @@ import { addToCart } from '../../store/reducers/cartReducer'
 import { useDispatch, useSelector } from 'react-redux'
 import { discount } from '../../utils/discount'
 import { updateUser } from '../../store/reducers/authReducer'
-import { useAddToWishlistMutation } from '../../store/services/authServices'
+import { useAddToWishlistMutation } from '../../store/services/userServices'
 
 const ProductCardDetails = ({product,description}) => {
   const {user} = useSelector(state => state.authReducer)
@@ -45,7 +45,6 @@ const ProductCardDetails = ({product,description}) => {
       const wishlistFn = (id) => {
         addToWishlist({proId:id,userId:user._id})
       }
-      console.log(user); 
       useEffect(()=>{
         if(res.isSuccess){
           const dataFromLocalStorage = localStorage.getItem("user");

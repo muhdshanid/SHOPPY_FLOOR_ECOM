@@ -1,53 +1,62 @@
-import React from 'react'
-import Stepper from '../stepper/Stepper'
-
-const OrderProductCard = () => {
-    const product = "https://res.cloudinary.com/dlrujkhvx/image/upload/v1675319563/teugbgeyz7uhzbgukmbp.jpg"
+import React from "react";
+import Stepper from "../stepper/Stepper";
+import { discount } from "../../utils/discount";
+const OrderProductCard = ({ order }) => {
+  const price = discount(order.productId.price, order.productId.discount);
+  const totalPrice = price * order.quantities;
   return (
-    <div className='p-4 bg-white w-6/12 sm:w-8/12 md:w-6/12 rounded-lg border flex flex-col gap-4'>
-    <div className='p-4 flex flex-col gap-4'>
-       <div className='flex gap-4 items-center'>
- <div className='bg-gray-200 rounded-lg p-2'>
-           <img src={product} className="object-cover
-           rounded-lg w-[8rem] h-[6rem]" alt="product" />
-       </div>
-       <div className='flex grow flex-col gap-6'>
-           <h6 className='font-bold text-xl text-gray-900'>gafjakfjakfafjaf</h6>
-           <div className='flex gap-4'>
-           <p className='font-normal text-md text-gray-600'>Color: 
-           </p>
-           <div style={{backgroundColor:"white"}} className=' rounded-full w-8 h-8'>
+    <div className="p-4 bg-white  rounded-lg border flex flex-col gap-4">
+      <div className="p-4 flex flex-col gap-4">
+        <div className="flex gap-4 last:items-start first:items-center">
+          <div className="bg-gray-200 rounded-lg p-2">
+            <img
+              src={order.productId.images[0].url}
+              className="object-cover
+           rounded-lg w-[8rem] h-[6rem]"
+              alt="product"
+            />
+          </div>
+          <div className="flex ju justify-between h-full grow flex-col gap-6">
+            <h6 className="font-semibold  capitalize text-xl text-gray-900">
+              {order.productId.name}
+            </h6>
+            <div className="flex   items-center gap-4">
+              {order.color && (
+                <div className="flex gap-4">
+                  <div
+                    style={{ backgroundColor: order.color }}
+                    className=" rounded-full w-6 h-6"
+                  ></div>
+                </div>
+              )}
+              {order.size && (
+                <div className="flex items-center gap-1">
+                  <div
+                    className={`border-2
+                                  "border-gray-900" 
+                                text-md  font-semibold px-1  uppercase cursor-pointer rounded
+                                text-gray-900`}
+                  >
+                    {order.size}
                   </div>
-           </div>
-       </div>
-       <div className='flex  flex-col gap-6'>
-           <h6h6 className='font-semibold text-xl text-gray-900'>19999</h6h6>
-           <p className='font-normal text-md text-gray-600'>Quantity: 
-            1</p>
-       </div>
-   </div>
+                </div>
+              )}
+            </div>
+          </div>
+          <div className="flex  justify-between h-full flex-col gap-6">
+            <h6h6 className="font-semibold text-xl text-gray-900">
+            ₹{totalPrice}
+            </h6h6>
+            <p className="font-normal text-md text-gray-600">
+              Quantity:
+              {order.quantities}
+            </p>
+          </div>
+        </div>
+      </div>
+      <Stepper order={order}/>
     </div>
-    <Stepper/>
-</div>
-    // <div className='p-4 bg-white  w-6/12 rounded-lg'>
-    //     <div className='grid  grid-cols-1  sm:grid-cols-2 md:grid-cols-3'>
-    //         <div className=''>
-    //             <img className='w-[100px] object-contain h-[100px] rounded-lg' src={product} alt="product" />
-    //         </div>
-    //         <div className='flex flex-col gap-2'>
-    //         <h6 className='font-semibold text-lg text-gray-900 capitalize'>apple headphone asf</h6>
-    //         <h6 className='font-semibold text-lg text-gray-900 capitalize'>4999</h6>
-    //         <div className='flex gap-2'>
-    //         <p className='font-semibold  text-lg text-gray-400'>color:blue</p>
-    //         <p className='font-semibold  text-lg text-gray-400'>size:blue</p>
-    //         </div>
-    //         </div>
-    //         <div>
-    //         <h6 className='font-semibold text-lg text-gray-900 capitalize'>delivered at 3/33/3333</h6>
-    //         </div>
-    //     </div>
-    // </div>
-  )
-}
+  );
+};
 
-export default OrderProductCard
+export default OrderProductCard;

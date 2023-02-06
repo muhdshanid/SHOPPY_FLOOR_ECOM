@@ -28,10 +28,10 @@ const ProfileList = () => {
         </Link>
     </div>
     <div className='bg-gray-200 rounded-lg p-4'>
-        <div className='flex gap-4 '>
+        <Link to={"/wishlist"} className='flex gap-4 '>
             <AiFillHeart size={30} color="green"/>
             <h6 className='font-semibold text-lg text-gray-900 capitalize'>Wishlist</h6>
-        </div>
+        </Link>
     </div>
     </div>
 </div>

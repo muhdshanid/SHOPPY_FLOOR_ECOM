@@ -75,7 +75,6 @@ const productServices = createApi({
         },
         invalidatesTags: ["products"],
       }),
-    
       deleteProduct: builder.mutation({
         query: (id) => {
           return {
@@ -130,11 +129,21 @@ const productServices = createApi({
         },
         providesTags: ["products"],
       }),
+      getFilteredProducts: builder.query({
+        query: (data) => {
+          return {
+            url: `get-filtered-products/${data.category}/${data.brand}/${data.price}/${data.rating}`,
+            method: "GET",
+          };
+        },
+        providesTags: ["products"],
+      }),
     };
   },
 });
 
 export const {
+  useGetFilteredProductsQuery,
   useCreateProductMutation,
   useUpdateProductMutation,
   useDeleteProductMutation,

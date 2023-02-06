@@ -14,8 +14,8 @@ import CategoryList from './pages/admin/category/CategoryList';
 import CreateCategory from './pages/admin/category/CreateCategory';
 import CreateBrand from './pages/admin/brand/CreateBrand';
 import BrandList from './pages/admin/brand/BrandList';
-import OrdersList from './pages/admin/OrdersList';
-import OrderDetails from './pages/admin/OrderDetails';
+import OrdersList from './pages/admin/order/OrdersList';
+import OrderDetails from './pages/admin/order/OrderDetails';
 import UpdateCategory from './pages/admin/category/UpdateCategory';
 import UpdateBrand from './pages/admin/brand/UpdateBrand';
 import UpdateProduct from './pages/admin/product/UpdateProduct';
@@ -33,6 +33,7 @@ import OutStore from './pages/ourStore/OutStore';
 import HomeNav from './components/navbar/HomeNav';
 import Footer from './components/navbar/Footer';
 import BlogDetails from './pages/blog/BlogDetails';
+import WishList from './pages/wishlist/WishList';
 function App() {
   return (
     <div className='App w-full'>
@@ -45,7 +46,7 @@ function App() {
         <Route path='/admin/create-product' element={<CreateProduct/>}/>
         <Route path='/admin/update-product/:id' element={<UpdateProduct/>}/>
         <Route path='/admin/order-list' element={<OrdersList/>}/>
-        <Route path='/admin/order-details' element={<OrderDetails/>}/>
+        <Route path='/admin/order-details/:id' element={<OrderDetails/>}/>
         <Route path='/admin/category-list' element={<CategoryList/>}/>
         <Route path='/admin/create-category' element={<CreateCategory/>}/>
         <Route path='/admin/update-category/:id' element={<UpdateCategory/>}/>
@@ -62,6 +63,7 @@ function App() {
         <Route path='/checkout' element={<Checkout/>}/>
         <Route path='/checkout/:id' element={<CheckoutSingleProduct/>}/>
         <Route path='/cart' element={<Cart/>}/>
+        <Route path='/wishlist' element={<WishList/>}/>
         <Route path='/orders' element={<OrderList/>}/>
         <Route path='/our-store' element={<OutStore/>}/>
         <Route path='/cat-products/:name' element={<CategoryProducts/>}/>

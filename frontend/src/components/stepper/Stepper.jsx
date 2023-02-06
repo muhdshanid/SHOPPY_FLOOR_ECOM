@@ -1,10 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./stepper.css";
 import { TiTick } from "react-icons/ti";
-const Stepper = () => {
-  const steps = ["Customer Info", "Shipping Info", "Payment", "Step 4"];
+const Stepper = ({order}) => {
+  const steps = [ "Placed" ,"Processed", "Dispatched", "Delivered"];
   const [currentStep, setCurrentStep] = useState(1);
   const [complete, setComplete] = useState(false);
+  useEffect(()=>{
+      if(order.orderStatus === "Processed"){
+        setCurrentStep(2)
+      }
+      if(order.orderStatus === "Dispatched"){
+        setCurrentStep(3)
+      }
+      if(order.orderStatus === "Delivered"){
+        setComplete(true)
+        setCurrentStep(4)
+      }
+  },[currentStep,order.orderStatus])
   return (
     <>
       <div className="flex justify-between">
@@ -22,18 +34,7 @@ const Stepper = () => {
           </div>
         ))}
       </div>
-      {!complete && (
-        <button
-          className="btn"
-          onClick={() => {
-            currentStep === steps.length
-              ? setComplete(true)
-              : setCurrentStep((prev) => prev + 1);
-          }}
-        >
-          {currentStep === steps.length ? "Finish" : "Next"}
-        </button>
-      )}
+     
     </>
   );
 };

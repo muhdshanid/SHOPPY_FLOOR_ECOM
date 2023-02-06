@@ -24,58 +24,53 @@ const orderService = createApi({
         },
         invalidatesTags: ["orders"],
       }),
-      updateCoupon: builder.mutation({
+      updateOrder: builder.mutation({
         query: (data) => {
           return {
-            url: `update-coupon/${data.id}`,
+            url: `update-order/${data.id}`,
             method: "PUT",
-            body: data.data,
+            body: data,
           };
         },
-        invalidatesTags: ["coupons"],
+        invalidatesTags: ["orders"],
       }),
-      deleteCoupon: builder.mutation({
-        query: (id) => {
-          return {
-            url: `delete-coupon/${id}`,
-            method: "DELETE",
-          };
-        },
-        invalidatesTags: ["coupons"],
-      }),
-      getCoupons: builder.query({
+      getUserOrders: builder.query({
         query: () => {
           return {
-            url: `all-coupon`,
+            url: `get-user-orders`,
             method: "GET",
           };
         },
-        providesTags: ["coupons"],
+        providesTags: ["orders"],
       }),
-      getCoupon: builder.query({
+      getAllOrders: builder.query({
         query: (id) => {
           return {
-            url: `get-coupon/${id}`,
+            url: `get-all-orders`,
             method: "GET",
           };
         },
-        providesTags: ["coupons"],
+        providesTags: ["orders"],
       }),
-      applyCoupon: builder.query({
-        query: (name) => {
+      getSingleOrder: builder.query({
+        query: (id) => {
           return {
-            url: `apply-coupon/${name}`,
+            url: `get-order/${id}`,
             method: "GET",
           };
         },
-        providesTags: ["coupons"],
+        providesTags: ["orders"],
       }),
     };
   },
 });
 
 export const {
-  useCreateOrderMutation
+  useCreateOrderMutation,
+  useUpdateOrderMutation,
+  useGetUserOrdersQuery,
+  useGetSingleOrderQuery,
+  useGetAllOrdersQuery
 } = orderService;
 
 export default orderService;

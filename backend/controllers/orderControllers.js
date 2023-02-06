@@ -1,5 +1,4 @@
 import OrderModel from "../models/OrderModel.js";
-import ProductModel from "../models/ProductModel.js";
 import UserModel from "../models/UserModel.js";
 import asyncHandler from "express-async-handler";
 
@@ -26,3 +25,43 @@ export const createOrder = asyncHandler(async (req, res) => {
         return response.status(500).json("Server internal error");
     }
   });
+
+export const getUserOrders = asyncHandler(async(req,res)=> {
+    try {
+        const {_id} = req.user
+        const id = _id.toString()
+        const userOrders = await OrderModel.find({userId:id}).populate("productId")
+        return res.status(200).json(userOrders)
+    } catch (error) {
+        throw new Error(error)
+    }
+})
+export const getAllOrders = asyncHandler(async(req,res)=> {
+  try {
+      const allUserOrders = await OrderModel.find({}).populate("productId userId").exec()
+      return res.status(200).json(allUserOrders)
+  } catch (error) {
+      throw new Error(error)
+  }
+})
+export const getSingleOrder = asyncHandler(async(req,res)=> {
+  try {
+    const {id} = req.params
+      const singleOrder = await OrderModel.findById(id).populate("productId userId")
+      return res.status(200).json(singleOrder)
+  } catch (error) {
+      throw new Error(error)
+  }
+})
+export const updateOrderStatus = asyncHandler(async(req,res)=> {
+  try {
+      const {status} = req.body
+      const {id} = req.params
+      const findOrder = await OrderModel.findByIdAndUpdate(id,{
+          orderStatus:status,
+      },{new:true})
+      return res.status(200).json(status)
+  } catch (error) {
+      throw new Error(error)
+  }
+})

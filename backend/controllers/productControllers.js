@@ -117,7 +117,21 @@ export const getAllProducts = asyncHandler(async (req, res) => {
     throw new Error(error);
   }
 });
-
+export const getFilteredProducts = asyncHandler(async(req,res) => {
+  try {
+    const {category,brand,price,rating} = req.params
+    const ascendingOrDescending = price == -1 ? -1 : 1
+    const star = rating == 0 ? {$exists: true} : rating
+    console.log(star);
+    const trimCat = category.trim()
+    const filteredProducts = await ProductModel.find({category:trimCat,brand,totalRatings:star})
+    .sort({price:ascendingOrDescending})
+    return res.status(200).json(filteredProducts)
+  } catch (error) {
+    console.log(error.message);
+    throw new Error(error);
+  }
+})
 export const askQuestion = asyncHandler(async (req, res) => {
   try {
     const { _id } = req.user;

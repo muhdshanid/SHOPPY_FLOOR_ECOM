@@ -7,6 +7,7 @@ import {
   getAProduct,
   getBrandsProducts,
   getCategoryProducts,
+  getFilteredProducts,
   getPopularProducts,
   likeQuestion,
   likeReview,
@@ -37,7 +38,7 @@ productRouter.put("/review", authMiddleware, reviewProduct);
 productRouter.put("/question", authMiddleware, askQuestion);
 productRouter.put("/like-review/:id", authMiddleware, likeReview);
 productRouter.put("/like-question/", authMiddleware, likeQuestion);
-
+productRouter.get("/get-filtered-products/:category/:brand/:price/:rating",authMiddleware,getFilteredProducts)
  
 
 export default productRouter;

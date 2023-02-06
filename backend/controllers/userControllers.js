@@ -12,6 +12,7 @@ import { generateToken } from "../config/jwtToken.js";
 import { validateMongoDBID } from "../utils/validateMongoDBID.js";
 import { generateRefreshToken } from "../config/refreshToken.js";
 import { sendEmail } from "./email.js";
+import { log } from "console";
 dotenv.config()
 export const registerUser = asyncHandler(async (req,res) => {
         const {email} = req.body
@@ -162,7 +163,7 @@ export const addToWishlist = asyncHandler(async (req, res) => {
     } catch (error) {
       throw new Error(error);
     }
-  });
+});
 export const blockUser = asyncHandler(async (req,res) => {
     const {id} = req.params
     validateMongoDBID(id)
@@ -267,9 +268,21 @@ export const resetPassword = asyncHandler(async (req,res) => {
 export const getWishList = asyncHandler(async(req,res) => {
     try {
         const {_id} = req.user
-        validateMongoDBID(_id)
-        const user  = await UserModel.findById(_id).populate("wishList")
-        return res.status(200).json(user)
+        const user = await UserModel.findById(_id)
+        const populateWishlist  = await UserModel.findById(_id).populate("wishList")
+        const wishlistProducts = populateWishlist.wishList
+        return res.status(200).json({wishlistProducts,user})
+    } catch (error) {
+        throw new Error(error)
+    }
+})
+export const removeWishlistProduct = asyncHandler(async(req,res) => {
+    try {
+        const {_id} = req.user
+        const {proId} = req.body
+        const removeFromWishlist  = await UserModel.findByIdAndUpdate(_id,{ $pull: { wishList: proId } },
+            {new:true})
+        return res.status(200).json(removeFromWishlist)
     } catch (error) {
         throw new Error(error)
     }
@@ -287,80 +300,4 @@ export const saveAddress = asyncHandler(async(req,res)=> {
     }
 })
 
-export const createOrder  = asyncHandler(async(req,res)=> {
-    try {
-        const {COD,couponApplied} = req.body
-        const {_id} = req.user
-        validateMongoDBID(_id)
-        if(!COD)throw new Error("Create cash order failed")
-        const user = await UserModel.findById(_id)
-        let userCart = await CartModel.findOne({orderBy:user._id})
-        let finalAmount = 0
-        if(couponApplied && userCart.totalAfterDiscount){
-            finalAmount = userCart.totalAfterDiscount 
-        }else{
-            finalAmount = userCart.cartTotal 
-        }
-        let newOrder = await new OrderModel({
-            products:userCart.products,
-            paymentIntent:{
-                id:uuid(),
-                method:"COD",
-                amount:finalAmount,
-                status:"Cash on Delivery",
-                created:Date.now(),
-                currency:"inr"
-            },
-            orderBy:user._id,
-            orderStatus:"Cash on Delivery"
-        }).save()
-        let update = userCart.products.map(item => {
-            return {
-                updateOne:{
-                    filter:{_id:item.product._id},
-                    update:{$inc:{quantity:-item.count,sold:+item.count}}
-                }
-            }
-        })
-        console.log(userCart.products);
-        const updated = await ProductModel.bulkWrite(update,{})
-        return res.status(200).json({message:"success",order:newOrder})
-    } catch (error) {
-        throw new Error(error)
-    }
-})
-export const getAllOrders = asyncHandler(async(req,res)=> {
-    try {
-        const allUserOrders = await OrderModel.find({}).populate("products.product orderBy").exec()
-        return res.status(200).json(allUserOrders)
-    } catch (error) {
-        throw new Error(error)
-    }
-})
-export const getUserOrders = asyncHandler(async(req,res)=> {
-    try {
-        const {_id} = req.user
-        validateMongoDBID(_id)
-        const id = _id.toString()
-        const userOrders = await OrderModel.find({orderBy:id}).populate("products.product orderBy").exec()
-        return res.status(200).json(userOrders)
-    } catch (error) {
-        throw new Error(error)
-    }
-})
-export const updateOrderStatus = asyncHandler(async(req,res)=> {
-    try {
-        const {status} = req.body
-        const {id} = req.params
-        validateMongoDBID(id)
-        const findOrder = await OrderModel.findByIdAndUpdate(id,{
-            orderStatus:status,
-            paymentIntent:{ 
-                status:status
-            }
-        },{new:true})
-        return res.status(200).json(findOrder)
-    } catch (error) {
-        throw new Error(error)
-    }
-})
+
