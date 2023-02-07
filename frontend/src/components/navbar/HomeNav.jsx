@@ -1,73 +1,84 @@
 import React from 'react'
-import {MdAddShoppingCart, MdKeyboardArrowDown, MdKeyboardArrowUp} from 'react-icons/md'
+import {MdAddShoppingCart} from 'react-icons/md'
+import {FiUser} from 'react-icons/fi'
 import {IoSearchOutline} from 'react-icons/io5'
-import {RiUser3Line} from 'react-icons/ri'
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
 import CategoryListShow from '../category/CategoryListShow'
 import { useSelector } from 'react-redux' 
 import ProfileList from '../profile/ProfileList'
+import { AiFillCaretDown, AiFillCaretUp } from 'react-icons/ai'
 const HomeNav = () => {
-    const {items,total} = useSelector(state=>state.cartReducer)
+    const  [search, setSearch] = useState("")
+    const {items} = useSelector(state=>state.cartReducer)
     const {user,userToken} = useSelector(state=>state.authReducer)
     const logo = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLDhYBltma0_qRGcKkgfpZZfne4dtTSTmfwA&usqp=CAU"
     const [catListShow, setCatListShow] = useState(false)
     const [profileListShow, setProfileListShow] = useState(false)
   return (
-    <div className='w-12/12 relative flex flex-col px-4 lg:px-16 md:px-14 sm:px-8  bg-gray-100'>
-    <div className='flex w-full items-center justify-between md:gap-12  gap-6 py-4 '>
-    <Link to={"/"} className='flex  cursor-pointer gap-4 lg:gap-2 items-center '>
-        <img src={logo} className="sm:w-8  md:flex sm:flex lg:flex 
-        xl:flex w-10 h-10 sm:h-8  object-cover rounded-full" alt="logo" />
-        <h2 className='text-2xl hidden sm:flex md:flex font-bold text-green-900 capitalize'>shoppy floor</h2>
+    <div className='w-12/12 relative fc px-4 lg:px-16 md:px-14 sm:px-8  bg-gray-100'>
+    <div className=' w-full  flex-ic-jb md:gap-12  gap-6 py-4 '>
+    <Link to={"/"} className='flex-ic  cp gap-4 lg:gap-2  '>
+        <img src={logo} className="sm:w-8   sm:flex lg:flex 
+        xl:flex w-10 h-10 sm:h-8 md:flex object-cover rf" alt="logo" />
+        <h2 className='text-2xl hidden sm:flex md:flex font-bold tg9 cap'>shoppy floor</h2>
     </Link>
-    <div className='  gap-4 lg:flex hidden items-center'>
-        <div className='flex gap-2 items-center'>
-        <p className='font-semibold capitalize text-md text-gray-700 cursor-pointer '>Categories</p>
-        {!catListShow ? <MdKeyboardArrowDown onClick={()=>setCatListShow(prev => !prev)} size={20} className="mt-2 
-         cursor-pointer"/> :
-        <MdKeyboardArrowUp onClick={()=>setCatListShow(prev => !prev)} size={20} className="mt-2 
-         cursor-pointer"/>}
+    <div className='gap-4 lg:flex hidden ic'>
+        <div className=' gap-2 flex-ic'>
+        <p className='cap fs-tm-tg7 cp '>Categories</p>
+        {!catListShow ? <AiFillCaretDown onClick={()=>setCatListShow(prev => !prev)} size={20} className=" mt-1
+         cp"/> :
+        <AiFillCaretUp onClick={()=>setCatListShow(prev => !prev)} size={20} className="mt-1
+         cp"/>}
        {catListShow && <div className='absolute z-50 top-16 left-[16rem]'>
             <CategoryListShow/> 
-        </div>}
-        </div>
-        <Link to={"/our-store"} className='font-semibold capitalize text-md text-gray-700 cursor-pointer '>Our store</Link>
-        <p className='font-semibold capitalize text-md text-gray-700 cursor-pointer '></p>
-        <p className='font-semibold capitalize text-md text-gray-700 cursor-pointer '>Contact us</p>
+        </div>} 
+        </div> 
+        <Link to={"/our-store"} className='cap fs-tm-tg7 cp'>
+            Our
+         store</Link>
+        <p className=' cap fs-tm-tg7 cp '></p>
+        <p className=' cap fs-tm-tg7 cp '>Contact us</p>
     </div>
-    <div className='flex gap-2 items-center bg-gray-200  rounded-full py-2 px-4'>
-        <input type="text"  className='bg-gray-200  px-2 rounded-full outline-none border-none'
-        placeholder='Search Product'/>
-        <div className=' '>
-            <IoSearchOutline size={20}/>
-        </div>
-    </div>
+    <div className=' gap-2 flex-ic bg-g-2  rf  px-4'>
+        <input value={search} onChange={(e)=>setSearch(e.target.value)} type="text"  className='bg-g-2 
+         px-2 rf sm:w-[10rem] md:w-[8rem] w-[5rem] outline-none py-2  border-none'
+        placeholder='Search Product...'/>
+       <div className='bg-g-9  p-2 rf -mr-4 overflow-hidden'>
+       <Link to={`/search/${search}`}  className=''>
+            <IoSearchOutline color='white' size={20}/>
+        </Link>
+       </div>
+    </div> 
     <div className='flex gap-8 items-center relative'>
-        <div className='flex gap-2 cursor-pointer'>
+        <div className='flex gap-2 cp'>
             {
                 userToken !== null ? 
-                <p className='font-bold md:flex  hidden text-md text-gray-700'>{user?.name}</p>
+                <>
+                <FiUser onClick={()=>setProfileListShow(prev => !prev)} className='' size={24}/>
+                <p className=' md:flex fs-tm-tg7 cap  hidden '>{user?.name}</p>
+                </>
                 :
-            <Link to={"/login"} className='font-bold md:flex  hidden text-md text-gray-700'>Account</Link>
+            <Link to={"/login"} className='md:flex  hidden fs-tm-tg7'>Account</Link>
             }
-            {!profileListShow ? <MdKeyboardArrowDown onClick={()=>setProfileListShow(prev => !prev)} size={20} className="mt-2 
-         cursor-pointer"/> :
-        <MdKeyboardArrowUp onClick={()=>setProfileListShow(prev => !prev)} size={20} className="mt-2 
-         cursor-pointer"/>}
-       {profileListShow && <div className='absolute z-50 top-10 right-16 '>
+            {!profileListShow ? <AiFillCaretDown onClick={()=>setProfileListShow(prev => !prev)}
+             size={20} className="mt-1 hidden sm:flex
+         cp"/> :
+        <AiFillCaretUp onClick={()=>setProfileListShow(prev => !prev)} size={20} className="mt-1 hidden sm:flex
+         cp"/>}
+       {profileListShow && <div className='absolute z-50 top-10 right-6 sm:right-16 '>
             <ProfileList/> 
         </div>}
         </div>
-        <div className='flex gap-2  cursor-pointer'>
+        <div className='flex gap-2  cp'>
        <Link to={"/cart"} className='relative'>
        <MdAddShoppingCart size={24} />
-        <div className='absolute -top-4 -right-4
-         rounded-lg w-6 h-5 flex items-center justify-center text-white bg-green-900'>
+        <div className='absolute -top-4 -right-3 sm:-right-4
+         rl w-6 h-5 flex-ic justify-center text-white bg-g-9'>
             <p className='text-white -mt-[3px] font-semibold text-sm'>{items}</p>
         </div>
        </Link>
-            <Link to={"/cart"} className='font-bold md:flex  hidden text-md text-gray-700'>Cart</Link>
+            <Link to={"/cart"} className='md:flex  hidden fs-tm-tg7'>Cart</Link>
         </div>
     </div>
 </div>

@@ -3,12 +3,12 @@ import {
   askQuestion,
   createProduct,
   deleteProduct,
-  getAllProducts,
   getAProduct,
   getBrandsProducts,
   getCategoryProducts,
   getFilteredProducts,
   getPopularProducts,
+  getSearchProducts,
   likeQuestion,
   likeReview,
   reviewProduct,
@@ -30,8 +30,8 @@ productRouter.delete(
   [authMiddleware, isAdmin],
   deleteProduct
 );
-productRouter.get("/get-allproducts", getAllProducts);
 productRouter.get("/get-popular-product", getPopularProducts);
+productRouter.get("/get-search-products/:keyword", getSearchProducts);
 productRouter.get("/get-cat-product/:name",getCategoryProducts)
 productRouter.get("/get-brand-product/:name",getBrandsProducts)
 productRouter.put("/review", authMiddleware, reviewProduct);

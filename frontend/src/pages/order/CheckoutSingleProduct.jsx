@@ -38,8 +38,8 @@ const quantity = value.qty
     <div
       className="w-12/12  flex  px-4
    lg:px-16 md:px-14 sm:px-8  min-h-screen bg-gray-100">
-    <div className="grid grid-cols-1 mb-2 sm:grid-cols-2">
-    <div className="flex flex-col mr-8">
+    <div className="grid mx-auto lg:gap-0 gap-6 grid-cols-1 mb-2 lg:grid-cols-2">
+    <div className="flex flex-col  lg:mr-8">
     <OrderDetails color={color} quantity={quantity} size={size} product={product}/>
     {
       !stripeSelected && <DeliveryInfo setState={setState}state={state} />

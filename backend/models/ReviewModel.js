@@ -17,7 +17,6 @@ const reviewSchema = new Schema({
     dislikes:[],
     postedUserName:String,
     postedBy: { type: Types.ObjectId ,ref:"User" },
-
 },{
     timestamps:true
 })

@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom';
-import { useGetBrandsQuery } from '../../store/services/brandServices';
-import BrandSkeleton from '../loading/BrandSkeleton';
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { FaArrowRight } from "react-icons/fa";
+import { useGetBrandsQuery } from "../../store/services/brandServices";
+import BrandSkeleton from "../loading/BrandSkeleton";
 const BrandList = () => {
-    const [brands, setBrands] = useState([]);
+  const [brands, setBrands] = useState([]);
   const { data, isFetching } = useGetBrandsQuery();
   useEffect(() => {
     if (isFetching === false) {
@@ -11,41 +12,53 @@ const BrandList = () => {
     }
   }, [data, isFetching]);
   return (
-    <div className='my-4 flex flex-col gap-4'>
-          <div className='flex   items-center justify-between'>
-        <div className='flex'>
-            <h6 className='font-semibold text-2xl text-gray-900'>Popular Brands</h6>
+    <div className="my-4 flex flex-col gap-4">
+      <div className="flex   items-center justify-between">
+        <div className="flex">
+          <h6 className="font-semibold text-2xl text-gray-900">
+            Popular Brands
+          </h6>
         </div>
+      </div>
+      <div className="my-2 grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4">
+        {isFetching ? (
+          <>
+            <BrandSkeleton />
+            <BrandSkeleton />
+            <BrandSkeleton />
+            <BrandSkeleton />
+          </>
+        ) : (
+          brands?.length > 0 &&
+          brands?.map((brand) => (
+            <div key={brand._id}
+              className="relative border border-gray-200
+            cp hover:bg-g-9 flex gap-8 rl bg-g-2"
+            >
+              <img
+                src={brand.image.url}
+                className=" 
+                   object-cover rl h-full "
+                alt="brand"
+              />
+              <div className="right-2 bottom-2 absolute">
+                <Link
+                  to={`/brand-products/${brand.name}`}
+                  className="text-white flex-ic hover:underline   font-semibold   gap-2"
+                >
+                  Explore
+                  <span className="hidden lg:flex">Products</span>
+                  <span>
+                    <FaArrowRight />
+                  </span>
+                </Link>
+              </div>
+            </div>
+          ))
+        )}
+      </div>
     </div>
-    <div className='my-2 grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4'>
-       {
-        isFetching ? 
-        <>
-        <BrandSkeleton/>
-        <BrandSkeleton/>
-        <BrandSkeleton/>
-        <BrandSkeleton/>
-        </>
-        :
-        brands.length > 0 && brands.map(brand => (
-            <div  className='p-6 border border-gray-200
-            cursor-pointer hover:border-green-900 flex gap-8 rounded-lg bg-gray-200'>
-               <div  className=' flex items-center justify-center bg-white
-               sm:smimg img '>
-                   <img src={brand.image.url} className=" 
-                   object-cover sm:smimg img  " alt="brand" />
-               </div>
-               <div className='flex flex-col gap-4'>
-                   <h6 className='font-bold uppercase text-lg text-gray-900'>{brand.name}</h6>
-                   <Link to={`/brand-products/${brand.name}`} className='bg-green-900 px-4 py-1 hover:bg-gray-200 hover:text-black
-             rounded-full border border-black font-semibold text-white'>Explore</Link>
-               </div>
-           </div>
-        ))
-       }
-    </div>
-    </div>
-  )
-}
+  );
+};
 
-export default BrandList
+export default BrandList;

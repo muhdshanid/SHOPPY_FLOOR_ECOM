@@ -16,24 +16,8 @@ var blogShema = new mongoose.Schema({
         type:Number,
         default:0
     },
-    isLiked:{
-        type:Boolean,
-        default:false
-    },
-    isDisliked:{
-        type:Boolean,
-        default:false
-    },
-    likes:[
-        {
-            type: mongoose.Schema.Types.ObjectId, ref: "User"
-        }
-    ],
-    dislikes:[
-        {
-            type: mongoose.Schema.Types.ObjectId, ref: "User"
-        }
-    ],
+    likes:[],
+    dislikes:[],
     image:{
         type:String,
         default:"https://thumbs.dreamstime.com/b/blog-information-website-concept-workplace-background-text-view-above-127465079.jpg"

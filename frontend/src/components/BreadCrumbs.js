@@ -6,9 +6,9 @@ const BreadCrumbs = ({title}) => {
     <div className='w-12/12 py-4 flex flex-col px-4
     lg:px-16 md:px-14 sm:px-8  bg-gray-100'>
             <div className="w-12/12">
-                <p className='text-start mb-0'>
+                <p className='text-base '>
                     <Link to={"/"} 
-                    className='text-dark'>Home&nbsp;</Link> / {title}
+                    className=''>Home&nbsp;</Link> / <span className='font-semibold cap text-base'>{title}</span>
                 </p>
             </div>
         </div>

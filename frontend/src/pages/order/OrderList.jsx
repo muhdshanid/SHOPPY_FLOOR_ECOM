@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react'
+import BreadCrumbs from '../../components/BreadCrumbs'
+import OrderSkeleton from '../../components/loading/OrderSkeleton'
 import OrderProductCard from '../../components/profile/OrderProductCard'
 import { useGetUserOrdersQuery } from '../../store/services/orderServices'
 
@@ -8,16 +10,23 @@ const OrderList = () => {
   useEffect(()=>{
     setOrders(data)
   },[data, isFetching])
-  console.log(data);
   return (
-   isFetching ? ""
-   : 
-   <div className='grid grid-cols-1 md:grid-cols-2  bg-gray-200   gap-8 p-8'>
+  <div >
+     <BreadCrumbs title={"My Orders"}/>
+     <div className='grid grid-cols-1 w-full  min-h-screen md:grid-cols-2  bg-gray-100   gap-8 py-4 px-8'>
    {
-       orders?.length > 0 ? orders.map(order => (
-           <OrderProductCard order={order}/>   ))
-   : ""}
+    isFetching ? 
+    <>
+    <OrderSkeleton/>
+    <OrderSkeleton/>
+    </>
+    :
+    orders?.length > 0 ? orders.map(order => (
+      <OrderProductCard key={order._id} order={order}/>   ))
+      : "NO ORDERS"
+   }
 </div>
+  </div>
   )
 }
 

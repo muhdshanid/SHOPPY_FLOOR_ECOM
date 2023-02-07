@@ -57,10 +57,10 @@ export const deleteCoupon = asyncHandler(async (req, res) => {
       const coupon = name.trim()
         const validCoupon = await CouponModel.findOne({name:coupon})
         if(!validCoupon){
-          return res.status(400).json("Invalid Coupon")
+          return res.status(400).json({msg:"Invalid Coupon"})
         }
         if(validCoupon.expiry < Date.now()){
-          return res.status(400).json("Coupon expired")
+          return res.status(400).json({msg:"Coupon expired"})
         }
         return res.status(200).json(validCoupon)
     } catch (error) {

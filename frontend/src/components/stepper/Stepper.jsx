@@ -3,18 +3,18 @@ import "./stepper.css";
 import { TiTick } from "react-icons/ti";
 const Stepper = ({order}) => {
   const steps = [ "Placed" ,"Processed", "Dispatched", "Delivered"];
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(2);
   const [complete, setComplete] = useState(false);
   useEffect(()=>{
       if(order.orderStatus === "Processed"){
-        setCurrentStep(2)
+        setCurrentStep(3)
       }
       if(order.orderStatus === "Dispatched"){
-        setCurrentStep(3)
+        setCurrentStep(4)
       }
       if(order.orderStatus === "Delivered"){
         setComplete(true)
-        setCurrentStep(4)
+        setCurrentStep(5)
       }
   },[currentStep,order.orderStatus])
   return (
@@ -30,7 +30,7 @@ const Stepper = ({order}) => {
             <div className="step">
               {i + 1 < currentStep || complete ? <TiTick size={24} /> : i + 1}
             </div>
-            <p className="text-gray-500">{step}</p>
+            <h6 className="text-gray-500">{step}</h6>
           </div>
         ))}
       </div>

@@ -77,12 +77,12 @@ const ProductOverView = ({ id }) => {
         ) : (
           <>
             <div className="">
-              <div className="bg-gray-200 p-4  rounded-lg ">
+              <div className="bg-g-2 p-4  rl ">
                 {product?.images?.length > 0 ? (
-                  <div className=" rounded-lg bg-white  w-full">
+                  <div className=" rl bg-white  w-full">
                     {selectedImage !== "" && (
                       <img
-                        className="w-full p-1 object-contain h-[29pc]  rounded-lg "
+                        className="w-full p-1 object-contain h-[29pc]  rl "
                         src={selectedImage?.url}
                         alt="product"
                       />
@@ -91,13 +91,13 @@ const ProductOverView = ({ id }) => {
                 ) : (
                   ""
                 )}
-                <div className="flex py-4 gap-8 w-12/12 bg-gray-200 rounded-lg">
+                <div className="flex   py-4 gap-8 w-12/12 bg-g-2 rl">
                   {product?.images?.length > 0 &&
-                    product.images.map((img) => (
-                      <div className="p-1 rounded-lg bg-white w-2/12">
+                    product.images.slice(0,4).map((img,i) => (
+                      <div key={i} className="p-1 rl bg-white w-3/12">
                         <img
                           onClick={() => setSelectedImage(img)}
-                          className="rounded-lg  cursor-pointer h-[8rem] object-contain w-full"
+                          className="rl  cp h-[8rem] object-contain w-full"
                           src={img.url}
                           alt="product"
                         />
@@ -107,10 +107,10 @@ const ProductOverView = ({ id }) => {
               </div>
             </div>
             <div className="">
-              <div className="px-4 flex flex-col gap-4">
+              <div className="px-4 fc gap-4">
                 <div className="flex border-b border-gray-200  pb-4 flex-col gap-4">
-                  <div className="flex items-center justify-start">
-                    <h2 className="font-bold capitalize text-3xl text-gray-900">
+                  <div className="flex-ic justify-start">
+                    <h2 className="font-bold cap text-3xl text-gray-900">
                       {product?.name}
                     </h2>
                   </div>
@@ -119,7 +119,7 @@ const ProductOverView = ({ id }) => {
                       {product?.description}
                     </p>
                   </div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex-ic gap-2">
                     <div className="flex ">
                       <StarRating rating={product?.totalRatings} />
                     </div>
@@ -130,7 +130,7 @@ const ProductOverView = ({ id }) => {
                     </div>
                   </div>
                 </div>
-                <div className="flex flex-col gap-2 border-b border-gray-200 pb-4 pt-2">
+                <div className="fc gap-2 border-b border-gray-200 pb-4 pt-2">
                   <div className="flex  items-center md:w-[60%] w-[100%] justify-between">
                     <h2 className="font-bold text-2xl text-gray-900">
                       ₹{discountPrice}
@@ -153,7 +153,7 @@ const ProductOverView = ({ id }) => {
                   </div>
                 </div>
                 {product?.colors?.length > 0 && (
-                  <div className="flex flex-col gap-4 border-b border-gray-200 pb-4 pt-2">
+                  <div className="fc gap-4 border-b border-gray-200 pb-4 pt-2">
                     <div>
                       <h4 className="font-semibold text-lg text-gray-900">
                         Choose a color
@@ -162,7 +162,7 @@ const ProductOverView = ({ id }) => {
                     <div className="flex flex-wrap pb-2 gap-4 items-center w-[80%]">
                       {product?.colors?.map((clr, i) => (
                         <>
-                          <div
+                          <div key={i}
                             onClick={() => setSelectedColor(clr)}
                             style={{ backgroundColor: clr.color }}
                             className={`
@@ -179,7 +179,7 @@ const ProductOverView = ({ id }) => {
                   </div>
                 )}
                 {product?.sizes?.length > 0 && (
-                  <div className="flex flex-col gap-4 border-b border-gray-200 pb-4 pt-2">
+                  <div className="fc gap-4 border-b border-gray-200 pb-4 pt-2">
                     <div>
                       <h4 className="font-semibold text-lg text-gray-900">
                         Choose a size
@@ -190,7 +190,7 @@ const ProductOverView = ({ id }) => {
                         <div className="flex flex-wrap ">
                           {product?.sizes?.map((size, i) => (
                             <>
-                              <div
+                              <div key={i}
                                 onClick={() => setSelectedSize(size)}
                                 className={`border-2
                                 ${
@@ -199,7 +199,7 @@ const ProductOverView = ({ id }) => {
                                     : "border-gray-900"
                                 }
                                  
-                                  ml-2 text-md  font-semibold px-3 py-1.5 mt-1 uppercase cursor-pointer rounded
+                                  ml-2 text-md  font-semibold px-3 py-1.5 mt-1 uppercase cp rounded
                                    text-gray-900`}
                               >
                                 {size.name}
@@ -211,30 +211,30 @@ const ProductOverView = ({ id }) => {
                     </div>
                   </div>
                 )}
-                <div className="flex flex-col gap-4 border-b border-gray-200 pb-4 pt-2">
+                <div className="fc gap-4 border-b border-gray-200 pb-4 pt-2">
                   <div className="flex gap-8 items-center">
                     <div
-                      className=" overflow-hidden flex items-center
-                       justify-between rounded-full bg-gray-200"
+                      className=" overflow-hidden flex-ic
+                       justify-between rounded-full bg-g-2"
                     >
                       <div
                         onClick={decQty}
-                        className="py-2 px-6  cursor-pointer hover:bg-gray-300"
+                        className="py-2 px-6  cp hover:bg-gray-300"
                       >
                         <h6 className="text-gray-900 text-3xl">-</h6>
                       </div>
-                      <div className="py-3 px-6  cursor-pointer hover:bg-gray-300">
+                      <div className="py-3 px-6  cp hover:bg-gray-300">
                         <h6 className="text-gray-900 text-lg">{quantity}</h6>
                       </div>
                       <div
                         onClick={incQty}
-                        className="py-2 px-6  cursor-pointer hover:bg-gray-300"
+                        className="py-2 px-6  cp hover:bg-gray-300"
                       >
                         <h6 className="text-gray-900 text-2xl">+</h6>
                       </div>
                     </div>
                     {product?.stock < 5 ? (
-                      <div className="flex flex-col gap-1 ">
+                      <div className="fc gap-1 ">
                         <p className="font-semibold text-sm text-gray-600">
                           Only{" "}
                           <span
@@ -250,7 +250,7 @@ const ProductOverView = ({ id }) => {
                         </p>
                       </div>
                     ) : (
-                      <div className="flex flex-col gap-1 ">
+                      <div className="fc gap-1 ">
                         <p className="font-semibold text-sm text-gray-600">
                           {" "}
                           <span
@@ -285,11 +285,11 @@ const ProductOverView = ({ id }) => {
                     </button>
                   </div>
                 </div>
-                <div className="flex flex-col w-[90%] gap- border-b border-gray-200 pb-4 pt-2">
-                  <div className="border flex flex-col py-4 px-8 border-gray-200">
-                    <div className="flex items-center gap-2">
+                <div className="fc w-[90%] gap- border-b border-gray-200 pb-4 pt-2">
+                  <div className="border fc py-4 px-8 border-gray-200">
+                    <div className="flex-ic gap-2">
                       <MdOutlineLocalShipping size={20} color="green" />
-                      <p className=" capitalize font-semibold text-lg text-gray-900">
+                      <p className=" cap font-semibold text-lg text-gray-900">
                         Free Delivery
                       </p>
                     </div>
@@ -297,10 +297,10 @@ const ProductOverView = ({ id }) => {
                       <p>Enter your postal code to check available or not</p>
                     </div>
                   </div>
-                  <div className="border flex flex-col py-4 px-8 border-gray-200">
-                    <div className="flex items-center gap-2">
+                  <div className="border fc py-4 px-8 border-gray-200">
+                    <div className="flex-ic gap-2">
                       <MdOutlineAssignmentReturned size={20} color="green" />
-                      <p className=" capitalize font-semibold text-lg text-gray-900">
+                      <p className=" cap font-semibold text-lg text-gray-900">
                         Return Policy
                       </p>
                     </div>

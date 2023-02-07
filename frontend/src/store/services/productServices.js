@@ -129,6 +129,15 @@ const productServices = createApi({
         },
         providesTags: ["products"],
       }),
+      getSearchProducts: builder.query({
+        query: (data) => {
+          return {
+            url: `get-search-products/${data.keyword}`,
+            method: "GET",
+          };
+        },
+        providesTags: ["products"],
+      }),
       getFilteredProducts: builder.query({
         query: (data) => {
           return {
@@ -155,6 +164,7 @@ export const {
   useLikeQuestionMutation,
   useGetBrandProductsQuery,
   useReviewProductMutation,
+  useGetSearchProductsQuery,
   useGetPopularProductsQuery
 } = productServices;
 

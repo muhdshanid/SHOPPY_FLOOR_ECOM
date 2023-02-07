@@ -13,6 +13,7 @@ var productSchema = new mongoose.Schema(
       unique: true,
       lowercase: true,
     },
+    discountPrice:Number,
     discount:Number,
     description: {
       type: String,

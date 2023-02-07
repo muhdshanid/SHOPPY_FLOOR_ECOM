@@ -16,7 +16,7 @@ const CategoriesSwiper = () => {
   }, [data, isFetching]);
   return (
     <div className='my-'>
-           <div className='flex my-8 items-center justify-between'>
+           <div className=' my-8 flex-ic-jb'>
         <div className='flex'>
             <h6 className='font-semibold text-2xl text-gray-900'>Shop by Categories</h6>
         </div>
@@ -47,9 +47,9 @@ const CategoriesSwiper = () => {
             slidesPerView: 6,
           },
         }}
-      >       { [1,2,3,4,5,6].map(cat => (
-          <SwiperSlide
-          className="w-full h-[200px] overflow-hidden rounded-lg relative"
+      >       { [1,2,3,4,5,6].map((cat,i) => (
+          <SwiperSlide key={i}
+          className="w-full h-[200px] overflow-hidden rl relative"
         >                
                       <CategorySkeleton/> 
         </SwiperSlide>
@@ -79,15 +79,18 @@ const CategoriesSwiper = () => {
             slidesPerView: 6,
           },
         }}
-      >       { categories.length > 0 && categories.map(cat => (
-          <SwiperSlide
-          className="w-full h-[200px] overflow-hidden rounded-lg relative"
+      >       { categories?.length > 0 && categories?.map((cat,i) => (
+          <SwiperSlide key={i}
+          className="w-full h-[200px] overflow-hidden rl relative"
         >                
-              <div className="w-full h-[150px]  rounded-lg overflow-hidden">
+              <div className="w-full h-[150px]  rl overflow-hidden">
                   <img src={cat.image.url} className='w-full h-[300px] object-cover' alt="category" />
               </div>
               <div className="absolute inset-0 w-full h-full bg-black/30 flex items-center justify-center p-4">
-                  <Link to={`/cat-products/${cat.name}`} className="text-white text-base font-medium capitalize">{cat.name}</Link>
+                  <Link to={`/cat-products/${cat.name}`} className="text-white
+                   text-lg font-medium hover:underline cap">{cat.name}
+                   
+                   </Link>
               </div>               
         </SwiperSlide>
       ))}      

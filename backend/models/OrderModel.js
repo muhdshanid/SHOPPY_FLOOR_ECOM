@@ -22,7 +22,7 @@ const orderSchema = new Schema({
   orderStatus:{
     type:String,
     default:"Not Processed",
-    enum:["Processed","Dispatched","Cancelled","Delivered"]
+    enum:["Not Processed","Processed","Dispatched","Cancelled","Delivered"]
 },
 
 },{

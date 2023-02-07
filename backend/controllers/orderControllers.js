@@ -1,7 +1,7 @@
 import OrderModel from "../models/OrderModel.js";
 import UserModel from "../models/UserModel.js";
 import asyncHandler from "express-async-handler";
-
+import ProductModel from '../models/ProductModel.js'
 export const createOrder = asyncHandler(async (req, res) => {
     try {
         const {_id} = req.user
@@ -18,13 +18,26 @@ export const createOrder = asyncHandler(async (req, res) => {
         color: item?.color?.color,
         quantities: item.quantity,
         address,
-      })})
+      })
+      const product = await ProductModel.findOne({ _id: item._id });
+          if (product) {
+            let stock = product.stock - item.quantity;
+            if (stock < 0) {
+              stock = 0;
+            }
+            await ProductModel.findByIdAndUpdate(
+              item._id,
+              { stock },
+              { new: true }
+            );
+          }
+    })
       return res.status(200).json(orders)
     } catch (error) {
         console.log(error.message);
         return response.status(500).json("Server internal error");
     }
-  });
+});
 
 export const getUserOrders = asyncHandler(async(req,res)=> {
     try {

@@ -4,7 +4,7 @@ import { discount } from "../../utils/discount";
 const OrderDetails = ({ product, cart, color, quantity,size }) => {
   
   return (
-    <div className="w-12/12 p-4 border flex flex-col gap-4">
+    <div className="w-12/12 px-2 py-4 sm:px-4 border flex flex-col gap-4">
       <div className="px-4">
         <h6 className="font-semibold capitalize text-2xl text-gray-900 ">
           Selected items
@@ -71,12 +71,13 @@ const OrderDetails = ({ product, cart, color, quantity,size }) => {
              <img
                src={product?.images[0]?.url}
                className="object-cover
-            rounded-lg w-[8rem] h-[6rem]"
+            rounded-lg sm:w-[8rem] w-[6rem]  h-[4rem] sm:h-[6rem]"
                alt="product"
              />
            </div>
          )}
-         <div className="flex grow flex-col">
+        <div className="md:flex md:flex-row md:gap-6 flex flex-col">
+        <div className="flex grow flex-col">
            <div className=" ">
            <h6 className="font-semibold  capitalize text-xl text-gray-900">
              {product?.name}
@@ -101,7 +102,8 @@ const OrderDetails = ({ product, cart, color, quantity,size }) => {
                className=" rounded-full w-6 h-6"
              ></div>
            </div>
-           <div className="flex items-center gap-1">
+         <div className={`flex items-center gap-1
+         ${size === "undefined" || product?.sizes?.length === 0 ? "hidden" : ""}`}>
              <div
                className={`border-2
                              
@@ -111,7 +113,7 @@ const OrderDetails = ({ product, cart, color, quantity,size }) => {
                                ml-2 text-md  font-semibold px-2 py-1 mt-1 uppercase cursor-pointer rounded
                                 text-gray-900`}
              >
-               {size ? size : product?.sizes ? product?.sizes[0]?.name : ""}
+               {size ? size !== "undefined" ? size : "" : product?.sizes ? product?.sizes[0]?.name : ""}
              </div>
            </div>
            <p className="font-normal text-md text-gray-600">
@@ -119,6 +121,7 @@ const OrderDetails = ({ product, cart, color, quantity,size }) => {
              {quantity ? quantity : 1}
            </p>
          </div>
+        </div>
        </div> 
        : ""
         )}

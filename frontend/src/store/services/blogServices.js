@@ -34,6 +34,16 @@ const blogService = createApi({
         },
         invalidatesTags: ["blogs"],
       }),
+      likeBlog: builder.mutation({
+        query: (data) => {
+          return {
+            url: `like-blog/${data.id}`,
+            method: "PUT",
+            body:data
+          };
+        },
+        invalidatesTags: ["blogs"],
+      }),
       deleteBlog: builder.mutation({
         query: (id) => {
           return {
@@ -67,6 +77,7 @@ const blogService = createApi({
 
 export const {
   useCreateBlogMutation,
+  useLikeBlogMutation,
   useUpdateBlogMutation,
   useDeleteBlogMutation,
   useGetBlogsQuery,

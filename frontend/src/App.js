@@ -34,6 +34,8 @@ import HomeNav from './components/navbar/HomeNav';
 import Footer from './components/navbar/Footer';
 import BlogDetails from './pages/blog/BlogDetails';
 import WishList from './pages/wishlist/WishList';
+import Search from './pages/search/Search';
+import BlogsPage from './pages/blogs/BlogsPage';
 function App() {
   return (
     <div className='App w-full'>
@@ -60,16 +62,18 @@ function App() {
         <Route path='/admin/create-blog' element={<CreateBlog/>}/>
         <Route path='/admin/update-blog/:id' element={<UpdateBlog/>}/>
         <Route path='/product/:id' element={<ProductDetails/>}/> 
-        <Route path='/checkout' element={<Checkout/>}/>
+        <Route path='/checkout' element={<Checkout/>}/> 
         <Route path='/checkout/:id' element={<CheckoutSingleProduct/>}/>
         <Route path='/cart' element={<Cart/>}/>
         <Route path='/wishlist' element={<WishList/>}/>
         <Route path='/orders' element={<OrderList/>}/>
         <Route path='/our-store' element={<OutStore/>}/>
         <Route path='/cat-products/:name' element={<CategoryProducts/>}/>
+        <Route path='/search/:search' element={<Search/>}/>
         <Route path='/blog-details/:id' element={<BlogDetails/>}/>
         <Route path='/brand-products/:name' element={<BrandProducts/>}/>
         <Route path='/popular-products' element={<PopularProducts/>}/>
+        <Route path='/blogs' element={<BlogsPage/>}/>
         <Route path='/login' element={<Login/>}/>
         <Route path='/signup' element={<Signup/>}/>
       </Routes>

@@ -36,6 +36,15 @@ export const getCategoryProducts = asyncHandler(async (req, res) => {
     throw new Error(error);
   }
 });
+export const getSearchProducts = asyncHandler(async (req, res) => {
+  const { keyword } = req.params;
+  try {
+    const result = await ProductModel.find({name:{$regex : `${keyword}` , $options:"i"}}).where("stock").gt(0).sort({updatedAt:-1})
+    return res.status(200).json(result);
+  } catch (error) {
+    throw new Error(error);
+  }
+});
 export const getPopularProducts = asyncHandler(async (req, res) => {
   try {
     const popularProducts = await ProductModel.find({totalRatings:{$gte:4}});
@@ -76,53 +85,12 @@ export const deleteProduct = asyncHandler(async (req, res) => {
     throw new Error(error);
   }
 });
-export const getAllProducts = asyncHandler(async (req, res) => {
-  try {
-    //Filtering
-    const queryObj = { ...req.query };
-    const excluderFields = ["page", "sort", "limit", "fields"];
-    excluderFields.forEach((elem) => delete queryObj[elem]);
-    let queryStr = JSON.stringify(queryObj);
-    queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
-    let query = ProductModel.find(JSON.parse(queryStr));
 
-    //Sorting
-    if (req.query.sort) {
-      const sortBy = req.query.sort.split(",").join(" ");
-      query = query.sort(sortBy);
-    } else {
-      query = query.sort("-createdAt");
-    }
-
-    //limiting the fields
-    if (req.query.fields) {
-      const fields = req.query.fields.split(",").join(" ");
-      query = query.select(fields);
-    } else {
-      query = query.select("-__v");
-    }
-
-    //pagination
-    const page = req.query.page;
-    const limit = req.query.limit;
-    const skip = (page - 1) * limit;
-    query = query.skip(skip).limit(limit);
-    if (req.query.page) {
-      const productCount = await ProductModel.countDocuments();
-      if (skip >= productCount) throw new Error("This page does not exist");
-    }
-    const product = await query;
-    return res.status(200).json(product);
-  } catch (error) {
-    throw new Error(error);
-  }
-});
 export const getFilteredProducts = asyncHandler(async(req,res) => {
   try {
     const {category,brand,price,rating} = req.params
     const ascendingOrDescending = price == -1 ? -1 : 1
     const star = rating == 0 ? {$exists: true} : rating
-    console.log(star);
     const trimCat = category.trim()
     const filteredProducts = await ProductModel.find({category:trimCat,brand,totalRatings:star})
     .sort({price:ascendingOrDescending})
@@ -174,7 +142,6 @@ export const askQuestion = asyncHandler(async (req, res) => {
     throw new Error(error);
   }
 });
-
 export const likeQuestion = asyncHandler(async (req, res) => {
   try {
     const { _id } = req.user;

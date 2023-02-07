@@ -1,21 +1,27 @@
 import moment from 'moment'
 import React, { useEffect, useState } from 'react'
-import { AiOutlineDislike, AiOutlineLike } from 'react-icons/ai'
+import { AiFillDislike, AiFillLike, AiOutlineDislike, AiOutlineLike } from 'react-icons/ai'
+import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import BreadCrumbs from '../../components/BreadCrumbs'
-import { useGetBlogQuery } from '../../store/services/blogServices'
+import { useGetBlogQuery, useLikeBlogMutation } from '../../store/services/blogServices'
 
 const BlogDetails = () => {
     const {id} = useParams()
+    const { user } = useSelector((state) => state.authReducer);
     const [blog, setBlog] = useState({})
     const {data,isFetching,isSuccess,isLoading,} = useGetBlogQuery(id)
+    const [likeBlogMutation, response] = useLikeBlogMutation();
     useEffect(() => {
         if (isFetching === false) {
           setBlog(data);
         }
       }, [data, isFetching]);
+      const likeBlog = (id, button) => {
+        likeBlogMutation({ id, button });
+      };
   return (
-    isFetching === false && !isLoading && isSuccess && <div>
+    isFetching === false && !isLoading && isSuccess &&  <div>
         <BreadCrumbs title={"Blog"} />
         <div className="w-12/12 py-4 flex flex-col px-4
      lg:px-16 md:px-14 sm:px-8  min-h-screen bg-gray-100">
@@ -31,12 +37,50 @@ const BlogDetails = () => {
             <p className=" capitalize font-semibold  break-words text-sm text-gray-400">
                     {moment(blog?.createdAt).format("DD MMMM YYYY")}
                   </p>
-                 <div className='flex items-center gap-2'>
-                 <AiOutlineLike size={20} color="green"/>
-                        <p className='font-semibold text-md text-green-900'>13</p>
-                        <AiOutlineDislike size={20} color="green"/>
-                        <p className='font-semibold text-md text-green-900'>13</p>
-                 </div>
+                  <div className="flex gap-2 ">
+                      <div
+                        className="rounded-full items-center flex gap-2 
+                        cp p-2 "
+                      >
+                        {blog?.likes?.includes(user._id) ? (
+                          <AiFillLike
+                            onClick={() => likeBlog(blog._id, "like")}
+                            size={20}
+                            color="green"
+                          />
+                        ) : (
+                          <AiOutlineLike
+                            onClick={() => likeBlog(blog._id, "like")}
+                            size={20}
+                            color="green"
+                          />
+                        )}
+                        <p className="font-semibold text-md text-green-900">
+                          {blog?.likes?.length}
+                        </p>
+                      </div>
+                      <div
+                        className="rounded-full items-center flex gap-2 cp
+                         p-2 "
+                      >
+                        {blog?.dislikes?.includes(user._id) ? (
+                          <AiFillDislike
+                            onClick={() => likeBlog(blog._id, "dislike")}
+                            size={20}
+                            color="green"
+                          />
+                        ) : (
+                          <AiOutlineDislike
+                            onClick={() => likeBlog(blog._id, "dislike")}
+                            size={20}
+                            color="green"
+                          />
+                        )}
+                        <p className="font-semibold text-md text-green-900">
+                          {blog?.dislikes?.length}
+                        </p>
+                      </div>
+                    </div>
                 </div>
             </div>          
             <div>

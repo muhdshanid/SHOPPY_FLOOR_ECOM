@@ -1,36 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useGetBlogsQuery } from "../../store/services/blogServices";
-import BlogSkeleton from "../loading/BlogSkeleton";
+import BlogSkeleton from "../../components/loading/BlogSkeleton";
 import moment from "moment";
-const Blogs = () => {
+import BreadCrumbs from "../../components/BreadCrumbs";
+const BlogsPage = () => {
   const [blogs, setBlogs] = useState([]);
-  const [slicedBlogs, setSlicedBlogs] = useState([])
   const { data,isFetching} = useGetBlogsQuery();
   useEffect(() => {
     if (isFetching === false) {
       setBlogs(data);
-      setSlicedBlogs(data.slice(0,4))
     }
-  }, [data, isFetching]); 
+  }, [data, isFetching]);
   return (
-    <div className="my-4 fc gap-4">
+    <div >
+        <BreadCrumbs title={"Blogs"}/>
+   <div className="w-12/12  flex flex-col px-4
+    lg:px-16 md:px-14 sm:px-8  min-h-screen bg-gray-100">
+   <div className="my-4 fc gap-4">
       <div className="flex-ic-jb">
         <div className="flex">
           <h6 className="font-semibold text-2xl text-gray-900 cap">
-            our latest blogs
+            Blogs ({blogs?.length} Blogs)
           </h6>
-        </div>
-        <div>
-          <Link
-            to={"/blogs"}
-            className="
-            animation
-             duration-500 
-            button-green !w-full"
-          >
-            See All
-          </Link>
         </div>
       </div>
       <div className="my-2 w-full  grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-4">
@@ -41,8 +33,8 @@ const Blogs = () => {
             <BlogSkeleton />
             <BlogSkeleton />
           </>
-        ) : slicedBlogs?.length > 0 ? (
-          slicedBlogs?.map((blog) => {
+        ) : blogs?.length > 0 ? (
+          blogs?.map((blog) => {
             let content = blog?.description?.slice(0, 100).concat("...");
             return (
               <div key={blog._id} className="fc my-4 gap-2 relative">
@@ -91,7 +83,9 @@ const Blogs = () => {
         )}
       </div>
     </div>
+   </div>
+    </div>
   );
 };
 
-export default Blogs;
+export default BlogsPage;

@@ -35,7 +35,7 @@ const ProductDetails = () => {
         <ProductOverView id={id}/>
         <ProductSpecifications id={id}/>
         <Reviews id={id}/>
-        <ProductCard products={slicedArray}  caption={"Products You May Like"}/>
+        <ProductCard products={slicedArray} page={"category"}  caption={"Products You May Like"}/>
       </div>
     </div>
   );

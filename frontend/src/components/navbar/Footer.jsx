@@ -4,131 +4,112 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <div className=" w-12/12  bg-green-800 ">
+    <div className=" w-12/12  bg-green-900 ">
       <div
         className="w-12/12  flex  px-4
      lg:px-16 md:px-14 sm:px-8  "
       >
-        <div className="grid borer-b grid-cols-2 w-full sm:grid-cols-3 md:grid-cols-4 py-4">
-          <div className="flex flex-col gap-6 py-4">
+        <div className="grid borer-b grid-cols-2 w-full sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 py-4">
+          <div className="fc gap-6 py-4">
             <div>
-              <h6 className="font-semibold text-2xl text-white">Contact Us</h6>
+              <h6 className="font-semibold text-2xl tw">Contact Us</h6>
             </div>
-            <div className="flex text-white font-semibold text-lg">
+            <div className="flex tw font-semibold text-lg">
               Hno : 277 Near Post Office , <br />
               Wayanad, Kerela <br />
               Pincode : 670645
             </div>
             <div>
-              <a
-                href="tel:+91 7306639007"
-                className="text-white text-lg block "
-              >
-                +91 7306639007
+              <a href="tel:+91 7306639080" className="tw text-lg block ">
+                +91 7306639080
               </a>
             </div>
             <div>
               <a
                 href="mailto:shanidshani91@gmail.com"
-                className="text-white text-lg block "
+                className="tw break-words sm:w-full w-[80%] text-lg block "
               >
                 shanidshani91@gmail.com
               </a>
             </div>
-            <div className="flex items-center gap-6 ">
-              <a className="text-white" href="/">
+            <div className="flex-ic gap-4 sm:gap-6 ">
+              <a className="tw" href="/">
                 <BsLinkedin size={29} />
               </a>
-              <a className="text-white" href="/">
+              <a className="tw" href="/">
                 <BsInstagram size={29} />
               </a>
-              <a className="text-white" href="/">
+              <a className="tw" href="/">
                 <BsGithub size={31} />
               </a>
-              <a className="text-white" href="/">
+              <a className="tw" href="/">
                 <BsYoutube size={35} />
               </a>
             </div>
           </div>
-          <div className="flex flex-col gap-6 p-4">
+          <div className="fc gap-6 p-4">
             <div>
-              <h6 className="font-semibold text-2xl text-white">
-                Information{" "}
-              </h6>
+              <h6 className="font-semibold text-2xl tw">Information </h6>
             </div>
             <div>
-              <p className="font-normal text-lg text-white">Privacy Policy</p>
+              <p className="fn text-lg tw">Privacy Policy</p>
             </div>
             <div>
-              <p className="font-normal text-lg text-white">Refund Policy</p>
+              <p className="fn text-lg tw">Refund Policy</p>
             </div>
             <div>
-              <p className="font-normal text-lg text-white">Shipping Policy</p>
+              <p className="fn text-lg tw">Shipping Policy</p>
             </div>
             <div>
-              <p className="font-normal text-lg text-white">
-                Terms & Conditions
-              </p>
+              <p className="fn text-lg tw">Terms & Conditions</p>
             </div>
             <div>
-              <p className="font-normal text-lg text-white">Blogs</p>
+              <p className="fn text-lg tw">Blogs</p>
             </div>
           </div>
-          <div className="flex flex-col gap-6 p-4">
+          <div className="fc gap-6 p-4">
             <div>
-              <h6 className="font-semibold text-2xl text-white">Account </h6>
+              <h6 className="font-semibold text-2xl tw">Account </h6>
             </div>
             <div>
-              <p className="font-normal text-lg text-white">About Us</p>
+              <p className="fn text-lg tw">About Us</p>
             </div>
             <div>
-              <p className="font-normal text-lg text-white">FAQ</p>
+              <p className="fn text-lg tw">FAQ</p>
             </div>
             <div>
-              <p className="font-normal text-lg text-white">Contact</p>
+              <p className="fn text-lg tw">Contact</p>
             </div>
           </div>
-          <div className="flex flex-col gap-6 p-4">
+          <div className="fc gap-6 p-4">
             <div>
-              <h6 className="font-semibold text-2xl text-white">
-                Quick Links{" "}
-              </h6>
+              <h6 className="font-semibold text-2xl tw">Quick Links </h6>
             </div>
             <div>
-              <Link
-                to={"/cat-products/laptops"}
-                className="font-normal capitalize text-lg text-white"
-              >
+              <Link to={"/cat-products/laptops"} className="fn cap text-lg tw">
                 Laptops
               </Link>
             </div>
             <div>
               <Link
                 to={"/cat-products/headphones"}
-                className="font-normal capitalize text-lg text-white"
+                className="fn cap text-lg tw"
               >
                 Headphones
               </Link>{" "}
             </div>
             <div>
-              <Link
-                to={"/cat-products/mobiles"}
-                className="font-normal capitalize text-lg text-white"
-              >
+              <Link to={"/cat-products/mobiles"} className="fn cap text-lg tw">
                 Mobiles
               </Link>{" "}
             </div>
             <div>
-              <Link
-                to={"/cat-products/watches"}
-                className="font-normal capitalize text-lg text-white"
-              >
+              <Link to={"/cat-products/watches"} className="fn cap text-lg tw">
                 Watches
               </Link>{" "}
             </div>
           </div>
         </div>
-
       </div>
     </div>
   );

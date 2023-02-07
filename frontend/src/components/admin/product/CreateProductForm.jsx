@@ -8,6 +8,7 @@ import { useGetBrandsQuery } from '../../../store/services/brandServices';
 import { useGetCategoriesQuery } from '../../../store/services/categoryServices';
 import { useCreateProductMutation } from '../../../store/services/productServices';
 import {useUploadProductImagesMutation } from '../../../store/services/uploadServices';
+import { discount } from '../../../utils/discount';
 import Colors from '../Colors';
 import SizeList from '../SizeList';
 const CreateProductForm = () => {
@@ -107,8 +108,9 @@ const CreateProductForm = () => {
     setImageUploading(true)
       }
       const createProduct = () => {
+        const  discountPrice = discount(state.price,state.discount)
         const specificationsArray = stringToObj(specifications)
-        const data = {...state,images:productImages,sizes:sizeList,specifications:specificationsArray}
+        const data = {...state,discountPrice,images:productImages,sizes:sizeList,specifications:specificationsArray}
         createProd(data)
       }
   return (

@@ -21,13 +21,13 @@ const WishList = () => {
       }
     },[data, dispatch, isFetching, isSuccess])
   return (
-    <div>
-         <BreadCrumbs title={"Wishlist"} />
+    <div className=''>
+         <BreadCrumbs title={"My Wishlist"} />
         <div
         className="w-12/12  flex  px-4
-     lg:px-16 md:px-14 sm:px-8  min-h-screen bg-gray-100">
-         <div className='my-4'>
-          <div className='my-2 w-full  grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-4'>
+     lg:px-16 md:px-14 sm:px-8   bg-gray-100">
+        
+          <div className='my-2 w-full grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4  gap-4'>
 
     {
       isFetching ? 
@@ -38,14 +38,16 @@ const WishList = () => {
       <ProductSkeleton/>
       </>
        : wishlistProducts?.length > 0 ? wishlistProducts?.map(product => {
-            let description = product.description.slice(0,30).concat("...")
+        let descriptionForSmallScreen = product.description.slice(0,15).concat("...")
+        let descriptionForLargeScreen = product.description.slice(0,30).concat("...")
              return(
-           <SingleProductDetails product={product} description={description}/>
+           <SingleProductDetails key={product._id}
+            product={product} descriptionForLargeScreen={descriptionForLargeScreen}
+            descriptionForSmallScreen={descriptionForSmallScreen}/>
         )}) 
-    : ""
+    : "NO WISHLIST"
     }
  
-    </div>
     </div>
      </div>
     </div>

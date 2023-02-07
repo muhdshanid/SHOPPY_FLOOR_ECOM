@@ -54,77 +54,46 @@ export const deleteBlog = asyncHandler(async (req,res) => {
      throw new Error(error)
     }
 })
-export const likeBlog = asyncHandler(async (req,res) => {
-    try {
-     const {blogId} = req.body
-     validateMongoDBID(blogId)
-     // find the blog which you want to like
-     const blog = await BlogModel.findById(blogId)
-     // find login user
-     const loginUserId = req?.user?._id 
-     // if the user is liked the post
-     const isLiked = blog?.isLiked
-     // if the user is disliked the post
-     const alreadyDisliked = blog?.dislikes.find(userId => userId.toString() === loginUserId.toString())
-     if(alreadyDisliked){
-        const blog = await BlogModel.findByIdAndUpdate(blogId,{
-            $pull:{dislikes:loginUserId},
-            isDisliked:false
-        },{new:true})
-     }
-     if(isLiked){
-        const blog = await BlogModel.findByIdAndUpdate(blogId,{
-            $pull:{likes:loginUserId},
-            isLiked:false
-        },{new:true})
-        return res.status(200).json(blog)
-     }else{
-        const blog = await BlogModel.findByIdAndUpdate(blogId,{
-            $push:{likes:loginUserId},
-            isLiked:true
-        },{new:true})
-        return res.status(200).json(blog)
-     }
-    } catch (error) {
-     throw new Error(error)
-    }
-})
-export const dislikeBlog = asyncHandler(async (req,res) => {
-    try {
-     const {blogId} = req.body
-     validateMongoDBID(blogId)
-     // find the blog which you want to like
-     const blog = await BlogModel.findById(blogId)
-     // find login user
-     const loginUserId = req?.user?._id 
-     // if the user is liked the post
-     const isDisliked = blog?.isDisliked
-     // if the user is disliked the post
-     const alreadyLiked = blog?.likes.find(userId => userId.toString() === loginUserId.toString())
-     if(alreadyLiked){
-        const blog = await BlogModel.findByIdAndUpdate(blogId,{
-            $pull:{likes:loginUserId},
-            isLiked:false
-        },{new:true})
-     }
-     if(isDisliked){
-        const blog = await BlogModel.findByIdAndUpdate(blogId,{
-            $pull:{dislikes:loginUserId},
-            isDisliked:false
-        },{new:true})
-        return res.status(200).json(blog)
-     }else{
-        const blog = await BlogModel.findByIdAndUpdate(blogId,{
-            $push:{dislikes:loginUserId},
-            isDisliked:true
-        },{new:true})
-        return res.status(200).json(blog)
-     }
-    } catch (error) {
-     throw new Error(error)
-    }
-})
 
+export const likeBlog = asyncHandler(async (req, res) => {
+    try {
+      const { _id } = req.user;
+      const { id } = req.params;
+      const {button} = req.body
+      const blog = await BlogModel.findById(id)
+      if (blog.likes.includes(_id)) {
+        if(button === "dislike"){
+          const dislike = await BlogModel.findByIdAndUpdate(id,{ $push: { dislikes: _id } },{new:true});
+          const liked = await BlogModel.findByIdAndUpdate(id,{ $pull: { likes: _id } },{new:true});
+          return res.status(200).json(liked);
+        }else{
+          const liked = await BlogModel.findByIdAndUpdate(id,{ $pull: { likes: _id } },{new:true});
+          return res.status(200).json(liked);
+        }
+      } else if(blog.dislikes.includes(_id)){
+        if(button === "like"){
+          const dislike = await BlogModel.findByIdAndUpdate(id,{ $pull: { dislikes: _id } },{new:true});
+          const liked = await BlogModel.findByIdAndUpdate(id,{ $push: { likes: _id } },{new:true});
+          return res.status(200).json(liked);
+        }else{
+          const dislike = await BlogModel.findByIdAndUpdate(id,{ $pull: { dislikes: _id } },{new:true});
+          return res.status(200).json(dislike);
+  
+        }
+      }
+        else if(!blog.likes.includes(_id)){
+          if(button === "like"){
+            const liked = await BlogModel.findByIdAndUpdate(id,{ $push: { likes: _id } },{new:true});
+            return res.status(200).json(liked);
+          }else{
+            const disliked = await BlogModel.findByIdAndUpdate(id,{ $push: { dislikes: _id } },{new:true});
+            return res.status(200).json(disliked);
+          }
+        }
+    } catch (error) {
+      throw new Error(error);
+    }
+  });
 export const uploadImages = asyncHandler(async (req, res) => {
     const {id} = req.params
     validateMongoDBID(id)

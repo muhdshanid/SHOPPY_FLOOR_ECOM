@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { CgSpinner } from "react-icons/cg";
 import { useNavigate } from "react-router-dom";
 import { useApplyCouponQuery } from "../../store/services/couponServices";
 import { useCreateOrderMutation } from "../../store/services/orderServices";
@@ -23,7 +24,9 @@ const OrderSummarySingleProduct = ({product,color,size,totalPrice,quantity,setSt
       setFinalPrice(finalPriceWithoutFloat);
     }, [finalPriceWithoutFloat, totalPrice]);
     const [doCOD,resp] = useCreateOrderMutation()
-    const {data,isFetching,isSuccess} = useApplyCouponQuery(coupon,{skip})
+    const {data,isFetching,isSuccess,isError} = useApplyCouponQuery(coupon,{skip})
+    console.log(data,isError);
+
     const applyCouponFn = () => {
       if(selectedPayment === "stripe"){
         setCouponError(true)
@@ -95,22 +98,31 @@ const OrderSummarySingleProduct = ({product,color,size,totalPrice,quantity,setSt
           value={coupon}
           onChange={(e)=>setCoupon(e.target.value)}
             type="text"
-            className="bg-gray-200  px-4 py-2 rounded-full outline-none border-none"
+            className="bg-gray-200  px-4 py-2 rf sm:w-full w-[8.5rem] outline-none border-none"
             placeholder="Enter Coupon Code"
           />
         </div>
         <div>
           <button disabled={couponDiscount > 0} onClick={applyCouponFn}
-            className="bg-green-900 px-4 py-2 hover:bg-gray-200 hover:text-black
-           rounded-full border border-black font-semibold text-white"
+            className="button-green !w-full"
           >
-            Apply Coupon
+            {
+              isFetching ? <div className="w-full  mx-auto">
+              <CgSpinner className="h-6 w-6 animate-spin" />
+            </div>
+            : "Apply Coupon"
+            }
+           
           </button>
         </div>
       </div>
       { couponError && <div className="ml-6 -mt-4">
         <p   className={`font-semibold capitalize  text-rose-600  text-sm`}
               >coupon available for COD only </p>
+        </div>}
+      { isError && <div className="ml-6 -mt-4">
+        <p   className={`font-semibold capitalize  text-rose-600  text-sm`}
+              >{data} </p>
         </div>}
       </div>
       <div className="flex p-4 flex-col gap-10">
@@ -123,7 +135,7 @@ const OrderSummarySingleProduct = ({product,color,size,totalPrice,quantity,setSt
         <div className="flex flex-col gap-2">
           <div className="flex gap-4 items-center">
           <input className="w-6 h-6
-              bg-green-900 text-green-900 rounded-full flex items-center justify-center" 
+              bg-green-900 text-green-900 rf w-[5rem] flex items-center justify-center" 
             checked={selectedPayment === "Cash on Delivery"}
             onChange={handlePaymentChange}
            type="radio" name="payment" value="Cash on Delivery" /> 
@@ -131,7 +143,7 @@ const OrderSummarySingleProduct = ({product,color,size,totalPrice,quantity,setSt
           </div>
           <div className="flex gap-4 items-center">
           <input className="w-6 h-6
-              bg-green-900 text-green-900 rounded-full flex items-center justify-center"
+              bg-green-900 text-green-900 rf w-[5rem] flex items-center justify-center"
            checked={selectedPayment === "stripe"}
            onChange={handlePaymentChange}
            type="radio" name="payment" value="stripe" />  
@@ -172,7 +184,7 @@ const OrderSummarySingleProduct = ({product,color,size,totalPrice,quantity,setSt
                    selectedPayment === "stripe" ? total : finalPrice}</h6>
               </div>
               <div className="w-full">
-              <button onClick={pay} className='button-green !w-full'>Pay ₹{
+              <button disabled={address.fullname === "" && selectedPayment !== "stripe"} onClick={pay} className='button-green !w-full'>Pay ₹{
                    selectedPayment === "stripe" ? total : finalPrice}</button>
               </div>
           </div>
