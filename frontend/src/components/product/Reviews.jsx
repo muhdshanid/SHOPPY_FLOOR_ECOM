@@ -10,6 +10,7 @@ import { TiTick } from "react-icons/ti";
 import { SlEmotsmile } from "react-icons/sl";
 import StarRating from "./StarRating";
 import { CgSpinner } from "react-icons/cg";
+import WarningModal from '../modal/WarningModal'
 import Dropzone from "react-dropzone";
 import {
   useAskQuestionMutation,
@@ -20,20 +21,22 @@ import {
 } from "../../store/services/productServices";
 import { useUploadReviewImageMutation } from "../../store/services/uploadServices";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 const Reviews = ({ id }) => {
+  const navigate  = useNavigate()
   const { user } = useSelector((state) => state.authReducer);
   const [star, setStar] = useState(1);
   const [comment, setComment] = useState("");
   const [imageUploading, setImageUploading] = useState(false);
   const [question, setQuestion] = useState("");
   const [reviewImages, setReviewImages] = useState([]);
-  const [isFourImages, setisFourImages] = useState(true);
+  const [warningModal, setWarningModal] = useState(false)
   const [product, setProduct] = useState({});
   const { data, isFetching, isSuccess, isLoading } = useGetProductQuery(id);
   const [uploadImages, res] = useUploadReviewImageMutation();
   const [likeReviewMutation, response] = useLikeReviewMutation();
   const [likeQuestionMutation, result] = useLikeQuestionMutation();
-  const [reviewProd, resp] = useReviewProductMutation();
+  const [reviewProd, {error,isLoading:loading}] = useReviewProductMutation();
   const [questionPost, ress] = useAskQuestionMutation();
   useEffect(() => {
     if (isFetching === false && isSuccess && !isLoading) {
@@ -46,12 +49,16 @@ const Reviews = ({ id }) => {
       setImageUploading(false);
     }
   }, [res?.data, res.isSuccess]);
+
   const uploadReviewImages = (acceptedFiles) => {
-    const formData = new FormData();
-    if (acceptedFiles.length > 4) {
-      setisFourImages(false);
-      return;
+    if(user === null){
+      navigate("/login")
     }
+    const formData = new FormData();
+    // if (acceptedFiles.length > 4) {
+    //   setisFourImages(false);
+    //   return;
+    // }
     for (let i = 0; i < acceptedFiles.length; i++) {
       formData.append("images", acceptedFiles[i]);
     }
@@ -59,21 +66,33 @@ const Reviews = ({ id }) => {
     setImageUploading(true);
   };
   const reviewProduct = () => {
+    if(user === null){
+      navigate("/login")
+    }
     if (comment !== "") {
       reviewProd({ proId: product._id, star, comment, images: reviewImages });
       setComment("");
     }
   };
   const askQuestion = () => {
+    if(user === null){
+      navigate("/login")
+    }
     if (question !== "") {
       questionPost({ question, proId: product._id });
       setQuestion("");
     }
   };
   const likeReview = (id, button) => {
+    if(user === null){
+      navigate("/login")
+    }
     likeReviewMutation({ id, button });
   };
   const likeQuestion = (qId, button) => {
+    if(user === null){
+      navigate("/login")
+    }
     likeQuestionMutation({ qId, button, proId: product._id });
   };
   return (
@@ -105,6 +124,7 @@ const Reviews = ({ id }) => {
                   </p>
                 </div>
               </div>
+                  <p className="font-semibold text-gray-900">Only ordered user can add review</p>
             </div>
             {product?.reviews?.length > 0 ? (
               product?.reviews.map((review) => (
@@ -134,10 +154,10 @@ const Reviews = ({ id }) => {
                         {review.comment}
                       </p>
                     </div>
-                    <div className="flex gap-2">
+                    <div className="grid grid-cols-2 sm:grid-cols-2 gap-2 md:grid-cols-2 lg:grid-cols-4">
                       {review?.images?.length > 0
                         ? review.images.map((img) => (
-                            <div className="p-4 border rl h-[150px]  w-3/12">
+                            <div className="p-4 border rl flex items-center justify-center h-[150px] w-12/12">
                               <img
                                 className="rl p-1 h-full object-cover"
                                 src={img.url}
@@ -152,7 +172,7 @@ const Reviews = ({ id }) => {
                         className="rounded-full items-center flex gap-2 
                         cp p-2 "
                       >
-                        {review?.likes?.includes(user._id) ? (
+                        {review?.likes?.includes(user?._id) ? (
                           <AiFillLike
                             onClick={() => likeReview(review._id, "like")}
                             size={20}
@@ -173,7 +193,7 @@ const Reviews = ({ id }) => {
                         className="rounded-full items-center flex gap-2 cp
                          p-2 "
                       >
-                        {review?.dislikes?.includes(user._id) ? (
+                        {review?.dislikes?.includes(user?._id) ? (
                           <AiFillDislike
                             onClick={() => likeReview(review._id, "dislike")}
                             size={20}
@@ -257,7 +277,7 @@ const Reviews = ({ id }) => {
                 <div>
                   <button
                     onClick={reviewProduct}
-                    disabled={imageUploading}
+                    disabled={imageUploading }
                     className="button-green
                      sm:!w-[100%] sm:!px-4  sm:!py-2 !w-[7.5rem]"
                   >
@@ -267,8 +287,8 @@ const Reviews = ({ id }) => {
                         Uploading...
                       </>
                     ) : (
-                      resp?.isLoading ? 
-                      <div className="w-full">
+                      loading ? 
+                      <div className="w-full flex items-center justify-center">
                         <CgSpinner className="h-6 w-6 animate-spin" />
                       </div>
                       :
@@ -335,7 +355,7 @@ const Reviews = ({ id }) => {
                         className="rounded-full items-center flex gap-2 
                         cp p-2 "
                       >
-                        {q?.likes?.includes(user._id) ? (
+                        {q?.likes?.includes(user?._id) ? (
                           <AiFillLike
                             onClick={() => likeQuestion(q._id, "like")}
                             size={20}
@@ -356,7 +376,7 @@ const Reviews = ({ id }) => {
                         className="rounded-full items-center flex gap-2 cp
                          p-2 "
                       >
-                        {q?.dislikes?.includes(user._id) ? (
+                        {q?.dislikes?.includes(user?._id) ? (
                           <AiFillDislike
                             onClick={() => likeQuestion(q._id, "dislike")}
                             size={20}
@@ -403,7 +423,7 @@ const Reviews = ({ id }) => {
                  sm:!w-[100%] sm:!px-4  sm:!py-2 !w-[8.5rem]">
                   {
                     ress?.isLoading ? 
-                    <div className="w-full  mx-auto">
+                    <div className="w-full  flex items-center justify-center">
                         <CgSpinner className="h-6 w-6 animate-spin" />
                       </div>
                       :
@@ -415,6 +435,7 @@ const Reviews = ({ id }) => {
           </div>
         </div>
       </div>
+      {warningModal && <WarningModal name={"Add Review"} setState={setWarningModal} state={warningModal}/>}
     </div>
   );
 };

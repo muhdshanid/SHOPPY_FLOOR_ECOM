@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import { useGetCouponQuery, useUpdateCouponMutation } from '../../../store/services/couponServices';
 import Spinner from '../Spinner';
+import { CgSpinner } from 'react-icons/cg';
 const UpdateCouponForm = ({id}) => {
   const navigate = useNavigate()
   const [name, setName] = useState("")
@@ -73,7 +74,14 @@ const UpdateCouponForm = ({id}) => {
         className="bg-sidebar-item
         items-center flex gap-2 px-4 py-2 hover:bg-gray-200 hover:text-black
        rounded-full border border-black font-semibold text-black">
-        Update Category
+        {
+                      result?.isLoading ? 
+                      <>
+                        <CgSpinner className="h-6 w-6 mr-2 animate-spin" />
+                        Updating coupon
+                      </>
+                      :
+                      "Update coupon"}
       </button>
   </div>
 </div> :<div className='w-full  h-[50vh] flex items-center justify-center'>

@@ -43,7 +43,16 @@ export const getAllBlogs = asyncHandler(async (req,res) => {
      throw new Error(error)
     }
 })
-
+export const getFilteredBlogs = asyncHandler(async(req,res) => {
+  try {
+    const {category} = req.params
+    const filteredBlogs = await BlogModel.find({category})
+    return res.status(200).json(filteredBlogs)
+  } catch (error) {
+    console.log(error.message);
+    throw new Error(error);
+  }
+})
 export const deleteBlog = asyncHandler(async (req,res) => {
     try {
     const {id} = req.params
@@ -54,7 +63,6 @@ export const deleteBlog = asyncHandler(async (req,res) => {
      throw new Error(error)
     }
 })
-
 export const likeBlog = asyncHandler(async (req, res) => {
     try {
       const { _id } = req.user;

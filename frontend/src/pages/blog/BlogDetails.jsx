@@ -4,6 +4,7 @@ import { AiFillDislike, AiFillLike, AiOutlineDislike, AiOutlineLike } from 'reac
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import BreadCrumbs from '../../components/BreadCrumbs'
+import BlogDetailsSkeleton from '../../components/loading/BlogDetailsSkeleton'
 import { useGetBlogQuery, useLikeBlogMutation } from '../../store/services/blogServices'
 
 const BlogDetails = () => {
@@ -21,11 +22,13 @@ const BlogDetails = () => {
         likeBlogMutation({ id, button });
       };
   return (
-    isFetching === false && !isLoading && isSuccess &&  <div>
+     <div>
         <BreadCrumbs title={"Blog"} />
         <div className="w-12/12 py-4 flex flex-col px-4
      lg:px-16 md:px-14 sm:px-8  min-h-screen bg-gray-100">
         <div className='flex flex-col gap-8'>
+        {isFetching === false ? 
+        <>
             <div className=''>
             <h6 className="font-semibold text-2xl text-gray-900 capitalize">
             {blog?.name}
@@ -88,9 +91,14 @@ const BlogDetails = () => {
                     {blog?.description}
                 </p>
             </div>
+        </>
+            :
+    <BlogDetailsSkeleton/>}
         </div>
         </div>
     </div>
+    
+
   )
 }
 

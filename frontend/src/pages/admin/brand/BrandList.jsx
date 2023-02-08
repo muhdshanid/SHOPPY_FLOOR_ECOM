@@ -9,19 +9,26 @@ import {
   useGetBrandsQuery,
 } from "../../../store/services/brandServices";
 import Spinner from "../../../components/admin/Spinner";
+import Modal from "../../../components/modal/Modal";
 
 const BrandList = () => {
   const [brands, setBrands] = useState([]);
   const { data, isFetching } = useGetBrandsQuery();
-  const [deleteCat, res] = useDeleteBrandMutation();
+  const [dltBrand, res] = useDeleteBrandMutation();
+  const [deleteModal, setDeleteModal] = useState(false)
+  const [deleteBrandId, setdeleteBrandId] = useState("")
   useEffect(() => {
     if (isFetching === false) {
       setBrands(data);
     }
   }, [data, isFetching]);
-  const deleteCategory = (id) => {
-    deleteCat(id);
+  const deleteBrand = (id) => {
+    dltBrand(id);
   };
+  const deleteClick = id => {
+    setDeleteModal(true)
+    setdeleteBrandId(id)
+  }
   return (
     <Wrapper>
       <div className=" flex flex-col gap-8">
@@ -86,7 +93,7 @@ const BrandList = () => {
                       <div className="flex  -ml-8 items-center justify-center">
                         <AiFillDelete
                           className=" cursor-pointer"
-                          onClick={() => deleteCategory(brand._id)}
+                          onClick={() => deleteClick(brand._id)}
                           size={20}
                           color="red"
                         />
@@ -102,6 +109,8 @@ const BrandList = () => {
           </div>
         )}
       </div>
+      {deleteModal && <Modal name={"Brand"} setState={setDeleteModal} id={deleteBrandId} actionFunction={deleteBrand} state={deleteModal} />}
+
     </Wrapper>
   );
 };

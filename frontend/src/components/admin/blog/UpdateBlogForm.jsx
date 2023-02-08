@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useGetBlogQuery, useUpdateBlogMutation } from '../../../store/services/blogServices';
 import { useGetCategoriesQuery } from '../../../store/services/categoryServices';
 import Spinner from '../Spinner';
+import { CgSpinner } from 'react-icons/cg';
 const UpdateBlogForm = ({id}) => {
   const navigate = useNavigate()
   const [imageData, setImageData] = useState("")
@@ -131,7 +132,17 @@ const UpdateBlogForm = ({id}) => {
         className="bg-sidebar-item
         items-center flex gap-2 px-4 py-2 hover:bg-gray-200 hover:text-black
        rounded-full border border-black font-semibold text-black">
-        {imageUploading ? "Uploading Image..." : "Update Blog"}
+       {imageUploading ? <>
+                        <CgSpinner className="h-6 w-6 mr-2 animate-spin" />
+                        Uploading...
+                      </> : 
+                      result?.isLoading ? 
+                      <>
+                        <CgSpinner className="h-6 w-6 mr-2 animate-spin" />
+                        Updating Blog
+                      </>
+                      :
+                      "Update Blog"}
       </button>
   </div>
 </div> :  <div className='w-full  h-[50vh] flex items-center justify-center'>

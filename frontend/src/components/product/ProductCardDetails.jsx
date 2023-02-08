@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import StarRating from '../product/StarRating'
 import {AiFillHeart, AiOutlineHeart} from 'react-icons/ai'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { addToCart } from '../../store/reducers/cartReducer'
 import { useDispatch, useSelector } from 'react-redux'
 import { discount } from '../../utils/discount'
@@ -11,6 +11,7 @@ import { useAddToWishlistMutation } from '../../store/services/userServices'
 const ProductCardDetails = ({product,descriptionForLargeScreen,descriptionForSmallScreen}) => {
   const {user} = useSelector(state => state.authReducer)
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const [quantity, setQuantity] = useState(1)
     const finalPrice = discount(product?.price,product?.discount)
     const [addToWishlist,res] = useAddToWishlistMutation()
@@ -43,6 +44,9 @@ const ProductCardDetails = ({product,descriptionForLargeScreen,descriptionForSma
         }
       }
       const wishlistFn = (id) => {
+        if(user === null){
+          navigate("login")
+        }
         addToWishlist({proId:id,userId:user._id})
       }
       useEffect(()=>{
@@ -95,7 +99,7 @@ const ProductCardDetails = ({product,descriptionForLargeScreen,descriptionForSma
         </div>
        </div>
         <div className='lg:flex lg:flex-row lg:items-center gap-4 lg:justify-between flex flex-col'>
-        <Link to={`/checkout/${product?._id}`} className='button-green lg:!w-[50%] !w-full'>Buy Now</Link>
+        <Link to={user === null ? '/login' : `/checkout/${product?._id}`} className='button-green lg:!w-[50%] !w-full'>Buy Now</Link>
         <button onClick={addToCartFn} className='button-gray lg:!w-[50%] !w-full'>Add To Cart</button>
         </div>
     </div>

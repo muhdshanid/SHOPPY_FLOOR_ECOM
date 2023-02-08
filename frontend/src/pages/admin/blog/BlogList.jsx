@@ -9,11 +9,14 @@ import {
   useGetBlogsQuery,
 } from "../../../store/services/blogServices";
 import Spinner from "../../../components/admin/Spinner";
+import Modal from "../../../components/modal/Modal";
 
 const BlogList = () => {
   const [blogs, setBlogs] = useState([]);
   const { data, isFetching } = useGetBlogsQuery();
   const [deleteBlg, res] = useDeleteBlogMutation();
+  const [deleteModal, setDeleteModal] = useState(false)
+  const [deleteBlogId, setdeleteBlogId] = useState("")
   useEffect(() => {
     if (isFetching === false) {
       setBlogs(data);
@@ -22,6 +25,10 @@ const BlogList = () => {
   const deleteBlog = (id) => {
     deleteBlg(id);
   };
+  const deleteClick = id => {
+    setDeleteModal(true)
+    setdeleteBlogId(id)
+  }
   return (
     <Wrapper>
       <div className=" flex  flex-col gap-8">
@@ -96,7 +103,7 @@ const BlogList = () => {
                       <div className="flex -ml-12 items-center justify-center">
                         <AiFillDelete
                           className=" cursor-pointer"
-                          onClick={() => deleteBlog(blog._id)}
+                          onClick={() => deleteClick(blog._id)}
                           size={20}
                           color="red"
                         />
@@ -110,6 +117,8 @@ const BlogList = () => {
             <Spinner/>
             </div>}
       </div>
+      {deleteModal && <Modal name={"Blog"} setState={setDeleteModal} id={deleteBlogId} actionFunction={deleteBlog} state={deleteModal} />}
+
     </Wrapper>
   );
 };

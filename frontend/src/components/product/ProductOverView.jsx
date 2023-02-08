@@ -3,17 +3,16 @@ import {
   MdOutlineAssignmentReturned,
   MdOutlineLocalShipping,
 } from "react-icons/md";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import service5 from "../../assets/images/service-05.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { addToCart } from "../../store/reducers/cartReducer";
 import { useGetProductQuery } from "../../store/services/productServices";
 import { discount } from "../../utils/discount";
-import ProductDetailsSkeleton from "../loading/ProductDetailsSkeleton";
-import ProductOverviewSkeleton from "../loading/ProductOverviewSkeleton";
 import StarRating from "./StarRating";
 const ProductOverView = ({ id }) => {
   const dispatch = useDispatch();
+  const {user} = useSelector(state => state.authReducer)
   const [product, setProduct] = useState({});
   const [quantity, setQuantity] = useState(1);
   const [selectedColor, setSelectedColor] = useState();
@@ -69,12 +68,7 @@ const ProductOverView = ({ id }) => {
   return (
     <div className="w-12/12 flex gap-8">
       <div className="my-2 w-full  md:grid-cols-1 lg:grid-cols-2  grid grid-cols-1 sm:grid-cols-1   gap-8">
-        {isFetching || isLoading ? (
-          <>
-            <ProductOverviewSkeleton />
-            <ProductDetailsSkeleton />
-          </>
-        ) : (
+        
           <>
             <div className="">
               <div className="bg-g-2 p-4  rl ">
@@ -268,8 +262,8 @@ const ProductOverView = ({ id }) => {
                     )}
                   </div>
                   <div className="flex gap-4 items-center px-1 py-4">
-                    <Link
-                      to={{
+                    <Link 
+                      to={user === null ? "/login" : {
                         pathname: `/checkout/${product._id}`,
                         hash: "#hash",
                         search: `?color=${
@@ -312,7 +306,7 @@ const ProductOverView = ({ id }) => {
               </div>
             </div>
           </>
-        )}
+      
       </div>
     </div>
   );

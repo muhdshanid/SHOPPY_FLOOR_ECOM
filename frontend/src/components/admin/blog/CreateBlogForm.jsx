@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Dropzone from "react-dropzone";
+import { CgSpinner } from "react-icons/cg";
 import { useNavigate } from "react-router-dom";
 import { useCreateBlogMutation } from "../../../store/services/blogServices";
 import { useGetCategoriesQuery } from "../../../store/services/categoryServices";
@@ -156,7 +157,17 @@ const CreateBlogForm = () => {
             items-center flex gap-2 px-4 py-2 hover:bg-gray-200 hover:text-black
            rounded-full border border-black font-semibold text-black"
         >
-          {imageUploading ? "Uploading Image..." : "Create Blog"}
+          {imageUploading ? <>
+                        <CgSpinner className="h-6 w-6 mr-2 animate-spin" />
+                        Uploading...
+                      </> : 
+                      result?.isLoading ? 
+                      <>
+                        <CgSpinner className="h-6 w-6 mr-2 animate-spin" />
+                        Creating Blog
+                      </>
+                      :
+                      "Create Blog"}
         </button>
       </div>
     </div>

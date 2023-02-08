@@ -27,6 +27,14 @@ export const getAProduct = asyncHandler(async (req, res) => {
     throw new Error(error);
   }
 });
+export const getAllProducts = asyncHandler(async (req, res) => {
+  try {
+    const allproducts = await ProductModel.find({})
+    return res.status(200).json(allproducts);
+  } catch (error) {
+    throw new Error(error);
+  }
+});
 export const getCategoryProducts = asyncHandler(async (req, res) => {
   const { name } = req.params;
   try {

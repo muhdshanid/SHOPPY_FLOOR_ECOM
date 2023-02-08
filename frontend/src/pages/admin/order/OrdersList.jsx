@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
 import { Link } from 'react-router-dom';
+import Spinner from '../../../components/admin/Spinner';
 import { useGetAllOrdersQuery } from '../../../store/services/orderServices';
 import Wrapper from '../Wrapper';
 
@@ -15,13 +16,19 @@ const OrdersList = () => {
   return (
     <Wrapper>
        <div className=' flex flex-col gap-8'>
-       <div className='mx-4 my-4'>
-        <div className='bg-sidebar-item items-center w-[10%] flex gap-2 px-4 py-2 hover:bg-gray-200 hover:text-black
-             rounded-lg border border-black font-semibold text-black'>
+       <div className=' my-2'>
+        <div className='bg-white
+          items-center flex w-[8%] gap-2 px-2 py-2 hover:bg-orange-300 hover:text-black
+           rounded-lg border border-black font-semibold text-black'>
                 <p className='font-medium  text-lg text-gray-900'>Orders</p>
                 </div>
         </div>
-       <table className="rounded-lg mx-4">
+      { isFetching ?
+      <div className="w-full  h-[50vh] flex items-center justify-center">
+      <Spinner />
+    </div>
+      :
+      <table className="rounded-lg mx-4">
         <thead className="w-full rounded-full bg-gray-800">
           <tr>
             <th className="py-4 px-10  uppercase text-xs font-bold text-white text-left">
@@ -70,15 +77,15 @@ const OrdersList = () => {
            </td>
            <td className="p-4    text-sm text-gray-700">
            <Link to={`/admin/order-details/${order?._id}`} className='bg-sidebar-item items-center
-            w-[75%] flex gap-2 px-4 py-1 hover:bg-gray-200  hover:text-black
+            w-[70%] flex gap-2 px-4 py-1 hover:bg-gray-200  hover:text-black
              rounded-lg border border-black font-semibold text-black'>
-                <p className='font-medium  text-lg text-gray-900'>Details</p>
+                <p className='font-semibold  text-lg text-gray-900'>Details</p>
                 </Link>
            </td>
            </tr>
         )): "" }
         </tbody>
-          </table>
+          </table>}
        </div>
     </Wrapper>
   )

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import moment from 'moment'
 import { useNavigate } from 'react-router-dom';
 import { useCreateCouponMutation } from '../../../store/services/couponServices';
+import { CgSpinner } from 'react-icons/cg';
 const CreateCouponForm = () => {
   const navigate = useNavigate()
   const [name, setName] = useState("")
@@ -14,7 +15,7 @@ const CreateCouponForm = () => {
       navigate("/admin/coupons-list")
     }
   },[navigate, result.isSuccess])
-  const createCategory = () =>{
+  const createCoupon = () =>{
     if(name !== "" && expiry !== "" && discount !== 0 ){
         createCoupn({name,expiry,discount})
     }
@@ -61,11 +62,18 @@ const CreateCouponForm = () => {
             expiry === "" ||
             discount === 0 
           } 
-     onClick={createCategory}
+     onClick={createCoupon}
           className="bg-sidebar-item
           items-center flex gap-2 px-4 py-2 hover:bg-gray-200 hover:text-black
          rounded-full border border-black font-semibold text-black">
-         Create Coupon
+        {
+                      result?.isLoading ? 
+                      <>
+                        <CgSpinner className="h-6 w-6 mr-2 animate-spin" />
+                        Creating coupon
+                      </>
+                      :
+                      "Create coupon"}
         </button>
     </div>
 </div>

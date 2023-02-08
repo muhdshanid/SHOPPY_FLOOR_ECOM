@@ -4,11 +4,13 @@ import { AiFillHeart, AiOutlinePoweroff } from 'react-icons/ai'
 import { Link, useNavigate } from 'react-router-dom'
 import {useDispatch} from 'react-redux'
 import { logout } from '../../store/reducers/authReducer'
+import { emptyCart } from '../../store/reducers/cartReducer'
 const ProfileList = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const logoutUser = () => {
         dispatch(logout())
+        dispatch(emptyCart())
         navigate("/login")
     }
   return (

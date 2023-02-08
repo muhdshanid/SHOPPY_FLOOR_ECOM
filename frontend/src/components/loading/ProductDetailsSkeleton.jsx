@@ -6,7 +6,7 @@ const ProductDetailsSkeleton = () => {
     <div className='flex my-4 rounded-lg flex-col gap-4 overflow-hidden'>
       {
         [1,2,3,4,5].map(el => (
-            <div  className='w-full h-[30px] rounded-lg  bg-indigo-50   overflow-hidden '>
+            <div key={el} className='w-full h-[30px] rounded-lg  bg-indigo-50   overflow-hidden '>
             <Animate/>
           </div>
         ))

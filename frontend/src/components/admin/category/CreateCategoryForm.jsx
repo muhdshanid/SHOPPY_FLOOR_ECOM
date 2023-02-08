@@ -3,6 +3,7 @@ import { useUploadImagesMutation } from '../../../store/services/uploadServices'
 import Dropzone from "react-dropzone";
 import { useCreateCategoryMutation } from '../../../store/services/categoryServices';
 import { useNavigate } from 'react-router-dom';
+import { CgSpinner } from 'react-icons/cg';
 const CreateCategoryForm = () => {
   const navigate = useNavigate()
   const [imageData, setImageData] = useState("")
@@ -80,7 +81,17 @@ const CreateCategoryForm = () => {
           className="bg-sidebar-item
           items-center flex gap-2 px-4 py-2 hover:bg-gray-200 hover:text-black
          rounded-full border border-black font-semibold text-black">
-          {imageUploading ? "Uploading Image..." : "Create Category"}
+          {imageUploading ? <>
+                        <CgSpinner className="h-6 w-6 mr-2 animate-spin" />
+                        Uploading...
+                      </> : 
+                      result?.isLoading ? 
+                      <>
+                        <CgSpinner className="h-6 w-6 mr-2 animate-spin" />
+                        Creating Category
+                      </>
+                      :
+                      "Create Category"}
         </button>
     </div>
 </div>

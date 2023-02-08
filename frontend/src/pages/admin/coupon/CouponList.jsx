@@ -10,11 +10,14 @@ import {
 } from "../../../store/services/couponServices";
 import moment from "moment";
 import Spinner from "../../../components/admin/Spinner";
+import Modal from "../../../components/modal/Modal";
 
 const CouponList = () => {
   const [coupons, setCoupons] = useState([]);
   const { data, isFetching } = useGetCouponsQuery();
   const [dltCoupon, res] = useDeleteCouponMutation();
+  const [deleteModal, setDeleteModal] = useState(false)
+  const [deleteBrandId, setdeleteBrandId] = useState("")
   useEffect(() => {
     if (isFetching === false) {
       setCoupons(data);
@@ -23,6 +26,10 @@ const CouponList = () => {
   const deleteCoupon = (id) => {
     dltCoupon(id);
   };
+  const deleteClick = id => {
+    setDeleteModal(true)
+    setdeleteBrandId(id)
+  }
   return (
     <Wrapper>
       <div className=" flex  flex-col gap-8">
@@ -95,7 +102,7 @@ const CouponList = () => {
                       <div className="flex -ml-10 items-center justify-center">
                         <AiFillDelete
                           className=" cursor-pointer"
-                          onClick={() => deleteCoupon(coupon._id)}
+                          onClick={() => deleteClick(coupon._id)}
                           size={20}
                           color="red"
                         />
@@ -111,6 +118,8 @@ const CouponList = () => {
           </div>
         )}
       </div>
+      {deleteModal && <Modal name={"Coupon"} 
+      setState={setDeleteModal} id={deleteBrandId} actionFunction={deleteCoupon} state={deleteModal} />}
     </Wrapper>
   );
 };

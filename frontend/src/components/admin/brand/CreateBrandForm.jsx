@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Dropzone from 'react-dropzone';
+import { CgSpinner } from 'react-icons/cg';
 import { useNavigate } from 'react-router-dom';
 import { useCreateBrandMutation } from '../../../store/services/brandServices';
 import { useUploadImagesMutation } from '../../../store/services/uploadServices';
@@ -82,7 +83,17 @@ const CreateBrandForm = () => {
           className="bg-sidebar-item
           items-center flex gap-2 px-4 py-2 hover:bg-gray-200 hover:text-black
          rounded-full border border-black font-semibold text-black">
-         {imageUploading ? "Uploading Image..." : "Create Brand"}
+          {imageUploading ? <>
+                        <CgSpinner className="h-6 w-6 mr-2 animate-spin" />
+                        Uploading...
+                      </> : 
+                      result?.isLoading ? 
+                      <>
+                        <CgSpinner className="h-6 w-6 mr-2 animate-spin" />
+                        Creating Brand
+                      </>
+                      :
+                      "Create Brand"}
         </button>
       </div>
 </div>

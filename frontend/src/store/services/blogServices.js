@@ -62,6 +62,15 @@ const blogService = createApi({
         },
         providesTags: ["blogs"],
       }),
+      getFilteredBlogs: builder.query({
+        query: (data) => {
+          return {
+            url: `get-filtered-blogs/${data.category}`,
+            method: "GET",
+          };
+        },
+        providesTags: ["blogs"],
+      }),
       getBlog: builder.query({
         query: (id) => {
           return {
@@ -77,6 +86,7 @@ const blogService = createApi({
 
 export const {
   useCreateBlogMutation,
+  useGetFilteredBlogsQuery,
   useLikeBlogMutation,
   useUpdateBlogMutation,
   useDeleteBlogMutation,

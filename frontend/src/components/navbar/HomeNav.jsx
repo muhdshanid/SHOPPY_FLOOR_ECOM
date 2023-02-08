@@ -37,30 +37,26 @@ const HomeNav = () => {
         <Link to={"/our-store"} className='cap fs-tm-tg7 cp'>
             Our
          store</Link>
-        <p className=' cap fs-tm-tg7 cp '></p>
-        <p className=' cap fs-tm-tg7 cp '>Contact us</p>
+       
+        <Link to={"/blogs-filter"} className=' cap fs-tm-tg7 cp '>Blogs</Link>
     </div>
     <div className=' gap-2 flex-ic bg-g-2  rf  px-4'>
         <input value={search} onChange={(e)=>setSearch(e.target.value)} type="text"  className='bg-g-2 
          px-2 rf sm:w-[10rem] md:w-[8rem] w-[5rem] outline-none py-2  border-none'
         placeholder='Search Product...'/>
        <div className='bg-g-9  p-2 rf -mr-4 overflow-hidden'>
-       <Link to={`/search/${search}`}  className=''>
+       <Link to={search !== "" && `/search/${search}`}  className=''>
             <IoSearchOutline color='white' size={20}/>
         </Link>
        </div>
     </div> 
     <div className='flex gap-8 items-center relative'>
-        <div className='flex gap-2 cp'>
-            {
-                userToken !== null ? 
+        {
+            user !== null ? <div className='flex gap-2 cp'> 
                 <>
                 <FiUser onClick={()=>setProfileListShow(prev => !prev)} className='' size={24}/>
                 <p className=' md:flex fs-tm-tg7 cap  hidden '>{user?.name}</p>
                 </>
-                :
-            <Link to={"/login"} className='md:flex  hidden fs-tm-tg7'>Account</Link>
-            }
             {!profileListShow ? <AiFillCaretDown onClick={()=>setProfileListShow(prev => !prev)}
              size={20} className="mt-1 hidden sm:flex
          cp"/> :
@@ -70,6 +66,8 @@ const HomeNav = () => {
             <ProfileList/> 
         </div>}
         </div>
+        : <Link to={"/login"} className=' fs-tm-tg7'>Login</Link>
+        }
         <div className='flex gap-2  cp'>
        <Link to={"/cart"} className='relative'>
        <MdAddShoppingCart size={24} />

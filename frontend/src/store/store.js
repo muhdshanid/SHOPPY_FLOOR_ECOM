@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./reducers/authReducer";
 import cartReducer from "./reducers/cartReducer";
+import globalReducer from "./reducers/globalReducer";
 import authService from "./services/authServices";
 import blogService from "./services/blogServices";
 import brandService from "./services/brandServices";
@@ -25,6 +26,7 @@ const store = configureStore({
     [orderService.reducerPath]: orderService.reducer,
     [userService.reducerPath]: userService.reducer,
     cartReducer: cartReducer,
+    globalReducer: globalReducer,
     authReducer: authReducer,
   },
   middleware: (getDefaultMiddleware) =>

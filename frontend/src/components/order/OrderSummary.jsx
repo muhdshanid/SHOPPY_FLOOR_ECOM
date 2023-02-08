@@ -24,6 +24,7 @@ const OrderSummary = ({total,cart,setStripeSelected,address}) => {
       setCouponError(true)
     }
     if(coupon !== ""){ 
+      setCoupon("")
       setSkip(prev => !prev)
     } 
   }
@@ -153,7 +154,7 @@ const OrderSummary = ({total,cart,setStripeSelected,address}) => {
                    selectedPayment === "stripe" ? total : finalPrice}</h6>
                 </div>
                 <div className="w-full">
-                <button onClick={pay} className='button-green !w-full'>Pay ₹{
+                <button disabled={address.fullname === ""} onClick={pay} className='button-green !w-full'>Pay ₹{
               selectedPayment === "stripe" ? total : finalPrice}</button>
                 </div>
             </div>

@@ -42,7 +42,7 @@ export const categoryImgResize = async (req, res, next) => {
         .toFormat("jpeg")
         .jpeg({ quality: 90 })
         .toFile(`${__dirname}/public/images/categories/${file.filename}`);
-        fs.unlinkSync(`${__dirname}/public/images/categories/${file.filename}`)
+         fs.unlinkSync(`${__dirname}/public/images/categories/${file.filename}`)
       })
       );
   next() 

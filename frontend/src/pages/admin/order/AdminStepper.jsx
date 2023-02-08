@@ -65,8 +65,9 @@ const AdminStepper = ({order}) => {
       </div>
       {!complete && (
         <button
-          className={`btn bg-white w-[15%]
-          items-center flex ${currentStep === 4 ? "hidden" : ""} gap-2 px-2 py-2 hover:bg-orange-300 hover:text-black
+          className={`btn bg-orange-300 
+          items-center flex ${currentStep === 4 ? "hidden" : ""} gap-2 px-2 py-2
+           hover:bg-white hover:text-black
            rounded-lg border border-black font-semibold  my-4 mx-auto  text-black`}
           onClick={() => updateOrderStatus()}
         >

@@ -9,9 +9,12 @@ import {
   useGetCategoriesQuery,
 } from "../../../store/services/categoryServices";
 import Spinner from "../../../components/admin/Spinner";
+import Modal from "../../../components/modal/Modal";
 
 const CategoryList = () => {
   const [categories, setCategories] = useState([]);
+  const [deleteModal, setDeleteModal] = useState(false)
+  const [deleteCatId, setdeleteCatId] = useState("")
   const { data, isFetching } = useGetCategoriesQuery();
   const [deleteCat, res] = useDeleteCategoryMutation();
   useEffect(() => {
@@ -22,6 +25,10 @@ const CategoryList = () => {
   const deleteCategory = (id) => {
     deleteCat(id);
   };
+  const deleteClick = id => {
+    setDeleteModal(true)
+    setdeleteCatId(id)
+  }
   return (
     <Wrapper>
       <div className=" flex  flex-col gap-8">
@@ -29,7 +36,7 @@ const CategoryList = () => {
           <Link
             to={"/admin/create-category"}
             className="bg-white
-          items-center flex w-[19%] gap-2 px-2 py-2 hover:bg-orange-300 hover:text-black
+          items-center flex w-[20%] gap-2 px-2 py-2 hover:bg-orange-300 hover:text-black
            rounded-lg border border-black font-semibold text-black"
           >
             <p className="font-medium  text-lg text-gray-900">
@@ -88,7 +95,7 @@ const CategoryList = () => {
                       <div className="flex -ml-10 items-center justify-center">
                         <AiFillDelete
                           className=" cursor-pointer"
-                          onClick={() => deleteCategory(cat._id)}
+                          onClick={() => deleteClick(cat._id)}
                           size={20}
                           color="red"
                         />
@@ -104,6 +111,9 @@ const CategoryList = () => {
           </div>
         )}
       </div>
+      {deleteModal && <Modal name={"Category"} 
+      setState={setDeleteModal} id={deleteCatId} actionFunction={deleteCategory} state={deleteModal} />}
+
     </Wrapper>
   );
 };

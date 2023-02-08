@@ -7,6 +7,7 @@ import {
   useUpdateBrandMutation,
 } from "../../../store/services/brandServices";
 import Spinner from "../Spinner";
+import { CgSpinner } from "react-icons/cg";
 const UpdateBrandForm = ({ id }) => {
   const navigate = useNavigate();
   const [imageData, setImageData] = useState("");
@@ -102,7 +103,17 @@ const UpdateBrandForm = ({ id }) => {
         items-center flex gap-2 px-4 py-2 hover:bg-gray-200 hover:text-black
        rounded-full border border-black font-semibold text-black"
         >
-          {imageUploading ? "Uploading Image..." : "Update Brand"}
+         {imageUploading ? <>
+                        <CgSpinner className="h-6 w-6 mr-2 animate-spin" />
+                        Uploading...
+                      </> : 
+                      result?.isLoading ? 
+                      <>
+                        <CgSpinner className="h-6 w-6 mr-2 animate-spin" />
+                        Updating Brand
+                      </>
+                      :
+                      "Update Brand"}
         </button>
       </div>
     </div>

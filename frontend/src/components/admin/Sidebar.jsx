@@ -45,10 +45,6 @@ const Sidebar = () => {
                     <ImBlog size={27} color="black"/>
                     <h6 className='font-medium text-lg text-gray-900'>Blogs</h6>
                 </Link>
-                <div className='flex rounded-lg  p-4  bg-sidebar-item gap-4 items-center'>
-                    <TbMessage size={27} color="black"/>
-                    <h6 className='font-medium text-lg text-gray-900'>Enquiries</h6>
-                </div>
             </div>
         </div>
     </div>

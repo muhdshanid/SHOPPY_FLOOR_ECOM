@@ -7,6 +7,8 @@ import { discount } from "../../utils/discount";
 
 const CartTable = () => {
   const dispatch = useDispatch()
+  const { user } = useSelector((state) => state.authReducer);
+
     const { cart, total } = useSelector((state) => state.cartReducer);
     const inc = (id) => {
       dispatch(incQuantity(id));
@@ -21,7 +23,7 @@ const CartTable = () => {
       }
     };
   return (
-    <div className="w-full flex flex-col bg-gray-200 rounded-lg">
+    cart?.length > 0 ?<div className="w-12/12 xl:overflow-hidden overflow-x-scroll  flex flex-col bg-gray-200 rounded-lg">
       <table className="rounded-lg">
         <thead className="w-full rounded-lg bg-green-900">
           <tr>
@@ -117,19 +119,22 @@ const CartTable = () => {
         )}) }
         </tbody>
       </table>
-       <div className="w-full p-4 bg-gray-200 rounded-lg">
+       <div className="w-full overflow-hidden p-4 bg-gray-200 rounded-lg">
        <div className="flex justify-end">
          <div className="flex items-center gap-4">
            <div>
            <h6 className="font-semibold text-lg text-gray-900">₹{total}</h6>
            </div>
            <div>
-           <Link to={"/checkout"} className='bg-green-900 px-10 py-2 hover:bg-gray-200 hover:text-black
+           <Link to={user === null ? "/login" : "/checkout"} className='bg-green-900 px-10 py-2 hover:bg-gray-200 hover:text-black
       rounded-full border border-black font-semibold text-white'>Checkout</Link>
            </div>
          </div>
        </div>
      </div>   
+    </div>
+    : <div className="w-full flex items-center justify-center">
+      <h6 className="font-semibold text-gray-900 text-lg">CART IS EMPTY</h6>
     </div>
   );
 };

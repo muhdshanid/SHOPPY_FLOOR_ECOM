@@ -3,6 +3,7 @@ import {
   askQuestion,
   createProduct,
   deleteProduct,
+  getAllProducts,
   getAProduct,
   getBrandsProducts,
   getCategoryProducts,
@@ -33,6 +34,7 @@ productRouter.delete(
 productRouter.get("/get-popular-product", getPopularProducts);
 productRouter.get("/get-search-products/:keyword", getSearchProducts);
 productRouter.get("/get-cat-product/:name",getCategoryProducts)
+productRouter.get("/get-allproducts",[authMiddleware,isAdmin],getAllProducts)
 productRouter.get("/get-brand-product/:name",getBrandsProducts)
 productRouter.put("/review", authMiddleware, reviewProduct);
 productRouter.put("/question", authMiddleware, askQuestion);

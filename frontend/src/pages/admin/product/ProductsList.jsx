@@ -5,12 +5,15 @@ import { BiEdit } from 'react-icons/bi';
 import { IoMdAdd } from 'react-icons/io';
 import { Link } from 'react-router-dom';
 import Spinner from '../../../components/admin/Spinner';
+import Modal from '../../../components/modal/Modal';
 import { useDeleteProductMutation, useGetProductsQuery } from '../../../store/services/productServices';
 import Wrapper from '../Wrapper';
 
 const ProductList = () => {
     const {data,isFetching} = useGetProductsQuery()
     const [products, setProducts] = useState([])
+    const [deleteModal, setDeleteModal] = useState(false)
+    const [deleteProId, setdeleteProId] = useState("")
     const [deleteProd,res] = useDeleteProductMutation()
     useEffect(()=>{
       if(isFetching === false){
@@ -19,6 +22,10 @@ const ProductList = () => {
     },[data, isFetching])
     const deleteProduct = id => {
       deleteProd(id)
+    }
+    const deleteClick = id => {
+      setDeleteModal(true)
+      setdeleteProId(id)
     }
   return (
     <Wrapper>
@@ -57,7 +64,7 @@ const ProductList = () => {
           </tr>
         </thead>
         <tbody>
-        { products.map(product => (
+        { products?.map(product => (
            <tr className="bg-gray-900  even:bg-gray-800">
             <td className="p-4 text-sm text-gray-700">
              <div className="flex items-center justify-center">
@@ -90,7 +97,7 @@ const ProductList = () => {
            </td>
            <td>
              <div className="flex items-center justify-center">
-               <AiFillDelete className=' cursor-pointer' onClick={()=>deleteProduct(product._id)} size={20} color="red"/>
+               <AiFillDelete className=' cursor-pointer' onClick={()=>deleteClick(product._id)} size={20} color="red"/>
              </div>
            </td>
            </tr>
@@ -102,6 +109,7 @@ const ProductList = () => {
         </div>
       }
        </div>
+       {deleteModal && <Modal name={"Product"} setState={setDeleteModal} id={deleteProId} actionFunction={deleteProduct} state={deleteModal} />}
     </Wrapper>
   )
 }

@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react'
+import { CgSpinner } from 'react-icons/cg'
 import { useDispatch } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import { setUser, setUserToken } from '../../store/reducers/authReducer'
@@ -22,7 +23,6 @@ const LoginForm = () => {
       navigate("/")
     }
   },[dispatch, navigate, res?.data?.token, res?.data?.user, res.isSuccess]) 
-  console.log(res);
  
    const login = () => {
     let regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -82,7 +82,14 @@ const LoginForm = () => {
         </div>
         <div>
         <button onClick={login} disabled={email === "" || password === ""} className='bg-green-900 px-4 py-2 hover:bg-gray-200 hover:text-black
-             rounded-full w-full border border-black font-semibold text-white'>Login</button>
+             rounded-full w-full flex-ic justify-center border border-black font-semibold text-white'>
+              {res?.isLoading ? 
+                      <>
+                        <CgSpinner className="h-6 w-6 mr-2 animate-spin" />
+                      </>
+                      :
+          "Login"}
+              </button>
         </div>
         <div>
             <p className='font-semibold  text-md text-gray-900'>Don't have an account ?

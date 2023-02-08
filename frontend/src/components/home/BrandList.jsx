@@ -5,7 +5,7 @@ import { useGetBrandsQuery } from "../../store/services/brandServices";
 import BrandSkeleton from "../loading/BrandSkeleton";
 const BrandList = () => {
   const [brands, setBrands] = useState([]);
-  const { data, isFetching } = useGetBrandsQuery();
+  const { data, isFetching ,isLoading} = useGetBrandsQuery();
   useEffect(() => {
     if (isFetching === false) {
       setBrands(data);
@@ -21,7 +21,7 @@ const BrandList = () => {
         </div>
       </div>
       <div className="my-2 grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4">
-        {isFetching ? (
+        {isFetching || isLoading ? (
           <>
             <BrandSkeleton />
             <BrandSkeleton />
