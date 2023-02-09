@@ -8,16 +8,18 @@ import CategoryListShow from '../category/CategoryListShow'
 import { useSelector } from 'react-redux' 
 import ProfileList from '../profile/ProfileList'
 import { AiFillCaretDown, AiFillCaretUp } from 'react-icons/ai'
+import { BsShopWindow } from 'react-icons/bs'
 const HomeNav = () => {
     const  [search, setSearch] = useState("")
     const {items} = useSelector(state=>state.cartReducer)
-    const {user,userToken} = useSelector(state=>state.authReducer)
+    const {user} = useSelector(state=>state.authReducer)
     const logo = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLDhYBltma0_qRGcKkgfpZZfne4dtTSTmfwA&usqp=CAU"
     const [catListShow, setCatListShow] = useState(false)
     const [profileListShow, setProfileListShow] = useState(false)
   return (
-    <div className='w-12/12 relative fc px-4 lg:px-16 md:px-14 sm:px-8  bg-gray-100'>
-    <div className=' w-full  flex-ic-jb md:gap-12  gap-6 py-4 '>
+    <div className='w-full mt-6  border-b shadow-xl fixed z-50
+      fc px-4 lg:px-16 md:px-14 sm:px-8  bg-gray-100'>
+    <div className=' w-full  flex-ic-jb md:gap-12 relative  gap-6 py-4 '>
     <Link to={"/"} className='flex-ic  cp gap-4 lg:gap-2  '>
         <img src={logo} className="sm:w-8   sm:flex lg:flex 
         xl:flex w-10 h-10 sm:h-8 md:flex object-cover rf" alt="logo" />
@@ -50,7 +52,10 @@ const HomeNav = () => {
         </Link>
        </div>
     </div> 
-    <div className='flex gap-8 items-center relative'>
+    <div className='flex gap-6 sm:gap-8 items-center relative'>
+        <Link to={"/our-store"} className='sm:hidden'>
+            <BsShopWindow size={20}/>
+        </Link>
         {
             user !== null ? <div className='flex gap-2 cp'> 
                 <>

@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useApplyCouponQuery } from "../../store/services/couponServices";
 import { useCreateOrderMutation } from "../../store/services/orderServices";
 import { useSendPaymentMutation } from "../../store/services/paymentServices";
+import SuccessModal from "../modal/SuccessModal";
 const OrderSummarySingleProduct = ({product,color,size,totalPrice,quantity,setStripeSelected,address}) => {
     const navigate = useNavigate();
     const [qty, setQty] = useState(quantity ? quantity : 1)
@@ -15,6 +16,7 @@ const OrderSummarySingleProduct = ({product,color,size,totalPrice,quantity,setSt
     const  taxPriceWithoutFloat = taxPrice.toFixed()
     const [selectedPayment, setSelectedPayment] = useState("Cash on Delivery");
     const [skip, setSkip] = useState(true)
+    const [modalOpen, setModalOpen] = useState(false)
     const [couponDiscount, setCouponDiscount] = useState(0)
     const [doPayment, res] = useSendPaymentMutation();
     let finalPriceWithFloat = total * (1 + (taxRate / 100))
@@ -25,7 +27,6 @@ const OrderSummarySingleProduct = ({product,color,size,totalPrice,quantity,setSt
     }, [finalPriceWithoutFloat, totalPrice]);
     const [doCOD,resp] = useCreateOrderMutation()
     const {data,isFetching,isSuccess,isError} = useApplyCouponQuery(coupon,{skip})
-    console.log(data,isError);
 
     const applyCouponFn = () => {
       if(selectedPayment === "stripe"){
@@ -66,7 +67,7 @@ const OrderSummarySingleProduct = ({product,color,size,totalPrice,quantity,setSt
     }, [res]);
     useEffect(() => {
       if (resp.isSuccess) {
-       navigate("/")
+        setModalOpen(true)
       }
     }, [navigate, resp.isSuccess]);
     useEffect(()=>{
@@ -135,15 +136,15 @@ const OrderSummarySingleProduct = ({product,color,size,totalPrice,quantity,setSt
         <div className="flex flex-col gap-2">
           <div className="flex gap-4 items-center">
           <input className="w-6 h-6
-              bg-green-900 text-green-900 rf w-[5rem] flex items-center justify-center" 
+              bg-green-900 text-green-900 rf flex items-center justify-center" 
             checked={selectedPayment === "Cash on Delivery"}
             onChange={handlePaymentChange}
            type="radio" name="payment" value="Cash on Delivery" /> 
           <span className="text-md font-semibold  text-gray-900"> Cash on Delivery</span>
           </div>
           <div className="flex gap-4 items-center">
-          <input className="w-6 h-6
-              bg-green-900 text-green-900 rf w-[5rem] flex items-center justify-center"
+          <input className="w-6 h-6  
+              bg-green-900 text-green-900 rf  flex items-center justify-center"
            checked={selectedPayment === "stripe"}
            onChange={handlePaymentChange}
            type="radio" name="payment" value="stripe" />  
@@ -184,13 +185,25 @@ const OrderSummarySingleProduct = ({product,color,size,totalPrice,quantity,setSt
                    selectedPayment === "stripe" ? total : finalPrice}</h6>
               </div>
               <div className="w-full">
-              <button disabled={address.fullname === "" && selectedPayment !== "stripe"} onClick={pay} className='button-green !w-full'>Pay ₹{
-                   selectedPayment === "stripe" ? total : finalPrice}</button>
+              <button disabled={address.fullname === "" && selectedPayment !== "stripe"} onClick={pay} 
+              className='button-green !w-full'>
+                {
+                resp?.isLoading ?
+                <>
+                        <CgSpinner className="h-6 w-6 mr-2 animate-spin" />
+                      </>
+                :
+                `Pay ₹
+                   ${selectedPayment === "stripe" ? total : finalPrice}`}
+                   </button>
               </div>
           </div>
         </div>
       </div>
     </div>
+    {
+      modalOpen && <SuccessModal setState={setModalOpen} state={modalOpen} />
+    }
   </div>
   )
 }

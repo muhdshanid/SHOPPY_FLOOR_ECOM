@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react'
+import { TfiFaceSad } from 'react-icons/tfi'
 import { useParams } from 'react-router-dom'
 import BreadCrumbs from '../../components/BreadCrumbs'
 import ProductCard from '../../components/home/ProductCard'
@@ -18,11 +19,7 @@ const Search = () => {
   return (
     <div>
         <BreadCrumbs title={search}/>
-   {isFetching === false ? <div className='w-12/12 pt-8   px-4
-    lg:px-16 md:px-14 sm:px-8 min-h-screen bg-gray-100'>
-    <ProductCard products={products} page={"category"} caption={`${search}  (${products.length} Products)`}/>
-    </div>
-    :
+   {isFetching ?
     <div className='w-12/12 pt-8   px-4
     lg:px-16 md:px-14  sm:px-8 min-h-screen bg-gray-100'>
       <div className='my-2 w-full
@@ -34,6 +31,17 @@ const Search = () => {
     <ProductSkeleton/>
       </div>
     </div>
+    :
+    products?.length > 0 ? 
+    <div className='w-12/12 pt-8   px-4
+    lg:px-16 md:px-14 sm:px-8 min-h-screen bg-gray-100'>
+    <ProductCard products={products} page={"category"} caption={`${search}  (${products.length} Products)`}/>
+    </div>
+    :
+    <div className='h-[50vh] bg-gray-100 w-full flex gap-6 items-center justify-center'>
+            <TfiFaceSad className='flex items-center justify-center' size={40}/>
+            <h6 className='font-semibold  text-gray-900 text-xl'> NO PRODUCTS FOUND</h6>
+          </div>
     }
     </div>
   )

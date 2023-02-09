@@ -1,5 +1,7 @@
 import React from "react";
 import { AiFillDelete } from "react-icons/ai";
+import { FaShopify } from "react-icons/fa";
+import { TfiFaceSad } from "react-icons/tfi";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { decQuantity, incQuantity, removeItem } from "../../store/reducers/cartReducer";
@@ -125,7 +127,7 @@ const CartTable = () => {
            <div>
            <h6 className="font-semibold text-lg text-gray-900">₹{total}</h6>
            </div>
-           <div>
+           <div className="">
            <Link to={user === null ? "/login" : "/checkout"} className='bg-green-900 px-10 py-2 hover:bg-gray-200 hover:text-black
       rounded-full border border-black font-semibold text-white'>Checkout</Link>
            </div>
@@ -133,10 +135,11 @@ const CartTable = () => {
        </div>
      </div>   
     </div>
-    : <div className="w-full flex items-center justify-center">
-      <h6 className="font-semibold text-gray-900 text-lg">CART IS EMPTY</h6>
-    </div>
-  );
+    :  <div className='h-[50vh] bg-gray-100 w-full flex gap-6 items-center justify-center'>
+    <FaShopify className='flex items-center justify-center' size={40}/>
+    <h6 className='font-semibold  text-gray-900 text-xl'> CART IS EMPTY</h6>
+  </div>
+  ); 
 };
 
 export default CartTable;

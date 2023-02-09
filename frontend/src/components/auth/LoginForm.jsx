@@ -81,7 +81,8 @@ const LoginForm = () => {
             <p className='font-semibold underline text-md text-gray-900'>Forgot Password ?</p>
         </div>
         <div>
-        <button onClick={login} disabled={email === "" || password === ""} className='bg-green-900 px-4 py-2 hover:bg-gray-200 hover:text-black
+        <button onClick={login} disabled={email === "" || password === ""} className='bg-green-900
+         px-4 py-2 hover:bg-gray-200 hover:text-black
              rounded-full w-full flex-ic justify-center border border-black font-semibold text-white'>
               {res?.isLoading ? 
                       <>

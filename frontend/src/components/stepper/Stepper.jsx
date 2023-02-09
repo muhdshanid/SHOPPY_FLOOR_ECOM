@@ -19,18 +19,18 @@ const Stepper = ({order}) => {
   },[currentStep,order.orderStatus])
   return (
     <>
-      <div className="flex justify-between">
+      <div className="flex justify-between ">
         {steps?.map((step, i) => (
           <div
             key={i}
-            className={`step-item ${currentStep === i + 1 && "active"} ${
+            className={`step-item  ${currentStep === i + 1 && "active"} ${
               (i + 1 < currentStep || complete) && "complete"
             } `}
           >
             <div className="step">
               {i + 1 < currentStep || complete ? <TiTick size={24} /> : i + 1}
             </div>
-            <h6 className="text-gray-500">{step}</h6>
+            <p className="">{step}</p>
           </div>
         ))}
       </div>

@@ -37,7 +37,6 @@ var productSchema = new mongoose.Schema(
     colors:[],
     brand: {
       type: String,
-      required:true
     },
     totalRatings: {
       type: String,

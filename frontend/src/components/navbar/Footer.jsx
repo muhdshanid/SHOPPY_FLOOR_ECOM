@@ -33,13 +33,13 @@ const Footer = () => {
               </a>
             </div>
             <div className="flex-ic gap-4 sm:gap-6 ">
-              <a className="tw" href="/">
+              <a className="tw" href="https://www.linkedin.com/in/muhammed-shanid-084239250/">
                 <BsLinkedin size={29} />
               </a>
               <a className="tw" href="/">
                 <BsInstagram size={29} />
               </a>
-              <a className="tw" href="/">
+              <a className="tw" href="https://github.com/muhdshanid">
                 <BsGithub size={31} />
               </a>
               <a className="tw" href="/">

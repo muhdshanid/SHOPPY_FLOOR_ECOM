@@ -283,7 +283,6 @@ const CreateProductForm = () => {
           <button onClick={createProduct}
           disabled={
             state.name === "" ||
-            state.brand === "" ||
             state.tags === "" ||
             state.category === "" ||
             state.description === "" ||

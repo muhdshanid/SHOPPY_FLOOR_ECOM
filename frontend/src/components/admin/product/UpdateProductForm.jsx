@@ -258,7 +258,6 @@ const UpdateProductForm = ({id}) => {
      <button onClick={updateProduct}
      disabled={
       state.name === "" ||
-            state.brand === "" ||
             state.tags === "" ||
             state.category === "" ||
             state.description === "" ||

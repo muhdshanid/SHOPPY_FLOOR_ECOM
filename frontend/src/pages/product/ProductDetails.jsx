@@ -26,10 +26,10 @@ const ProductDetails = () => {
   useEffect(() => {
     if (gettingData === false) {
       setCatProducts(result);
-      setSlicedArray(catProducts.slice(0,4))
+      const filter = catProducts.filter(pro => pro._id !== product._id)
+      setSlicedArray(filter.slice(0,4))
     }
-  }, [result, gettingData, catProducts]);
-
+  }, [result, gettingData, catProducts, product._id]);
   return (
    isFetching === false && isLoading === false ? <div>
       <BreadCrumbs title={product?.name} />

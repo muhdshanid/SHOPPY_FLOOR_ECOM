@@ -8,6 +8,7 @@ import {
   getBrandsProducts,
   getCategoryProducts,
   getFilteredProducts,
+  getHeadphoneProducts,
   getPopularProducts,
   getSearchProducts,
   likeQuestion,
@@ -32,6 +33,7 @@ productRouter.delete(
   deleteProduct
 );
 productRouter.get("/get-popular-product", getPopularProducts);
+productRouter.get("/get-headphone-product", getHeadphoneProducts);
 productRouter.get("/get-search-products/:keyword", getSearchProducts);
 productRouter.get("/get-cat-product/:name",getCategoryProducts)
 productRouter.get("/get-allproducts",[authMiddleware,isAdmin],getAllProducts)

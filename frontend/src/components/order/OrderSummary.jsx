@@ -3,7 +3,12 @@ import { useNavigate } from "react-router-dom";
 import { useApplyCouponQuery } from "../../store/services/couponServices";
 import { useSendPaymentMutation } from "../../store/services/paymentServices";
 import { useCreateOrderMutation } from "../../store/services/orderServices";
+import { CgSpinner } from "react-icons/cg";
+import SuccessModal from "../modal/SuccessModal";
+import { useDispatch } from "react-redux";
+import { emptyCart } from '../../store/reducers/cartReducer'
 const OrderSummary = ({total,cart,setStripeSelected,address}) => {
+  const dispatch = useDispatch()
   const navigate = useNavigate();
   const taxRate = 10
   const taxPrice = total *  (taxRate / 100)
@@ -18,6 +23,7 @@ const OrderSummary = ({total,cart,setStripeSelected,address}) => {
   let finalPriceWithFloat = total * (1 + (taxRate / 100)) + couponDiscount
   let finalPriceWithoutFloat = Number(finalPriceWithFloat).toFixed()
   const [finalPrice, setFinalPrice] = useState(finalPriceWithoutFloat) 
+  const [modalOpen, setModalOpen] = useState(false)
   const {data,isFetching,isSuccess} = useApplyCouponQuery(coupon,{skip})
   const applyCouponFn = () => {
     if(selectedPayment === "stripe"){
@@ -42,7 +48,8 @@ const OrderSummary = ({total,cart,setStripeSelected,address}) => {
   }, [res]);
   useEffect(() => {
     if (resp.isSuccess) {
-     navigate("/")
+     setModalOpen(true)
+     dispatch(emptyCart())
     }
   }, [navigate, resp.isSuccess]);
   useEffect(()=>{
@@ -154,13 +161,22 @@ const OrderSummary = ({total,cart,setStripeSelected,address}) => {
                    selectedPayment === "stripe" ? total : finalPrice}</h6>
                 </div>
                 <div className="w-full">
-                <button disabled={address.fullname === ""} onClick={pay} className='button-green !w-full'>Pay ₹{
-              selectedPayment === "stripe" ? total : finalPrice}</button>
+                <button disabled={address.fullname === ""} onClick={pay} className='button-green !w-full'> {
+                resp?.isLoading ?
+                <>
+                        <CgSpinner className="h-6 w-6 mr-2 animate-spin" />
+                      </>
+                :
+                `Pay ₹
+                   ${selectedPayment === "stripe" ? total : finalPrice}`}</button>
                 </div>
             </div>
           </div>
         </div>
       </div>
+      {
+      modalOpen && <SuccessModal setState={setModalOpen} state={modalOpen} />
+    }
     </div>
   );
 };

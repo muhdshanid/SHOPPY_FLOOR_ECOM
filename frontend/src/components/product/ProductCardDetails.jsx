@@ -62,10 +62,10 @@ const ProductCardDetails = ({product,descriptionForLargeScreen,descriptionForSma
     <div className='fc my-4  gap-2 relative'>
     <Link to={`/product/${product?._id}`} className=' w-full 
      bg-white rl '>
-        <img src={product?.images[0]?.url} className="bg-g-2
+        <img src={product?.images[0]?.url} className="bg-white
         animation
-         duration-500
-         object-cover  h-[20rem] w-full rl" alt="product" />
+         duration-500 
+         object-contain h-[15rem]  md:h-[20rem] w-full rl" alt="product" />
     </Link>
         <div onClick={()=>wishlistFn(product?._id)} 
          className={`absolute

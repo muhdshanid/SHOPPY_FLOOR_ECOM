@@ -55,8 +55,18 @@ export const getSearchProducts = asyncHandler(async (req, res) => {
 });
 export const getPopularProducts = asyncHandler(async (req, res) => {
   try {
-    const popularProducts = await ProductModel.find({totalRatings:{$gte:4}});
+    const popularProducts = await ProductModel.aggregate([{
+      $sample:{size:4}
+    }])
     return res.status(200).json(popularProducts);
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+export const getHeadphoneProducts = asyncHandler(async (req, res) => {
+  try {
+    const headphones = await ProductModel.find({category:"headphones"}).limit(4)
+    return res.status(200).json(headphones);
   } catch (error) {
     throw new Error(error);
   }
@@ -101,7 +111,7 @@ export const getFilteredProducts = asyncHandler(async(req,res) => {
     const star = rating == 0 ? {$exists: true} : rating
     const trimCat = category.trim()
     const filteredProducts = await ProductModel.find({category:trimCat,brand,totalRatings:star})
-    .sort({price:ascendingOrDescending})
+    .sort({discountPrice:ascendingOrDescending})
     return res.status(200).json(filteredProducts)
   } catch (error) {
     console.log(error.message);

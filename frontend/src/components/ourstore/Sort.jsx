@@ -3,6 +3,7 @@ import { AiFillCaretDown } from 'react-icons/ai'
 import { useGetBrandsQuery } from '../../store/services/brandServices'
 import { useGetCategoriesQuery } from '../../store/services/categoryServices'
 import { useGetFilteredProductsQuery } from '../../store/services/productServices'
+import {TfiFaceSad} from 'react-icons/tfi'
 import ProductSkeleton from '../loading/ProductSkeleton'
 import ProductCardDetails from '../product/ProductCardDetails'
 const Sort = ({brand,category,setBrand,setCategory,setPrice,price,setRating,rating}) => {
@@ -36,7 +37,7 @@ const Sort = ({brand,category,setBrand,setCategory,setPrice,price,setRating,rati
   },[category, refetch])
   return (
     <div className='flex lg:w-9/12 w-full flex-col items-center justify-start '>
-      <div className='bg-white fc  lg:flex-row lg:flex gap-4  rounded-lg w-full py-4 px-2 md:px-8'>
+      <div className='bg-white fc   lg:flex-row lg:flex gap-4  rounded-lg w-full py-4 px-2 md:px-8'>
        <div className='flex justify-between  gap-4 '>
        <div className='relative w-6/12  flex items-center '>
        <select
@@ -62,7 +63,7 @@ const Sort = ({brand,category,setBrand,setCategory,setPrice,price,setRating,rati
         border border-gray-400 w-full hover:border-gray-500 px-4 py-2 
         pr-8 rounded-full shadow leading-tight focus:outline-none focus:shadow-outline"
          >
-          <option selected  value={5}>
+          <option selected  value={0}>
             <h6 className='text-base text-gray-900 font-semibold'>Rating</h6>
           </option>
           <option className='text-base text-gray-900 capitalize font-semibold' value={1}>1 star</option>
@@ -79,7 +80,7 @@ const Sort = ({brand,category,setBrand,setCategory,setPrice,price,setRating,rati
        <div className='flex gap-4 lg:hidden'>
        <div className=' lg:hidden flex  gap-2 '>
        <div className='relative w-12/12'>
-       {isFetching === false && categories?.length > 0 && <select id="cats"  name='category'
+       {loading === false && categories?.length > 0 && <select id="cats"  name='category'
         onChange={(e)=>setCategory(e.target.value)} value={category}
         className=" appearance-none bg-gray-100 cursor-pointer
         border border-gray-400 w-full hover:border-gray-500  py-2 px-4
@@ -126,7 +127,11 @@ const Sort = ({brand,category,setBrand,setCategory,setPrice,price,setRating,rati
           :
           filteredProducts?.length > 0 ? filteredProducts?.map(product => (
             <ProductCardDetails  product={product}/>
-          )) : ""
+          )) :
+          <div className='h-[50vh] bg-gray-100 w-full flex gap-6 items-center justify-center'>
+            <TfiFaceSad className='flex items-center justify-center' size={40}/>
+            <h6 className='font-semibold  text-gray-900 text-xl'> NO PRODUCTS FOUND</h6>
+          </div>
         }
         </div>
     </div>

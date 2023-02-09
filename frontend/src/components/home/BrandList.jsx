@@ -30,7 +30,7 @@ const BrandList = () => {
           </>
         ) : (
           brands?.length > 0 &&
-          brands?.map((brand) => (
+          brands?.filter(brnd => brnd.name !== "hp").map((brand) => (
             <div key={brand._id}
               className="relative border border-gray-200
             cp hover:bg-g-9 flex gap-8 rl bg-g-2"
@@ -38,7 +38,7 @@ const BrandList = () => {
               <img
                 src={brand.image.url}
                 className=" 
-                   object-cover rl h-full "
+                   object-cover w-full rl h-[10rem] "
                 alt="brand"
               />
               <div className="right-2 bottom-2 absolute">

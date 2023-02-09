@@ -129,6 +129,15 @@ const productServices = createApi({
         },
         providesTags: ["products"],
       }),
+      getHeadphoneProducts: builder.query({
+        query: () => {
+          return {
+            url: `get-headphone-product`,
+            method: "GET",
+          };
+        },
+        providesTags: ["products"],
+      }),
       getSearchProducts: builder.query({
         query: (data) => {
           return {
@@ -156,6 +165,7 @@ export const {
   useCreateProductMutation,
   useUpdateProductMutation,
   useDeleteProductMutation,
+  useGetHeadphoneProductsQuery,
   useGetProductsQuery,
   useGetProductQuery,
   useGetCatProductsQuery,
