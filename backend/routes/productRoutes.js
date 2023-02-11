@@ -42,7 +42,7 @@ productRouter.put("/review", authMiddleware, reviewProduct);
 productRouter.put("/question", authMiddleware, askQuestion);
 productRouter.put("/like-review/:id", authMiddleware, likeReview);
 productRouter.put("/like-question/", authMiddleware, likeQuestion);
-productRouter.get("/get-filtered-products/:category/:brand/:price/:rating",authMiddleware,getFilteredProducts)
+productRouter.get("/get-filtered-products/:category/:brand/:price/:rating",getFilteredProducts)
  
 
 export default productRouter;

@@ -43,7 +43,7 @@ export const getUserOrders = asyncHandler(async(req,res)=> {
     try {
         const {_id} = req.user
         const id = _id.toString()
-        const userOrders = await OrderModel.find({userId:id}).populate("productId")
+        const userOrders = await OrderModel.find({userId:id}).populate("productId").sort({_id:-1})
         return res.status(200).json(userOrders)
     } catch (error) {
         throw new Error(error)
@@ -51,7 +51,7 @@ export const getUserOrders = asyncHandler(async(req,res)=> {
 })
 export const getAllOrders = asyncHandler(async(req,res)=> {
   try {
-      const allUserOrders = await OrderModel.find({}).populate("productId userId").exec()
+      const allUserOrders = await OrderModel.find({}).populate("productId userId").sort({_id:-1})
       return res.status(200).json(allUserOrders)
   } catch (error) {
       throw new Error(error)

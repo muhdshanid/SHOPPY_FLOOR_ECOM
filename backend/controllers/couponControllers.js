@@ -12,7 +12,7 @@ export const createCoupon = asyncHandler(async (req, res) => {
   });
 export const getAllCoupons = asyncHandler(async (req, res) => {
     try {
-        const allCoupons = await CouponModel.find({})
+        const allCoupons = await CouponModel.find({}).sort({_id:-1})
         return res.status(200).json(allCoupons)
     } catch (error) {
       throw new Error(error);

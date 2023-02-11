@@ -63,7 +63,7 @@ export const paymentProcess = asyncHandler(async (req, res) => {
     }),
     customer: customer.id,
     mode: "payment",
-    success_url: `${process.env.CLIENT}/user?session_id={CHECKOUT_SESSION_ID}`,
+    success_url: `${process.env.CLIENT}/orders`,
     cancel_url: `${process.env.CLIENT}/cart`,
   });
   res.json({ url: session.url });

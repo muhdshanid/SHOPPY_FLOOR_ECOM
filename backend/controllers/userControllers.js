@@ -12,7 +12,6 @@ import { generateToken } from "../config/jwtToken.js";
 import { validateMongoDBID } from "../utils/validateMongoDBID.js";
 import { generateRefreshToken } from "../config/refreshToken.js";
 import { sendEmail } from "./email.js";
-import { log } from "console";
 dotenv.config()
 export const registerUser = asyncHandler(async (req,res) => {
         const {email} = req.body
@@ -233,7 +232,11 @@ export const forgotPasswordToken = asyncHandler(async (req,res) => {
      if(!user)throw new Error("User not found");
      const token = await user.createPasswordResetToken();
      await user.save()
-     const resetURL = `Hi, Please follow this link to reset your password .This link is valid only for 10 minutes from now.<a href="http://localhost:4000/api/user/reset-password/${token}">Click here</a>`
+     const resetURL = `Hi,
+      Please follow this link 
+      to reset your password 
+      .This link is valid only for 10
+       minutes from now.<a href="http://localhost:4000/api/user/reset-password/${token}">Click here</a>`
      const data = {
         to:email,
         text:'Hey User',

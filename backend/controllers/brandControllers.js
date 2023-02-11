@@ -42,7 +42,7 @@ export const getBrand = asyncHandler(async (req,res) => {
 })
 export const getAllBrand = asyncHandler(async (req,res) => {
     try {
-      const getAllBrand = await BrandModel.find({})
+      const getAllBrand = await BrandModel.find({}).sort({_id:-1})
       return res.status(200).json(getAllBrand)
     } catch (error) {
      throw new Error(error)

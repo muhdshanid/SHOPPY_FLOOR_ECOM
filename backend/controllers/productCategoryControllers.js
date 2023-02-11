@@ -42,7 +42,7 @@ export const getCategory = asyncHandler(async (req,res) => {
 })
 export const getAllCategory = asyncHandler(async (req,res) => {
     try {
-      const getAllCategory = await ProductCategoryModel.find({})
+      const getAllCategory = await ProductCategoryModel.find({}).sort({_id:-1})
       return res.status(200).json(getAllCategory)
     } catch (error) {
      throw new Error(error)

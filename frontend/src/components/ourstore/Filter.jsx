@@ -55,7 +55,7 @@ const Filter = ({setBrand,setCategory,brand,category}) => {
         className=" appearance-none bg-gray-100 cursor-pointer
         border border-gray-400 w-full hover:border-gray-500 px-4 py-2 
         pr-8 rounded-lg shadow leading-tight focus:outline-none focus:shadow-outline">
-  <option selected>Choose a Brand</option>
+  <option defaultValue={"empty"} >Choose a Brand</option>
   { brands?.map(brand => (
     <option className='bg-white capitalize text-black' value={brand?.name}>{brand?.name}</option>
   ))

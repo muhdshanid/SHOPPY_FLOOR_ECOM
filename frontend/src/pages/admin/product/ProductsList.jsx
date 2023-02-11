@@ -32,7 +32,7 @@ const ProductList = () => {
        <div className=' flex flex-col gap-8'>
         <div className=' my-2'>
         <Link to={"/admin/create-product"} className='bg-white
-          items-center flex w-[18%] gap-2 px-2 py-2 hover:bg-orange-300 hover:text-black
+          items-center flex w-[19%] gap-2 px-2 py-2 hover:bg-orange-300 hover:text-black
            rounded-lg border border-black font-semibold text-black'>
                 <p className='font-medium  text-lg text-gray-900'>Create Product</p>
                 <IoMdAdd size={24}/>
