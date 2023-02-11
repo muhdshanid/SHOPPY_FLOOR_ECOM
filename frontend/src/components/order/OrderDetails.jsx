@@ -18,11 +18,12 @@ const OrderDetails = ({ product, cart, color, quantity,size }) => {
                 <img
                   src={item?.images[0]?.url}
                   className="object-cover
-                rounded-lg w-[8rem] h-[6rem]"
+                rounded-lg  sm:w-[8rem] w-[6rem]  h-[4rem] sm:h-[6rem]"
                   alt="product"
                 />
               </div>
-              <div className="flex grow flex-col">
+              <div className="md:flex md:flex-row md:gap-6 flex flex-col">
+                <div className="flex grow flex-col">
               <div className=" ">
               <h6 className="font-semibold  capitalize text-xl text-gray-900">
                 {item?.name}
@@ -33,6 +34,7 @@ const OrderDetails = ({ product, cart, color, quantity,size }) => {
              ₹{discount(item?.price, item?.discount)}
               </h6>
              </div>
+                </div>
             </div>
             <div className="flex items-center  gap-2">
            {item?.color?.color && <div className="flex items-end gap-1">

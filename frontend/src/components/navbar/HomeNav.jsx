@@ -52,7 +52,7 @@ const HomeNav = () => {
         </Link>
        </div>
     </div> 
-    <div className='flex gap-6 sm:gap-8 items-center relative'>
+    <div className='flex gap-4 sm:gap-8 items-center relative'>
         <Link to={"/our-store"} className='sm:hidden'>
             <BsShopWindow size={20}/>
         </Link>

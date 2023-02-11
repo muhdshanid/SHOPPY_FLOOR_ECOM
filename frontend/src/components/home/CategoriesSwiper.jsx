@@ -84,9 +84,10 @@ const CategoriesSwiper = () => {
           className="w-full h-[200px] overflow-hidden rl relative"
         >                
               <div className="w-full h-[150px]  rl overflow-hidden">
-                  <img src={cat.image.url} className='w-full h-[300px] object-cover' alt="category" />
+                  <img src={cat.image.url} className='w-full h-[150px] object-cover' alt="category" />
               </div>
-              <div className="absolute inset-0 w-full h-full bg-black/30 flex items-center justify-center p-4">
+              <div className="absolute inset-0 w-full h-full bg-black/30
+               flex items-center justify-center p-4">
                   <Link to={`/cat-products/${cat.name}`} className="text-white
                    text-lg font-medium hover:underline cap">{cat.name}
                    

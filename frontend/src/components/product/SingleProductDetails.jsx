@@ -60,10 +60,10 @@ const SingleProductDetails = ({
         <img
           src={product.images[0].url}
           alt="product"
-          className="bg-g-2
+          className="bg-white
         animation
          duration-500
-         object-cover  h-[20rem] w-full rl"
+         object-contain h-[15rem] md:h-[20rem] w-full rl"
         />
       </Link>
       <div

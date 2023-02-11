@@ -44,6 +44,7 @@ const Blogs = () => {
         ) : slicedBlogs?.length > 0 ? (
           slicedBlogs?.map((blog) => {
             let content = blog?.description?.slice(0, 100).concat("...");
+            let title = blog?.name?.slice(0,15).concat("...")
             return (
               <div key={blog._id} className="fc my-4 gap-2 relative">
                 <div className="w-full  bg-white rounded-lg ">
@@ -61,7 +62,7 @@ const Blogs = () => {
                   <div className="fc gap-4">
                     <div className="fc gap-2  justify-between">
                       <h6 className="font-bold cap text-lg text-gray-900">
-                        {blog?.name}
+                        {title}
                       </h6>
                       <div className="flex-ic-jb">
                         <p className=" uppercase font-semibold  break-words text-sm text-gray-400">

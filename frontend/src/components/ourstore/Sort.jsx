@@ -23,7 +23,6 @@ const Sort = ({brand,category,setBrand,setCategory,setPrice,price,setRating,rati
     }
   },[resp, loading])
   const {data,isFetching,refetch} = useGetFilteredProductsQuery({brand,category,rating,price})
-  console.log(rating,price);
   useEffect(()=>{
     if(isFetching === false){
       setFilteredProducts(data)
@@ -116,10 +115,13 @@ const Sort = ({brand,category,setBrand,setCategory,setPrice,price,setRating,rati
           </div>
        </div>
       </div>
-        <div className='grid grid-cols-1 w-full sm:w-full mt-2 sm:grid-cols-2 gap-4 md:grid-cols-2 lg:grid-cols-3  '>
+        <div className='
+         w-full sm:w-full mt-2  gap-4 grid grid-cols-2 sm:grid-cols-2
+         md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4  '>
         {
           isFetching ? 
           <>
+          <ProductSkeleton/>
           <ProductSkeleton/>
           <ProductSkeleton/>
           <ProductSkeleton/>
@@ -128,10 +130,14 @@ const Sort = ({brand,category,setBrand,setCategory,setPrice,price,setRating,rati
           filteredProducts?.length > 0 ? filteredProducts?.map(product => (
             <ProductCardDetails  product={product}/>
           )) :
+          <>
           <div className='h-[50vh] bg-gray-100 w-full flex gap-6 items-center justify-center'>
             <TfiFaceSad className='flex items-center justify-center' size={40}/>
+          </div>
+          <div className='h-[50vh] bg-gray-100 w-full flex gap-6 items-center justify-center'>
             <h6 className='font-semibold  text-gray-900 text-xl'> NO PRODUCTS FOUND</h6>
           </div>
+          </>
         }
         </div>
     </div>

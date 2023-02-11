@@ -7,11 +7,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import { discount } from '../../utils/discount'
 import { updateUser } from '../../store/reducers/authReducer'
 import { useAddToWishlistMutation } from '../../store/services/userServices'
+import WarningModal from '../modal/WarningModal'
 
 const ProductCardDetails = ({product,descriptionForLargeScreen,descriptionForSmallScreen}) => {
   const {user} = useSelector(state => state.authReducer)
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    const [modalOpen, setModalOpen] = useState(false)
     const [quantity, setQuantity] = useState(1)
     const finalPrice = discount(product?.price,product?.discount)
     const [addToWishlist,res] = useAddToWishlistMutation()
@@ -39,13 +41,13 @@ const ProductCardDetails = ({product,descriptionForLargeScreen,descriptionForSma
           localStorage.setItem("cart",JSON.stringify(cartItems))
           console.log("add to localstorage");
         }else{
-          alert("already in cart")
+          setModalOpen(true)
           return 
         }
       }
       const wishlistFn = (id) => {
         if(user === null){
-          navigate("login")
+          navigate("/login")
         }
         addToWishlist({proId:id,userId:user._id})
       }
@@ -103,6 +105,9 @@ const ProductCardDetails = ({product,descriptionForLargeScreen,descriptionForSma
         <button onClick={addToCartFn} className='button-gray lg:!w-[50%] !w-full'>Add To Cart</button>
         </div>
     </div>
+    {
+      modalOpen && <WarningModal setState={setModalOpen} state={modalOpen}/>
+    }
 </div> 
   )
 }

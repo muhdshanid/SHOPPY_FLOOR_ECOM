@@ -2,7 +2,7 @@ import moment from 'moment'
 import React, { useEffect, useState } from 'react'
 import { AiFillDislike, AiFillLike, AiOutlineDislike, AiOutlineLike } from 'react-icons/ai'
 import { useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import BreadCrumbs from '../../components/BreadCrumbs'
 import BlogDetailsSkeleton from '../../components/loading/BlogDetailsSkeleton'
 import { useGetBlogQuery, useLikeBlogMutation } from '../../store/services/blogServices'
@@ -11,6 +11,7 @@ const BlogDetails = () => {
     const {id} = useParams()
     const { user } = useSelector((state) => state.authReducer);
     const [blog, setBlog] = useState({})
+    const navigate = useNavigate()
     const {data,isFetching,isSuccess,isLoading,} = useGetBlogQuery(id)
     const [likeBlogMutation, response] = useLikeBlogMutation();
     useEffect(() => {
@@ -19,6 +20,9 @@ const BlogDetails = () => {
         }
       }, [data, isFetching]);
       const likeBlog = (id, button) => {
+        if(user === null){
+          navigate("/login")
+        }
         likeBlogMutation({ id, button });
       };
   return (
@@ -45,7 +49,7 @@ const BlogDetails = () => {
                         className="rounded-full items-center flex gap-2 
                         cp p-2 "
                       >
-                        {blog?.likes?.includes(user._id) ? (
+                        {blog?.likes?.includes(user?._id) ? (
                           <AiFillLike
                             onClick={() => likeBlog(blog._id, "like")}
                             size={20}
@@ -53,7 +57,7 @@ const BlogDetails = () => {
                           />
                         ) : (
                           <AiOutlineLike
-                            onClick={() => likeBlog(blog._id, "like")}
+                            onClick={() => likeBlog(blog?._id, "like")}
                             size={20}
                             color="green"
                           />
@@ -66,7 +70,7 @@ const BlogDetails = () => {
                         className="rounded-full items-center flex gap-2 cp
                          p-2 "
                       >
-                        {blog?.dislikes?.includes(user._id) ? (
+                        {blog?.dislikes?.includes(user?._id) ? (
                           <AiFillDislike
                             onClick={() => likeBlog(blog._id, "dislike")}
                             size={20}

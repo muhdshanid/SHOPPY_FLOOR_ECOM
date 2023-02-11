@@ -77,21 +77,24 @@ const OrderSummary = ({total,cart,setStripeSelected,address}) => {
       <div className=" w-full flex flex-col gap-2">
         <div className="flex  flex-col">
         <div className="flex  p-4">
-          <div>
+          <div className="w-[50%]">
             <input
             value={coupon}
             onChange={(e)=>setCoupon(e.target.value)}
               type="text"
-              className="bg-gray-200  px-4 py-2 rounded-full outline-none border-none"
+              className="bg-gray-200 sm:w-full   px-4 py-2 rounded-full outline-none border-none"
               placeholder="Enter Coupon Code"
             />
           </div>
           <div>
             <button disabled={couponDiscount > 0} onClick={applyCouponFn}
-              className="bg-green-900 px-4 py-2 hover:bg-gray-200 hover:text-black
-             rounded-full border border-black font-semibold text-white"
+              className="button-green !w-full"
             >
-              Apply Coupon
+              {
+              isFetching ? 
+              <CgSpinner className="h-6 w-6 animate-spin" />
+            : "Apply Coupon"
+            }
             </button>
           </div>
         </div>
@@ -113,7 +116,8 @@ const OrderSummary = ({total,cart,setStripeSelected,address}) => {
             checked={selectedPayment === "Cash on Delivery"}
             onChange={handlePaymentChange}
              type="radio" name="payment" className="w-6 h-6
-              bg-green-900 text-green-900 rounded-full flex items-center justify-center" value="Cash on Delivery" /> 
+              bg-green-900 text-green-900 rounded-full flex items-center justify-center"
+               value="Cash on Delivery" /> 
             <span className="text-md font-semibold  text-gray-900"> Cash on Delivery</span>
             </div>
             <div className="flex gap-4 items-center">

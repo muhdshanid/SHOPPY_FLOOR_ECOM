@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { TfiFaceSad } from 'react-icons/tfi'
 import { useDispatch } from 'react-redux'
 import BreadCrumbs from '../../components/BreadCrumbs'
 import ProductSkeleton from '../../components/loading/ProductSkeleton'
@@ -27,7 +28,8 @@ const WishList = () => {
         className="w-12/12  flex  px-4
      lg:px-16 md:px-14 sm:px-8   bg-gray-100">
         
-          <div className='my-2 w-full grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4  gap-4'>
+          <div className='my-2 w-full
+           grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4  gap-4'>
 
     {
       isFetching ? 
@@ -45,7 +47,10 @@ const WishList = () => {
             product={product} descriptionForLargeScreen={descriptionForLargeScreen}
             descriptionForSmallScreen={descriptionForSmallScreen}/>
         )}) 
-    : "NO WISHLIST"
+    : <div className='h-[50vh] bg-gray-100 w-full flex gap-6 items-center justify-center'>
+    <TfiFaceSad className='flex items-center justify-center' size={40}/>
+    <h6 className='font-semibold  text-gray-900 text-xl'> WISHLIST IS EMPTY</h6>
+  </div>
     }
  
     </div>

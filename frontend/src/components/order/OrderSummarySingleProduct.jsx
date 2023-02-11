@@ -105,12 +105,12 @@ const OrderSummarySingleProduct = ({product,color,size,totalPrice,quantity,setSt
         </div>
         <div>
           <button disabled={couponDiscount > 0} onClick={applyCouponFn}
-            className="button-green !w-full"
+            className="button-green !w-full flex items-center justify-center"
           >
             {
-              isFetching ? <div className="w-full  mx-auto">
+              isFetching ? 
               <CgSpinner className="h-6 w-6 animate-spin" />
-            </div>
+            
             : "Apply Coupon"
             }
            

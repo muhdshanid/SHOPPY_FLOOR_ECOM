@@ -23,14 +23,14 @@ const Stepper = ({order}) => {
         {steps?.map((step, i) => (
           <div
             key={i}
-            className={`step-item  ${currentStep === i + 1 && "active"} ${
-              (i + 1 < currentStep || complete) && "complete"
+            className={`step-item-user  ${currentStep === i + 1 && "active-user"} ${
+              (i + 1 < currentStep || complete) && "complete-user"
             } `}
           >
-            <div className="step">
+            <div className="step-user">
               {i + 1 < currentStep || complete ? <TiTick size={24} /> : i + 1}
             </div>
-            <p className="">{step}</p>
+            <h6 className="">{step}</h6>
           </div>
         ))}
       </div>

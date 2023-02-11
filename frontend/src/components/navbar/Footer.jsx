@@ -6,10 +6,10 @@ const Footer = () => {
   return (
     <div className=" w-12/12  bg-green-900 ">
       <div
-        className="w-12/12  flex  px-4
-     lg:px-16 md:px-14 sm:px-8  "
+        className="w-12/12  fc  px-4
+     lg:px-16 md:px-14 sm:px-8  border-b border-gray-100"
       >
-        <div className="grid borer-b grid-cols-2 w-full sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 py-4">
+        <div className="grid  grid-cols-2 w-full sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 py-4">
           <div className="fc gap-6 py-4">
             <div>
               <h6 className="font-semibold text-2xl tw">Contact Us</h6>
@@ -111,6 +111,10 @@ const Footer = () => {
           </div>
         </div>
       </div>
+        <div className="w-full  flex items-center justify-center py-4">
+        <p className='text-center text-white'>&copy;{new Date().getFullYear()}: Powered Mshani Dev</p>
+
+        </div>
     </div>
   );
 };

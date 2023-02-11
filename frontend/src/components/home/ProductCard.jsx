@@ -13,7 +13,8 @@ const ProductCard = ({caption,page,products,link,isFetching}) => {
             <Link to={`${link}`} className='button-green !w-[90px]'>See All</Link>
         </div>}
     </div>
-    <div className='my-2 w-full  grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4  gap-4'>
+    <div className='my-2 w-full
+      grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4  gap-4'>
     {
       isFetching ? 
       <>

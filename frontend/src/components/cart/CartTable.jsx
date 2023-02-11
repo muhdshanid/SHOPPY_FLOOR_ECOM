@@ -1,16 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { AiFillDelete } from "react-icons/ai";
 import { FaShopify } from "react-icons/fa";
-import { TfiFaceSad } from "react-icons/tfi";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { decQuantity, incQuantity, removeItem } from "../../store/reducers/cartReducer";
 import { discount } from "../../utils/discount";
+import Modal from '../modal/Modal'
 
 const CartTable = () => {
   const dispatch = useDispatch()
   const { user } = useSelector((state) => state.authReducer);
-
+  const [modalOpen, setModalOpen] = useState(false)
+  const [id, setId] = useState("")
     const { cart, total } = useSelector((state) => state.cartReducer);
     const inc = (id) => {
       dispatch(incQuantity(id));
@@ -19,11 +20,12 @@ const CartTable = () => {
       dispatch(decQuantity(id));
     };
     const remove = (id) => {
-      // verify user that you are really want to delete the itme
-      if (window.confirm("Are you sure you want  to delete this item?")) {
         dispatch(removeItem(id));
-      }
     };
+    const removeModal = (id) => {
+      setModalOpen(true)
+      setId(id)
+    }
   return (
     cart?.length > 0 ?<div className="w-12/12 xl:overflow-hidden overflow-x-scroll  flex flex-col bg-gray-200 rounded-lg">
       <table className="rounded-lg">
@@ -114,7 +116,7 @@ const CartTable = () => {
            </td>
            <td>
              <div className="flex items-center justify-center">
-               <AiFillDelete className=" cursor-pointer" onClick={()=>remove(item._id)} size={20} color="red"/>
+               <AiFillDelete className=" cursor-pointer" onClick={()=>removeModal(item._id)} size={20} color="red"/>
              </div>
            </td>
            </tr>
@@ -134,6 +136,9 @@ const CartTable = () => {
          </div>
        </div>
      </div>   
+     {
+      modalOpen && <Modal state={modalOpen} id={id} name={"Item"} actionFunction={remove} setState={setModalOpen}/>
+     }
     </div>
     :  <div className='h-[50vh] bg-gray-100 w-full flex gap-6 items-center justify-center'>
     <FaShopify className='flex items-center justify-center' size={40}/>
